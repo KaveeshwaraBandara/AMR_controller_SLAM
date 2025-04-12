@@ -1,97 +1,112 @@
-#include <opencv2/opencv.hpp>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <string>
 #include <cmath>
-#include <iostream>
-#include <map>
-
-#define MAP_SIZE 800
-#define SCALE 100.0f  // 1 meter = 100 pixels
+#include <opencv2/opencv.hpp>
 
 struct LidarReading {
-    int frame_id;
     float angle_deg;
     float distance_m;
 };
 
-std::vector<LidarReading> loadLidarCSV(const std::string& filename) {
-    std::vector<LidarReading> data;
-    std::ifstream file(filename);
-    if (!file.is_open()) {
-        std::cerr << "Failed to open CSV file.\n";
-        return data;
-    }
+const int MAP_SIZE = 800;
+const float MAP_RESOLUTION = 0.05f; // meters per cell
+const float PROB_HIT = 0.9f;
+const float PROB_MISS = 0.4f;
+const float PROB_PRIOR = 0.5f;
 
-    std::string line;
-    std::getline(file, line); // skip header
+const float MIN_LOG_ODDS = log(PROB_MISS / (1 - PROB_MISS));
+const float MAX_LOG_ODDS = log(PROB_HIT / (1 - PROB_HIT));
 
-    while (std::getline(file, line)) {
-        std::stringstream ss(line);
-        std::string token;
-        LidarReading reading;
-        std::getline(ss, token, ',');
-        reading.frame_id = std::stoi(token);
-        std::getline(ss, token, ',');
-        reading.angle_deg = std::stof(token);
-        std::getline(ss, token, ',');
-        reading.distance_m = std::stof(token);
-        data.push_back(reading);
-    }
-    return data;
+float probToLogOdds(float p) {
+    return log(p / (1.0f - p));
 }
 
-void drawLine(cv::Mat& map, cv::Point start, cv::Point end, uchar value) {
-    cv::LineIterator it(map, start, end, 8);
-    for (int i = 0; i < it.count; i++, ++it) {
-        if (it.pos().x >= 0 && it.pos().x < map.cols && it.pos().y >= 0 && it.pos().y < map.rows) {
-            map.at<uchar>(it.pos()) = value; // mark free space (e.g., 128)
+float logOddsToProb(float l) {
+    return 1.0f - 1.0f / (1.0f + exp(l));
+}
+
+std::vector<LidarReading> loadLidarCSV(const std::string& filename) {
+    std::ifstream file(filename);
+    std::vector<LidarReading> readings;
+    std::string line;
+    //std::getline(file, line); // Skip header
+    while (std::getline(file, line)) {
+        std::istringstream ss(line);
+        std::string angleStr, distStr;
+        if (std::getline(ss, angleStr, ',') && std::getline(ss, distStr)) {
+            float angle = std::stof(angleStr);
+            float dist = std::stof(distStr);
+            readings.push_back({angle, dist});
         }
     }
+    return readings;
+}
+
+void drawRobot(cv::Mat& img, cv::Point center, float orientation_rad) {
+    cv::circle(img, center, 6, cv::Scalar(255, 0, 0), -1); // Robot center
+    cv::line(img, center, center + cv::Point(20 * cos(orientation_rad), 20 * sin(orientation_rad)), cv::Scalar(255, 0, 0), 2); // Orientation
+    // Draw axes
+    cv::line(img, center, center + cv::Point(30, 0), cv::Scalar(0, 0, 255), 2); // X - Red
+    cv::line(img, center, center + cv::Point(0, -30), cv::Scalar(0, 255, 0), 2); // Y - Green
+}
+
+void updateOccupancyGrid(cv::Mat& log_odds, const std::vector<LidarReading>& readings, cv::Point2f robot_pos, float orientation_rad) {
+    for (const auto& reading : readings) {
+        float angle_rad = reading.angle_deg * CV_PI / 180.0f + orientation_rad;
+        float x = robot_pos.x + reading.distance_m * cos(angle_rad);
+        float y = robot_pos.y + reading.distance_m * sin(angle_rad);
+
+        cv::Point cell_end((int)(x / MAP_RESOLUTION), (int)(y / MAP_RESOLUTION));
+        cv::Point cell_start((int)(robot_pos.x / MAP_RESOLUTION), (int)(robot_pos.y / MAP_RESOLUTION));
+
+        cv::LineIterator it(log_odds, cell_start, cell_end);
+        for (int i = 0; i < it.count; i++, ++it) {
+            float& cell = log_odds.at<float>(it.pos());
+            if (i < it.count - 1) {
+                cell = std::clamp(cell + probToLogOdds(PROB_MISS), MIN_LOG_ODDS, MAX_LOG_ODDS);
+            } else {
+                cell = std::clamp(cell + probToLogOdds(PROB_HIT), MIN_LOG_ODDS, MAX_LOG_ODDS);
+            }
+        }
+    }
+}
+
+cv::Mat renderMap(const cv::Mat& log_odds) {
+    cv::Mat map(MAP_SIZE, MAP_SIZE, CV_8UC1);
+    for (int y = 0; y < MAP_SIZE; y++) {
+        for (int x = 0; x < MAP_SIZE; x++) {
+            float prob = logOddsToProb(log_odds.at<float>(y, x));
+            map.at<uchar>(y, x) = static_cast<uchar>(prob * 255);
+        }
+    }
+    return map;
 }
 
 int main() {
-    auto data = loadLidarCSV("../simulated_lidar.csv");
-    std::cout << "Total readings loaded: " << data.size() << std::endl;
+    std::vector<std::string> frames = {"../scan1.csv", "../scan2.csv", "../scan3.csv"};
+    cv::Mat log_odds(MAP_SIZE, MAP_SIZE, CV_32F, cv::Scalar(probToLogOdds(PROB_PRIOR)));
+    cv::Point2f robot_pos(10.0f, 10.0f); // meters
+    float orientation = 0;
 
-    // Group by frame ID
-    std::map<int, std::vector<LidarReading>> frames;
-    for (const auto& reading : data) {
-        frames[reading.frame_id].push_back(reading);
+    for (const auto& csv : frames) {
+        auto readings = loadLidarCSV(csv);
+        updateOccupancyGrid(log_odds, readings, robot_pos, orientation);
+        cv::Mat map_img = renderMap(log_odds);
+
+        // Draw robot
+        drawRobot(map_img, cv::Point((int)(robot_pos.x / MAP_RESOLUTION), (int)(robot_pos.y / MAP_RESOLUTION)), orientation);
+
+        cv::imshow("Occupancy Grid", map_img);
+        cv::waitKey(500);
+
+        // Simulate robot movement
+        robot_pos += cv::Point2f(0.5f, 0); // Move right 0.5m
+        orientation += 0.01f;
     }
 
-    std::cout << "Total frames found: " << frames.size() << std::endl;
-
-    for (const auto& [frame_id, readings] : frames) {
-        std::cout << "Processing frame: " << frame_id << std::endl;
-
-        // Create a grayscale occupancy grid
-        cv::Mat map(MAP_SIZE, MAP_SIZE, CV_8UC1, cv::Scalar(128));  // 128 = unknown
-
-        cv::Point robot_pos(MAP_SIZE / 2, MAP_SIZE / 2); // robot at center
-
-        for (const auto& p : readings) {
-            float rad = p.angle_deg * M_PI / 180.0f;
-            float x = p.distance_m * cos(rad);
-            float y = p.distance_m * sin(rad);
-
-            cv::Point end = robot_pos + cv::Point(x * SCALE, y * SCALE);
-            drawLine(map, robot_pos, end, 200);  // Free space: brighter
-            if (end.x >= 0 && end.x < map.cols && end.y >= 0 && end.y < map.rows) {
-                map.at<uchar>(end) = 0; // Mark obstacle (black)
-            }
-        }
-
-        // Display
-        cv::imshow("Occupancy Grid Map", map);
-        std::string filename = "frame_" + std::to_string(frame_id) + ".png";
-        cv::imwrite(filename, map);
-        cv::waitKey(100); // display for 100 ms
-    }
-
-    std::cout << "All frames processed." << std::endl;
-    cv::waitKey(0); // Keep the last window open
+    cv::waitKey(0);
     return 0;
 }
 
