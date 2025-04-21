@@ -56,7 +56,7 @@ void updateOccupancyGrid(cv::Mat& log_odds, const std::vector<LidarReading>& rea
     for (const auto& reading : readings) {
         float angle_rad = reading.angle_deg * CV_PI / 180.0f + orientation_rad;
         float x = robot_pos.x + reading.distance_m * cos(angle_rad);
-        float y = robot_pos.y + reading.distance_m * sin(angle_rad);
+        float y = robot_pos.y - reading.distance_m * sin(angle_rad);
 
         cv::Point cell_end((int)(x / MAP_RESOLUTION), (int)(y / MAP_RESOLUTION));
         cv::Point cell_start((int)(robot_pos.x / MAP_RESOLUTION), (int)(robot_pos.y / MAP_RESOLUTION));
@@ -87,7 +87,7 @@ cv::Mat renderMap(const cv::Mat& log_odds) {
 int main() {
     std::vector<std::string> frames = {"../scan1.csv", "../scan2.csv", "../scan3.csv"};
     cv::Mat log_odds(MAP_SIZE, MAP_SIZE, CV_32F, cv::Scalar(probToLogOdds(PROB_PRIOR)));
-    cv::Point2f robot_pos(10.0f, 10.0f); // meters
+    cv::Point2f robot_pos(0.0f, 20.0f); // meters
     float orientation = 0;
 
     for (const auto& csv : frames) {
