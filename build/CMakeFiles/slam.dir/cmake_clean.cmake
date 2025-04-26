@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/slam.dir/main.cpp.o"
-  "CMakeFiles/slam.dir/main.cpp.o.d"
+  "CMakeFiles/slam.dir/src/Odometry.cpp.o"
+  "CMakeFiles/slam.dir/src/Odometry.cpp.o.d"
+  "CMakeFiles/slam.dir/src/main.cpp.o"
+  "CMakeFiles/slam.dir/src/main.cpp.o.d"
   "slam"
   "slam.pdb"
 )

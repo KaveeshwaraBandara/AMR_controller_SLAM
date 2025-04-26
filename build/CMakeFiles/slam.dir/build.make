@@ -69,28 +69,44 @@ include CMakeFiles/slam.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/slam.dir/flags.make
 
-CMakeFiles/slam.dir/main.cpp.o: CMakeFiles/slam.dir/flags.make
-CMakeFiles/slam.dir/main.cpp.o: /home/user/Desktop/SLAM/main.cpp
-CMakeFiles/slam.dir/main.cpp.o: CMakeFiles/slam.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/slam.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/slam.dir/main.cpp.o -MF CMakeFiles/slam.dir/main.cpp.o.d -o CMakeFiles/slam.dir/main.cpp.o -c /home/user/Desktop/SLAM/main.cpp
+CMakeFiles/slam.dir/src/main.cpp.o: CMakeFiles/slam.dir/flags.make
+CMakeFiles/slam.dir/src/main.cpp.o: /home/user/Desktop/SLAM/src/main.cpp
+CMakeFiles/slam.dir/src/main.cpp.o: CMakeFiles/slam.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/slam.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/slam.dir/src/main.cpp.o -MF CMakeFiles/slam.dir/src/main.cpp.o.d -o CMakeFiles/slam.dir/src/main.cpp.o -c /home/user/Desktop/SLAM/src/main.cpp
 
-CMakeFiles/slam.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/slam.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/main.cpp > CMakeFiles/slam.dir/main.cpp.i
+CMakeFiles/slam.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/slam.dir/src/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/src/main.cpp > CMakeFiles/slam.dir/src/main.cpp.i
 
-CMakeFiles/slam.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/slam.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/main.cpp -o CMakeFiles/slam.dir/main.cpp.s
+CMakeFiles/slam.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/slam.dir/src/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/src/main.cpp -o CMakeFiles/slam.dir/src/main.cpp.s
+
+CMakeFiles/slam.dir/src/Odometry.cpp.o: CMakeFiles/slam.dir/flags.make
+CMakeFiles/slam.dir/src/Odometry.cpp.o: /home/user/Desktop/SLAM/src/Odometry.cpp
+CMakeFiles/slam.dir/src/Odometry.cpp.o: CMakeFiles/slam.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/slam.dir/src/Odometry.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/slam.dir/src/Odometry.cpp.o -MF CMakeFiles/slam.dir/src/Odometry.cpp.o.d -o CMakeFiles/slam.dir/src/Odometry.cpp.o -c /home/user/Desktop/SLAM/src/Odometry.cpp
+
+CMakeFiles/slam.dir/src/Odometry.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/slam.dir/src/Odometry.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/src/Odometry.cpp > CMakeFiles/slam.dir/src/Odometry.cpp.i
+
+CMakeFiles/slam.dir/src/Odometry.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/slam.dir/src/Odometry.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/src/Odometry.cpp -o CMakeFiles/slam.dir/src/Odometry.cpp.s
 
 # Object files for target slam
 slam_OBJECTS = \
-"CMakeFiles/slam.dir/main.cpp.o"
+"CMakeFiles/slam.dir/src/main.cpp.o" \
+"CMakeFiles/slam.dir/src/Odometry.cpp.o"
 
 # External object files for target slam
 slam_EXTERNAL_OBJECTS =
 
-slam: CMakeFiles/slam.dir/main.cpp.o
+slam: CMakeFiles/slam.dir/src/main.cpp.o
+slam: CMakeFiles/slam.dir/src/Odometry.cpp.o
 slam: CMakeFiles/slam.dir/build.make
 slam: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.6.0
 slam: /usr/lib/x86_64-linux-gnu/libopencv_alphamat.so.4.6.0
@@ -148,7 +164,7 @@ slam: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.6.0
 slam: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.6.0
 slam: /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.6.0
 slam: CMakeFiles/slam.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/user/Desktop/SLAM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable slam"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/user/Desktop/SLAM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable slam"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/slam.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
