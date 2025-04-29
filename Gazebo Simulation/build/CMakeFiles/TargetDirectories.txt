@@ -1,0 +1,3 @@
+/home/user/Desktop/Gazebo Simulation/build/CMakeFiles/lidar_2d_mapper.dir
+/home/user/Desktop/Gazebo Simulation/build/CMakeFiles/edit_cache.dir
+/home/user/Desktop/Gazebo Simulation/build/CMakeFiles/rebuild_cache.dir
