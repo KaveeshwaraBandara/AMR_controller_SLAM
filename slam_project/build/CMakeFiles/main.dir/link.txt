@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/lidar/LidarReader.cpp.o -o main  /home/user/Desktop/SLAM/slam_project/rplidar_sdk/output/Linux/Release/libsl_lidar_sdk.a -lpthread 
+/usr/bin/c++ CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/lidar/LidarReader.cpp.o CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o -o main  /home/user/Desktop/SLAM/slam_project/rplidar_sdk/output/Linux/Release/libsl_lidar_sdk.a -lpthread 

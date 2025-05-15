@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/lidar/LidarReader.cpp.o.d"
   "CMakeFiles/main.dir/main.cpp.o"
   "CMakeFiles/main.dir/main.cpp.o.d"
+  "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o"
+  "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o.d"
   "main"
   "main.pdb"
 )

@@ -177,6 +177,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+mapping/OccupancyGrid.o: mapping/OccupancyGrid.cpp.o
+.PHONY : mapping/OccupancyGrid.o
+
+# target to build an object file
+mapping/OccupancyGrid.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o
+.PHONY : mapping/OccupancyGrid.cpp.o
+
+mapping/OccupancyGrid.i: mapping/OccupancyGrid.cpp.i
+.PHONY : mapping/OccupancyGrid.i
+
+# target to preprocess a source file
+mapping/OccupancyGrid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.i
+.PHONY : mapping/OccupancyGrid.cpp.i
+
+mapping/OccupancyGrid.s: mapping/OccupancyGrid.cpp.s
+.PHONY : mapping/OccupancyGrid.s
+
+# target to generate assembly for a file
+mapping/OccupancyGrid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s
+.PHONY : mapping/OccupancyGrid.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +216,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... mapping/OccupancyGrid.o"
+	@echo "... mapping/OccupancyGrid.i"
+	@echo "... mapping/OccupancyGrid.s"
 .PHONY : help
 
 
