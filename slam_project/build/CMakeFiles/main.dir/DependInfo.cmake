@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/user/Desktop/slam_project/lidar/LidarReader.cpp" "CMakeFiles/main.dir/lidar/LidarReader.cpp.o" "gcc" "CMakeFiles/main.dir/lidar/LidarReader.cpp.o.d"
-  "/home/user/Desktop/slam_project/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
+  "/home/user/Desktop/SLAM/slam_project/lidar/LidarReader.cpp" "CMakeFiles/main.dir/lidar/LidarReader.cpp.o" "gcc" "CMakeFiles/main.dir/lidar/LidarReader.cpp.o.d"
+  "/home/user/Desktop/SLAM/slam_project/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

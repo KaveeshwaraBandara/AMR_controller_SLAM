@@ -1,7 +1,7 @@
 CMakeFiles/main.dir/lidar/LidarReader.cpp.o: \
- /home/user/Desktop/slam_project/lidar/LidarReader.cpp \
+ /home/user/Desktop/SLAM/slam_project/lidar/LidarReader.cpp \
  /usr/include/stdc-predef.h \
- /home/user/Desktop/slam_project/lidar/LidarReader.hpp \
+ /home/user/Desktop/SLAM/slam_project/lidar/LidarReader.hpp \
  /usr/include/c++/13/vector /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -48,8 +48,8 @@ CMakeFiles/main.dir/lidar/LidarReader.cpp.o: \
  /usr/include/c++/13/bits/range_access.h \
  /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/utility \
  /usr/include/c++/13/bits/stl_relops.h \
- /home/user/Desktop/slam_project/rplidar_sdk/sdk/include/sl_lidar.h \
- /home/user/Desktop/slam_project/rplidar_sdk/sdk/include/sl_lidar_driver.h \
+ /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar.h \
+ /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_driver.h \
  /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
  /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/bits/stl_map.h /usr/include/c++/13/tuple \
@@ -123,9 +123,9 @@ CMakeFiles/main.dir/lidar/LidarReader.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/13/bits/charconv.h \
  /usr/include/c++/13/bits/basic_string.tcc \
- /home/user/Desktop/slam_project/rplidar_sdk/sdk/include/sl_lidar_cmd.h \
- /home/user/Desktop/slam_project/rplidar_sdk/sdk/include/sl_lidar_protocol.h \
- /home/user/Desktop/slam_project/rplidar_sdk/sdk/include/sl_types.h \
+ /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_cmd.h \
+ /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_protocol.h \
+ /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_types.h \
  /usr/include/c++/13/cstdint \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/user/Desktop/slam_project/rplidar_sdk/sdk/include -I/home/user/Desktop/slam_project/lidar
+CXX_INCLUDES = -I/home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include -I/home/user/Desktop/SLAM/slam_project/lidar
 
 CXX_FLAGS = -std=gnu++11
 
