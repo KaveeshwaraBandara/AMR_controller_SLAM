@@ -111,11 +111,26 @@ CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/slam_project/mapping/OccupancyGrid.cpp -o CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s
 
+CMakeFiles/main.dir/icp/ICPMatcher.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/icp/ICPMatcher.cpp.o: /home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.cpp
+CMakeFiles/main.dir/icp/ICPMatcher.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/icp/ICPMatcher.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/icp/ICPMatcher.cpp.o -MF CMakeFiles/main.dir/icp/ICPMatcher.cpp.o.d -o CMakeFiles/main.dir/icp/ICPMatcher.cpp.o -c /home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.cpp
+
+CMakeFiles/main.dir/icp/ICPMatcher.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/icp/ICPMatcher.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.cpp > CMakeFiles/main.dir/icp/ICPMatcher.cpp.i
+
+CMakeFiles/main.dir/icp/ICPMatcher.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/icp/ICPMatcher.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.cpp -o CMakeFiles/main.dir/icp/ICPMatcher.cpp.s
+
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/main.cpp.o" \
 "CMakeFiles/main.dir/lidar/LidarReader.cpp.o" \
-"CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o"
+"CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o" \
+"CMakeFiles/main.dir/icp/ICPMatcher.cpp.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
@@ -123,10 +138,66 @@ main_EXTERNAL_OBJECTS =
 main: CMakeFiles/main.dir/main.cpp.o
 main: CMakeFiles/main.dir/lidar/LidarReader.cpp.o
 main: CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o
+main: CMakeFiles/main.dir/icp/ICPMatcher.cpp.o
 main: CMakeFiles/main.dir/build.make
 main: /home/user/Desktop/SLAM/slam_project/rplidar_sdk/output/Linux/Release/libsl_lidar_sdk.a
+main: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_alphamat.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_aruco.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_barcode.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_bgsegm.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_bioinspired.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_ccalib.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_cvv.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_dnn_objdetect.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_dnn_superres.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_dpm.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_face.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_freetype.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_fuzzy.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_hdf.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_hfs.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_img_hash.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_intensity_transform.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_line_descriptor.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_mcc.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_quality.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_rapid.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_reg.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_rgbd.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_saliency.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_shape.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_stereo.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_structured_light.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_superres.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_surface_matching.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_tracking.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_videostab.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_viz.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_wechat_qrcode.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_xobjdetect.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_xphoto.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_highgui.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_datasets.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_plot.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_text.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_ml.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_phase_unwrapping.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_optflow.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_ximgproc.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_video.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_videoio.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_imgcodecs.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_objdetect.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_calib3d.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_dnn.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_features2d.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.6.0
+main: /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.6.0
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

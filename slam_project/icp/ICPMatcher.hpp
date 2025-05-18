@@ -1,15 +1,10 @@
 #ifndef ICP_MATCHER_HPP
 #define ICP_MATCHER_HPP
 
-#include <vector>
 #include <opencv2/opencv.hpp>
+#include <vector>
 
-class ICPMatcher {
-public:
-    static cv::Mat align(const std::vector<cv::Point2f>& ref,
-                         const std::vector<cv::Point2f>& src,
-                         int max_iter = 100);
-};
+cv::Mat runICP(const std::vector<cv::Point2f>& ref_scan, const std::vector<cv::Point2f>& cur_scan);
 
 #endif
 

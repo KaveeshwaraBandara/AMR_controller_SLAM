@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o"
+  "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o.d"
   "CMakeFiles/main.dir/lidar/LidarReader.cpp.o"
   "CMakeFiles/main.dir/lidar/LidarReader.cpp.o.d"
   "CMakeFiles/main.dir/main.cpp.o"

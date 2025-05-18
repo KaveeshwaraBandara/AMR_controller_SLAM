@@ -11,8 +11,9 @@ public:
     OccupancyGrid(int width, int height, float resolution, float origin_x = 0.0f, float origin_y = 0.0f);
     float getLogOdds(int x, int y) const;
     void updateWithScan(const std::vector<std::pair<float, float>>& scan);
+    void updateWithGlobalPoints(const std::vector<std::pair<float, float>>& points);
     void saveAsImage(const std::string& filename);
-    void saveAsImageWithPath(const std::string& filename, const std::vector<cv::Point2f>& path);
+   // void saveAsImageWithPath(const std::string& filename, const std::vector<cv::Point2f>& path);
 
 
 private:

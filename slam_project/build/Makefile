@@ -129,6 +129,30 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+icp/ICPMatcher.o: icp/ICPMatcher.cpp.o
+.PHONY : icp/ICPMatcher.o
+
+# target to build an object file
+icp/ICPMatcher.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/icp/ICPMatcher.cpp.o
+.PHONY : icp/ICPMatcher.cpp.o
+
+icp/ICPMatcher.i: icp/ICPMatcher.cpp.i
+.PHONY : icp/ICPMatcher.i
+
+# target to preprocess a source file
+icp/ICPMatcher.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/icp/ICPMatcher.cpp.i
+.PHONY : icp/ICPMatcher.cpp.i
+
+icp/ICPMatcher.s: icp/ICPMatcher.cpp.s
+.PHONY : icp/ICPMatcher.s
+
+# target to generate assembly for a file
+icp/ICPMatcher.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/icp/ICPMatcher.cpp.s
+.PHONY : icp/ICPMatcher.cpp.s
+
 lidar/LidarReader.o: lidar/LidarReader.cpp.o
 .PHONY : lidar/LidarReader.o
 
@@ -210,6 +234,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... icp/ICPMatcher.o"
+	@echo "... icp/ICPMatcher.i"
+	@echo "... icp/ICPMatcher.s"
 	@echo "... lidar/LidarReader.o"
 	@echo "... lidar/LidarReader.i"
 	@echo "... lidar/LidarReader.s"

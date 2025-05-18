@@ -8,6 +8,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/rplidar_sdk/sdk/include
     ${PROJECT_SOURCE_DIR}/lidar
     ${PROJECT_SOURCE_DIR}/mapping
+    ${PROJECT_SOURCE_DIR}/icp
     ${OpenCV_INCLUDE_DIRS}
 )
 
