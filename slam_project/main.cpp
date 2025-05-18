@@ -14,12 +14,12 @@ int main() {
     auto scan = lidar.getScan();
     std::cout << "Scan received with " << scan.size() << " points.\n";
 
-    OccupancyGrid grid(100, 100, 0.05f); // 5cm resolution, 5x5m map
+    OccupancyGrid grid(500, 500, 0.05f); // 5cm resolution, 5x5m map
     grid.updateWithScan(scan);
     grid.saveAsImage("map.png");
 
 
-    printGrid(grid, 100, 100);
+    printGrid(grid, 500, 500);
 
     lidar.stop();
     return 0;

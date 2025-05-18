@@ -54,7 +54,6 @@ void OccupancyGrid::updateWithScan(const std::vector<std::pair<float, float>>& s
     }
 }
 
-#include <opencv2/opencv.hpp>
 
 void OccupancyGrid::saveAsImage(const std::string& filename) {
     cv::Mat image(height_, width_, CV_8UC1);
