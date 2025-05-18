@@ -95,3 +95,57 @@ void printGrid(const OccupancyGrid& grid, int width, int height) {
     }
 }
 
+
+void OccupancyGrid::updateWithGlobalPoints(const std::vector<cv::Point2f>& points) {
+    for (const auto& pt : points) {
+        int gx = static_cast<int>(pt.x / resolution_) + origin_x_;
+        int gy = static_cast<int>(pt.y / resolution_) + origin_y_;
+        raycastAndUpdate(origin_x_, origin_y_, gx, gy);
+        setLogOdds(gx, gy, log_odds_hit_);
+    }
+}
+
+std::vector<cv::Point2f> convertToPoint2f(const std::vector<std::pair<float, float>>& scan) {
+    std::vector<cv::Point2f> points;
+    for (const auto& [angle_deg, dist_m] : scan) {
+        float rad = angle_deg * CV_PI / 180.0f;
+        float x = dist_m * cos(rad);
+        float y = dist_m * sin(rad);
+        points.emplace_back(x, y);
+    }
+    return points;
+}
+
+void OccupancyGrid::saveAsImageWithPath(const std::string& filename, const std::vector<cv::Point2f>& path) {
+    cv::Mat image(height_, width_, CV_8UC3);
+
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            float val = getLogOdds(x, y);
+            cv::Vec3b color;
+
+            if (val > 1.0f)
+                color = {0, 0, 0};          // occupied = black
+            else if (val < -1.0f)
+                color = {255, 255, 255};    // free = white
+            else
+                color = {128, 128, 128};    // unknown = gray
+
+            image.at<cv::Vec3b>(y, x) = color;
+        }
+    }
+
+    // Draw path
+    for (const auto& pt : path) {
+        int gx = static_cast<int>(pt.x / resolution_) + origin_x_;
+        int gy = static_cast<int>(pt.y / resolution_) + origin_y_;
+
+        if (isInside(gx, gy)) {
+            cv::circle(image, cv::Point(gx, gy), 1, cv::Scalar(0, 0, 255), -1);  // red dot
+        }
+    }
+
+    cv::imwrite(filename, image);
+    std::cout << "[Info] Saved map with path: " << filename << std::endl;
+}
+

@@ -12,6 +12,8 @@ public:
     float getLogOdds(int x, int y) const;
     void updateWithScan(const std::vector<std::pair<float, float>>& scan);
     void saveAsImage(const std::string& filename);
+    void saveAsImageWithPath(const std::string& filename, const std::vector<cv::Point2f>& path);
+
 
 private:
     int width_, height_;

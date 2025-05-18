@@ -15,6 +15,7 @@ add_executable(main
     main.cpp
     lidar/LidarReader.cpp
     mapping/OccupancyGrid.cpp
+    icp/ICPMatcher.cpp
 )
 
 target_link_libraries(main
