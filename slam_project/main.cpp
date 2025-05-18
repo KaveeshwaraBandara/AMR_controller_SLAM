@@ -16,6 +16,8 @@ int main() {
 
     OccupancyGrid grid(100, 100, 0.05f); // 5cm resolution, 5x5m map
     grid.updateWithScan(scan);
+    grid.saveAsImage("map.png");
+
 
     printGrid(grid, 100, 100);
 

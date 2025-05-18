@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include <opencv2/opencv.hpp>
 
 OccupancyGrid::OccupancyGrid(int width, int height, float resolution, float origin_x, float origin_y)
     : width_(width), height_(height), resolution_(resolution) {
@@ -53,10 +54,31 @@ void OccupancyGrid::updateWithScan(const std::vector<std::pair<float, float>>& s
     }
 }
 
+#include <opencv2/opencv.hpp>
+
 void OccupancyGrid::saveAsImage(const std::string& filename) {
-    // Placeholder: we will replace with OpenCV later
-    std::cout << "[Info] Image saving not yet implemented.\n";
+    cv::Mat image(height_, width_, CV_8UC1);
+
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            float val = getLogOdds(x, y);
+            uint8_t pixel;
+
+            if (val > 1.0f)
+                pixel = 0;        // occupied → black
+            else if (val < -1.0f)
+                pixel = 255;      // free → white
+            else
+                pixel = 128;      // unknown → gray
+
+            image.at<uchar>(y, x) = pixel;
+        }
+    }
+
+    cv::imwrite(filename, image);
+    std::cout << "[Info] Map saved as image: " << filename << std::endl;
 }
+
 
 // Simple console visualization
 void printGrid(const OccupancyGrid& grid, int width, int height) {
