@@ -5,6 +5,8 @@
 #include <iostream>
 #include <cmath>
 
+
+
 struct Pose2D {
     float x = 0.0f, y = 0.0f, theta = 0.0f;
 };
@@ -46,6 +48,9 @@ int main() {
         std::cerr << "Failed to connect to LIDAR\n";
         return -1;
     }
+    
+    
+    std::vector<std::pair<float, float>> trajectory;
 
     OccupancyGrid grid(500, 500, 0.05f);  // 25x25 meter map
     Pose2D robot_pose;
@@ -67,6 +72,8 @@ int main() {
             robot_pose.x += dx * c - dy * s;
             robot_pose.y += dx * s + dy * c;
             robot_pose.theta += dtheta;
+            trajectory.emplace_back(robot_pose.x, robot_pose.y);
+
         }
 
         // Convert current scan to global and update map
@@ -78,7 +85,9 @@ int main() {
     }
 
     lidar.stop();
-    grid.saveAsImage("map.png");
+    grid.saveAsImageWithTrajectory("map_with_trajectory.png", trajectory);
+
+//    grid.saveAsImage("map.png");
     std::cout << "Saved map to map.png\n";
 
     return 0;
