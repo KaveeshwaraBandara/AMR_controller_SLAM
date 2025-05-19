@@ -119,34 +119,75 @@ void OccupancyGrid::updateWithGlobalPoints(const std::vector<std::pair<float, fl
 }
 
 
-void OccupancyGrid::saveAsImageWithTrajectory(const std::string& filename, const std::vector<std::pair<float, float>>& trajectory) {
-    cv::Mat image(height_, width_, CV_8UC3); // 3-channel color image
+void OccupancyGrid::saveAsImageWithTrajectory(const std::string& filename, const std::vector<Pose2D>& trajectory) {
+    cv::Mat image(height_, width_, CV_8UC3); // 3-channel grayscale
 
     for (int y = 0; y < height_; ++y) {
         for (int x = 0; x < width_; ++x) {
             float val = getLogOdds(x, y);
             uchar pixel;
             if (val > 1.0f)
-                pixel = 0;        // occupied = black
+                pixel = 0;
             else if (val < -1.0f)
-                pixel = 255;      // free = white
+                pixel = 255;
             else
-                pixel = 128;      // unknown = gray
+                pixel = 128;
             image.at<cv::Vec3b>(y, x) = cv::Vec3b(pixel, pixel, pixel);
         }
     }
 
-    // Draw trajectory points
-    for (const auto& [x_m, y_m] : trajectory) {
-        int gx = static_cast<int>(x_m / resolution_) + origin_x_;
-        int gy = static_cast<int>(y_m / resolution_) + origin_y_;
-        if (isInside(gx, gy)) {
-            cv::circle(image, cv::Point(gx, gy), 1, cv::Scalar(0, 0, 255), -1); // red dot
-        }
+    // Draw pose arrows
+    for (const auto& pose : trajectory) {
+        int x0 = static_cast<int>(pose.x / resolution_) + origin_x_;
+        int y0 = static_cast<int>(pose.y / resolution_) + origin_y_;
+
+        if (!isInside(x0, y0)) continue;
+
+        float arrow_len = 10.0f;  // pixels
+        int x1 = static_cast<int>(x0 + arrow_len * std::cos(pose.theta));
+        int y1 = static_cast<int>(y0 + arrow_len * std::sin(pose.theta));
+
+        cv::arrowedLine(image, cv::Point(x0, y0), cv::Point(x1, y1), cv::Scalar(0, 0, 255), 1);
     }
 
     cv::imwrite(filename, image);
-    std::cout << "[Info] Saved trajectory map: " << filename << std::endl;
+    std::cout << "[Info] Saved map with trajectory and headings: " << filename << std::endl;
 }
+
+
+void OccupancyGrid::showLiveMap(const std::vector<Pose2D>& trajectory) {
+    cv::Mat image(height_, width_, CV_8UC3);
+
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            float val = getLogOdds(x, y);
+            uchar pixel;
+            if (val > 1.0f)
+                pixel = 0;
+            else if (val < -1.0f)
+                pixel = 255;
+            else
+                pixel = 128;
+            image.at<cv::Vec3b>(y, x) = cv::Vec3b(pixel, pixel, pixel);
+        }
+    }
+
+    for (const auto& pose : trajectory) {
+        int x0 = static_cast<int>(pose.x / resolution_) + origin_x_;
+        int y0 = static_cast<int>(pose.y / resolution_) + origin_y_;
+
+        if (!isInside(x0, y0)) continue;
+
+        float arrow_len = 10.0f;
+        int x1 = static_cast<int>(x0 + arrow_len * std::cos(pose.theta));
+        int y1 = static_cast<int>(y0 + arrow_len * std::sin(pose.theta));
+
+        cv::arrowedLine(image, cv::Point(x0, y0), cv::Point(x1, y1), cv::Scalar(0, 0, 255), 1);
+    }
+
+    cv::imshow("Live Occupancy Map", image);
+    cv::waitKey(1);  // Small delay to refresh window
+}
+
 
 

@@ -7,9 +7,9 @@
 
 
 
-struct Pose2D {
-    float x = 0.0f, y = 0.0f, theta = 0.0f;
-};
+//struct Pose2D {
+  //  float x = 0.0f, y = 0.0f, theta = 0.0f;
+//};
 
 // Convert polar scan to 2D point cloud (local)
 std::vector<cv::Point2f> toPointCloud(const std::vector<std::pair<float, float>>& scan) {
@@ -50,7 +50,8 @@ int main() {
     }
     
     
-    std::vector<std::pair<float, float>> trajectory;
+    //std::vector<std::pair<float, float>> trajectory;
+    std::vector<Pose2D> trajectory;
 
     OccupancyGrid grid(500, 500, 0.05f);  // 25x25 meter map
     Pose2D robot_pose;
@@ -72,13 +73,16 @@ int main() {
             robot_pose.x += dx * c - dy * s;
             robot_pose.y += dx * s + dy * c;
             robot_pose.theta += dtheta;
-            trajectory.emplace_back(robot_pose.x, robot_pose.y);
+            //trajectory.emplace_back(robot_pose.x, robot_pose.y);
+            trajectory.emplace_back(robot_pose);
 
         }
 
         // Convert current scan to global and update map
         auto transformed = transformToGlobal(raw_scan, robot_pose);
         grid.updateWithGlobalPoints(transformed);
+        grid.showLiveMap(trajectory);
+
 
         prev_cloud = current_cloud;
         std::cout << "Frame " << frame << ": pose=(" << robot_pose.x << ", " << robot_pose.y << ", " << robot_pose.theta << ")\n";
