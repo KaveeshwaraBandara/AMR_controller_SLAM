@@ -9,6 +9,9 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/lidar
     ${PROJECT_SOURCE_DIR}/mapping
     ${PROJECT_SOURCE_DIR}/icp
+    ${PROJECT_SOURCE_DIR}/EKF
+    ${PROJECT_SOURCE_DIR}/External/eigen
+    ${PROJECT_SOURCE_DIR}/imu
     ${OpenCV_INCLUDE_DIRS}
 )
 
@@ -17,6 +20,8 @@ add_executable(main
     lidar/LidarReader.cpp
     mapping/OccupancyGrid.cpp
     icp/ICPMatcher.cpp
+    EKF/EKF.cpp
+    imu/IMUReader.cpp
 )
 
 target_link_libraries(main

@@ -137,7 +137,7 @@ void OccupancyGrid::saveAsImageWithTrajectory(const std::string& filename, const
     }
 
     // Draw pose arrows
-    for (const auto& pose : trajectory) {
+/*    for (const auto& pose : trajectory) {
         int x0 = static_cast<int>(pose.x / resolution_) + origin_x_;
         int y0 = static_cast<int>(pose.y / resolution_) + origin_y_;
 
@@ -148,7 +148,25 @@ void OccupancyGrid::saveAsImageWithTrajectory(const std::string& filename, const
         int y1 = static_cast<int>(y0 + arrow_len * std::sin(pose.theta));
 
         cv::arrowedLine(image, cv::Point(x0, y0), cv::Point(x1, y1), cv::Scalar(0, 0, 255), 1);
-    }
+    }*/
+    
+    for (const auto& pose : trajectory) {
+    int x0 = static_cast<int>(pose.x / resolution_) + origin_x_;
+    int y0 = static_cast<int>(pose.y / resolution_) + origin_y_;
+
+    if (!isInside(x0, y0)) continue;
+
+    float arrow_len = 10.0f;
+    int x1 = static_cast<int>(x0 + arrow_len * std::cos(pose.theta));
+    int y1 = static_cast<int>(y0 + arrow_len * std::sin(pose.theta));
+
+    cv::arrowedLine(image, cv::Point(x0, y0), cv::Point(x1, y1), cv::Scalar(0, 0, 255), 1);
+
+    // Draw uncertainty ellipse from 2x2 covariance submatrix
+    Eigen::Matrix2f cov2d = pose.covariance.block<2,2>(0,0);
+    drawCovarianceEllipse(image, x0, y0, cov2d, cv::Scalar(255, 0, 0));
+}
+
 
     cv::imwrite(filename, image);
     std::cout << "[Info] Saved map with trajectory and headings: " << filename << std::endl;
@@ -190,4 +208,108 @@ void OccupancyGrid::showLiveMap(const std::vector<Pose2D>& trajectory) {
 }
 
 
+void OccupancyGrid::drawCovarianceEllipse(cv::Mat& img, int cx, int cy, const Eigen::Matrix2f& cov, const cv::Scalar& color) {
+    cv::Size axes;
+    double angle;
 
+    Eigen::SelfAdjointEigenSolver<Eigen::Matrix2f> eig(cov);
+    Eigen::Vector2f eigenvalues = eig.eigenvalues();
+    Eigen::Matrix2f eigenvectors = eig.eigenvectors();
+
+    float a = std::sqrt(eigenvalues[1]) * 2.0f;  // major axis
+    float b = std::sqrt(eigenvalues[0]) * 2.0f;  // minor axis
+
+    angle = std::atan2(eigenvectors(1, 1), eigenvectors(0, 1)) * 180.0 / CV_PI;
+
+    axes.width = static_cast<int>(a * 10); // scale for visibility
+    axes.height = static_cast<int>(b * 10);
+
+    cv::ellipse(img, cv::Point(cx, cy), axes, angle, 0, 360, color, 1);
+}
+
+/*bool isFree(int x, int y) const {
+    if (!isInside(x, y)) return false;
+    float log_odds = getLogOdds(x, y);
+    return log_odds < -1.0f;  // Free if log_odds < -1.0
+}*/
+
+void OccupancyGrid::updateCostMap(float robot_radius) {
+    // Clear and initialize cost map
+    cost_map_.assign(width_ * height_, std::numeric_limits<float>::infinity());
+    robot_radius_cells_ = robot_radius / resolution_;
+
+    // Mark free cells with 0 cost
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            if (isFree(x, y)) {
+                cost_map_[y * width_ + x] = 0.0f;
+            }
+        }
+    }
+
+    // Inflate obstacles
+    inflateObstacles(robot_radius_cells_);
+}
+
+void OccupancyGrid::inflateObstacles(float radius_cells) {
+    std::vector<bool> obstacle_grid(width_ * height_, false);
+    
+    // First pass: identify all obstacle cells
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            if (!isFree(x, y)) {  // Obstacle or unknown
+                obstacle_grid[y * width_ + x] = true;
+            }
+        }
+    }
+
+    // Second pass: inflate obstacles
+    int radius_int = static_cast<int>(std::ceil(radius_cells));
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            if (obstacle_grid[y * width_ + x]) {
+                // Inflate this obstacle
+                for (int dy = -radius_int; dy <= radius_int; ++dy) {
+                    for (int dx = -radius_int; dx <= radius_int; ++dx) {
+                        int nx = x + dx;
+                        int ny = y + dy;
+                        if (isInside(nx, ny) && (dx*dx + dy*dy <= radius_int*radius_int)) {
+                            cost_map_[ny * width_ + nx] = std::numeric_limits<float>::infinity();
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+const std::vector<float>& OccupancyGrid::getCostMap() const {
+    return cost_map_;
+}
+
+float OccupancyGrid::getCost(int x, int y) const {
+    if (!isInside(x, y)) return std::numeric_limits<float>::infinity();
+    return cost_map_[y * width_ + x];
+}
+
+void OccupancyGrid::showCostMap() const {
+    cv::Mat image(height_, width_, CV_8UC1);
+    
+    float max_cost = 1.0f; // For visualization scaling
+    
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            float cost = cost_map_[y * width_ + x];
+            if (std::isinf(cost)) {
+                image.at<uchar>(y, x) = 0; // Black for obstacles/infinity
+            } else {
+                // Scale the cost for visualization
+                uchar value = static_cast<uchar>(255 * (1.0f - std::min(cost/max_cost, 1.0f)));
+                image.at<uchar>(y, x) = value;
+            }
+        }
+    }
+    
+    cv::imshow("Cost Map", image);
+    cv::waitKey(1);
+}

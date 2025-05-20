@@ -129,6 +129,30 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+EKF/EKF.o: EKF/EKF.cpp.o
+.PHONY : EKF/EKF.o
+
+# target to build an object file
+EKF/EKF.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/EKF.cpp.o
+.PHONY : EKF/EKF.cpp.o
+
+EKF/EKF.i: EKF/EKF.cpp.i
+.PHONY : EKF/EKF.i
+
+# target to preprocess a source file
+EKF/EKF.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/EKF.cpp.i
+.PHONY : EKF/EKF.cpp.i
+
+EKF/EKF.s: EKF/EKF.cpp.s
+.PHONY : EKF/EKF.s
+
+# target to generate assembly for a file
+EKF/EKF.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/EKF.cpp.s
+.PHONY : EKF/EKF.cpp.s
+
 icp/ICPMatcher.o: icp/ICPMatcher.cpp.o
 .PHONY : icp/ICPMatcher.o
 
@@ -152,6 +176,30 @@ icp/ICPMatcher.s: icp/ICPMatcher.cpp.s
 icp/ICPMatcher.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/icp/ICPMatcher.cpp.s
 .PHONY : icp/ICPMatcher.cpp.s
+
+imu/IMUReader.o: imu/IMUReader.cpp.o
+.PHONY : imu/IMUReader.o
+
+# target to build an object file
+imu/IMUReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.o
+.PHONY : imu/IMUReader.cpp.o
+
+imu/IMUReader.i: imu/IMUReader.cpp.i
+.PHONY : imu/IMUReader.i
+
+# target to preprocess a source file
+imu/IMUReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.i
+.PHONY : imu/IMUReader.cpp.i
+
+imu/IMUReader.s: imu/IMUReader.cpp.s
+.PHONY : imu/IMUReader.s
+
+# target to generate assembly for a file
+imu/IMUReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.s
+.PHONY : imu/IMUReader.cpp.s
 
 lidar/LidarReader.o: lidar/LidarReader.cpp.o
 .PHONY : lidar/LidarReader.o
@@ -234,9 +282,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... EKF/EKF.o"
+	@echo "... EKF/EKF.i"
+	@echo "... EKF/EKF.s"
 	@echo "... icp/ICPMatcher.o"
 	@echo "... icp/ICPMatcher.i"
 	@echo "... icp/ICPMatcher.s"
+	@echo "... imu/IMUReader.o"
+	@echo "... imu/IMUReader.i"
+	@echo "... imu/IMUReader.s"
 	@echo "... lidar/LidarReader.o"
 	@echo "... lidar/LidarReader.i"
 	@echo "... lidar/LidarReader.s"

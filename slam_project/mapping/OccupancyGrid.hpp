@@ -4,10 +4,19 @@
 #include <vector>
 #include <utility>  // for std::pair
 #include <string>
+#include <Eigen/Dense>
+#include <opencv2/opencv.hpp>
+
+
+/*struct Pose2D {
+    float x = 0.0f, y = 0.0f, theta = 0.0f;
+};*/
 
 struct Pose2D {
-    float x = 0.0f, y = 0.0f, theta = 0.0f;
+    float x, y, theta;
+    Eigen::Matrix3f covariance; // EKF covariance at this pose
 };
+
 
 class OccupancyGrid {
 public:
@@ -18,9 +27,24 @@ public:
     void saveAsImage(const std::string& filename);
    // void saveAsImageWithPath(const std::string& filename, const std::vector<cv::Point2f>& path);
 //   void saveAsImageWithTrajectory(const std::string& filename, const std::vector<std::pair<float, float>>& trajectory);
+   //void saveAsImageWithTrajectory(const std::string& filename, const std::vector<Pose2D>& trajectory);
    void saveAsImageWithTrajectory(const std::string& filename, const std::vector<Pose2D>& trajectory);
    void showLiveMap(const std::vector<Pose2D>& trajectory);
-
+   void drawCovarianceEllipse(cv::Mat& img, int cx, int cy, const Eigen::Matrix2f& cov, const cv::Scalar& color);
+    void updateCostMap(float robot_radius);
+    const std::vector<float>& getCostMap() const;
+    float getCost(int x, int y) const;
+    void showCostMap() const;
+    float getResolution() const { return resolution_; }
+    int getWidth() const { return width_; }
+    int getHeight() const { return height_; }
+    bool isCellInside(int x, int y) const { return isInside(x, y); }
+    
+    bool isFree(int x, int y) const {
+    if (!isInside(x, y)) return false;
+    float log_odds = getLogOdds(x, y);
+    return log_odds < -1.0f;  // Free if log_odds < -1.0
+    }
 
 
 
@@ -41,6 +65,12 @@ private:
     bool isInside(int x, int y) const;
 
     void raycastAndUpdate(int x0, int y0, int x1, int y1);
+    
+    std::vector<float> cost_map_;
+    float robot_radius_cells_ = 0.0f;
+    
+    void inflateObstacles(float radius_cells);
+    
 };
 
 #endif
