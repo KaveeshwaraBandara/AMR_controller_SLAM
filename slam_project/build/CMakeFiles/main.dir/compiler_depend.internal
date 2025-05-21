@@ -1239,6 +1239,7 @@ CMakeFiles/main.dir/lidar/LidarReader.cpp.o
 
 CMakeFiles/main.dir/main.cpp.o
  /home/user/Desktop/SLAM/slam_project/main.cpp
+ /home/user/Desktop/SLAM/slam_project/Astar/Astar.hpp
  /home/user/Desktop/SLAM/slam_project/Communication/send.hpp
  /home/user/Desktop/SLAM/slam_project/EKF/EKF.hpp
  /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/Cholesky

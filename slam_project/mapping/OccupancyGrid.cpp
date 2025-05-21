@@ -310,6 +310,14 @@ void OccupancyGrid::showCostMap() const {
         }
     }
     
+    for (int y = 0; y < height_; y += 20) {
+      for (int x = 0; x < width_; x += 20) {
+        std::string label = std::to_string(x) + "," + std::to_string(y);
+        cv::putText(image, label, cv::Point(x, y), cv::FONT_HERSHEY_SIMPLEX, 0.3, 100, 1);
+    }
+  }
+
+    
     cv::imshow("Cost Map", image);
     cv::waitKey(1);
 }

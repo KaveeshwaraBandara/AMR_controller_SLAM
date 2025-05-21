@@ -8,6 +8,7 @@
 #include <iostream>
 #include <chrono>
 #include "send.hpp"
+//#include "Astar.hpp"
 
 //struct Pose2D {
 //    float x = 0, y = 0, theta = 0;
@@ -46,8 +47,8 @@ int main() {
 
     SerialPort serial(portName, baudRate);
 
-    IMUReader imu;
-    imu.initialize();
+   // IMUReader imu;
+    //imu.initialize();
 
     EKF ekf;
     OccupancyGrid grid(250, 250, 0.05f);
@@ -55,19 +56,25 @@ int main() {
     std::vector<cv::Point2f> prev_cloud;
 
     auto last_time = std::chrono::steady_clock::now();
-    std::string message = "set 0.1 0";
-    serial.sendData(message);
+    //std::string message = "set 0.03 0\n";
+    serial.sendCommand(0.03,0);
 
     for (int frame = 0; frame < 100; ++frame) {
         auto now = std::chrono::steady_clock::now();
         float dt = std::chrono::duration<float>(now - last_time).count();
         last_time = now;
 
-        imu.update();
-        float v = imu.getLinearVelocity();
-        float w = imu.getAngularVelocity();
+      //  imu.update();
+        //float v = imu.getLinearVelocity();
+        //float w = imu.getAngularVelocity();
 
         //ekf.predict(v, w, dt);
+        
+        float v = 0.03;
+        float w = 0;
+
+//ekf.predict(v, w, dt);
+
 
         auto raw_scan = lidar.getScan();
         ekf.predict(v, w, dt);
@@ -101,31 +108,65 @@ int main() {
         //grid.showLiveMap(trajectory);  // OpenCV visualization
 
         prev_cloud = current_cloud;
-        message = "set 0.1 0";
-	serial.sendData(message);
-
+       // message = "set 0.03 0\n";
+	//serial.sendData(message);
+serial.sendCommand(0.03,0);
         //if (cv::waitKey(10) == 'q') break;
     }
 
-    message = "set 0 0";
-    serial.sendData(message);
+   // message = "off\n";
+    //serial.sendData(message);
+    serial.sendCommand(0,0);
     lidar.stop();
     //update cost map
     float robot_radius = 0.3f;
     grid.updateCostMap(robot_radius);
+    grid.showCostMap();        
+
+cv::imwrite("final_cost_map.png", cv::imread("Cost Map"));  
     // Create cost map visualization
-    cv::Mat cost_map_img(grid.getHeight(), grid.getWidth(), CV_8UC3, cv::Scalar(255, 255, 255));
+    //cv::Mat cost_map_img(grid.getHeight(), grid.getWidth(), CV_8UC3, cv::Scalar(255, 255, 255));
     
     // Draw cost map
-    for (int y = 0; y < grid.getHeight(); ++y) {
+  /*  for (int y = 0; y < grid.getHeight(); ++y) {
         for (int x = 0; x < grid.getWidth(); ++x) {
             float cost = grid.getCost(x, y);
             if (std::isinf(cost)) {
                 cost_map_img.at<cv::Vec3b>(y, x) = cv::Vec3b(0, 0, 255); // Red for obstacles
             }
         }
-    }
+    }*/
     grid.saveAsImageWithTrajectory("map_with_ellipse.png", trajectory);
+    
+    int goalX, goalY;
+    std::cout << "\nEnter goal cell coordinates (x y in grid units [0-" << grid.getWidth()-1 << ", 0-" << grid.getHeight()-1 << "]): ";
+    std::cin >> goalX >> goalY;
+
+  if (!grid.isInside(goalX, goalY)) {
+      std::cerr << "Goal is outside map bounds.\n";
+      return -1;
+    }
+
+    if (std::isinf(grid.getCost(goalX, goalY))) {
+      std::cerr << "Goal cell is in an obstacle. Choose a free space.\n";
+      return -1;
+    }
+
+    std::cout << "Goal set at (" << goalX << ", " << goalY << "). You can now run path planning.\n";
+    
+    int startX = ekf.getState()(0); 
+    int startY = ekf.getState()(1);
+
+    std::vector<float> costmap = grid.getCostMap();
+    //std::vector<Node> path = aStar(costmap, startX, startY, goalX, goalY);
+
+    /*if (path.empty()) {
+        std::cout << "No path found!" << std::endl;
+    } else {
+        double initial_orientation_deg = ekf.getState()(2);
+        calculateVelocityCommands(path, initial_orientation_deg);
+    }*/
+
     //grid.saveAsImageWithTrajectory("map_with_heading.png", trajectory);
     //cv::destroyAllWindows();
     return 0;

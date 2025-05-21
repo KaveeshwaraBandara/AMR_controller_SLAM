@@ -39,6 +39,7 @@ public:
     int getWidth() const { return width_; }
     int getHeight() const { return height_; }
     bool isCellInside(int x, int y) const { return isInside(x, y); }
+    bool isInside(int x, int y) const;
     
     bool isFree(int x, int y) const {
     if (!isInside(x, y)) return false;
@@ -62,7 +63,7 @@ private:
 
     void setLogOdds(int x, int y, float delta);
     
-    bool isInside(int x, int y) const;
+    
 
     void raycastAndUpdate(int x0, int y0, int x1, int y1);
     

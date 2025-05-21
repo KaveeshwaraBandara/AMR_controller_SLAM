@@ -9,6 +9,7 @@ private:
     int fileDescriptor;
 
 public:
+  
     SerialPort(const char* portName, int baudRate) {
         // Open the serial port (non-blocking read/write, no controlling terminal)
         fileDescriptor = open(portName, O_RDWR | O_NOCTTY | O_NDELAY);
@@ -54,7 +55,17 @@ public:
         close(fileDescriptor);
     }
 
-    void sendData(const std::string& data) {
+ /*   void sendData(const std::string& data) {
         write(fileDescriptor, data.c_str(), data.size());
+    }
+    */
+    void sendCommand(double v, double omega) {
+        std::string message;
+        message = "set " + std::to_string(v) + " " + std::to_string(omega) + "\n";
+        write(fileDescriptor, message.c_str(), message.size());
+        std::cout << "Sent: " << message;
+        if(v == 0 && omega == 0){
+         message = "off\n";
+      } 
     }
 };
