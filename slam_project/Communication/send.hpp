@@ -66,6 +66,7 @@ public:
         std::cout << "Sent: " << message;
         if(v == 0 && omega == 0){
          message = "off\n";
+         write(fileDescriptor, message.c_str(), message.size());
       } 
     }
 };

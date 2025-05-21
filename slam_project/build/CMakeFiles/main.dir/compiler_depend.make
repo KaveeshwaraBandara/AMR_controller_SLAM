@@ -1234,7 +1234,6 @@ CMakeFiles/main.dir/lidar/LidarReader.cpp.o: /home/user/Desktop/SLAM/slam_projec
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
 CMakeFiles/main.dir/main.cpp.o: /home/user/Desktop/SLAM/slam_project/main.cpp \
-  /home/user/Desktop/SLAM/slam_project/Astar/Astar.hpp \
   /home/user/Desktop/SLAM/slam_project/Communication/send.hpp \
   /home/user/Desktop/SLAM/slam_project/EKF/EKF.hpp \
   /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/Cholesky \
@@ -2555,8 +2554,6 @@ CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o: /home/user/Desktop/SLAM/slam_pr
 /usr/include/linux/close_range.h:
 
 /usr/include/fcntl.h:
-
-/home/user/Desktop/SLAM/slam_project/Astar/Astar.hpp:
 
 /home/user/Desktop/SLAM/slam_project/main.cpp:
 

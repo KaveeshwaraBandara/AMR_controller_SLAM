@@ -9,6 +9,7 @@
 #include <chrono>
 #include "send.hpp"
 //#include "Astar.hpp"
+#include <unistd.h>
 
 //struct Pose2D {
 //    float x = 0, y = 0, theta = 0;
@@ -117,7 +118,75 @@ serial.sendCommand(0.03,0);
    // message = "off\n";
     //serial.sendData(message);
     serial.sendCommand(0,0);
+    sleep(2);
+auto turn_start = std::chrono::steady_clock::now();
+serial.sendCommand(0, 0.3);
+usleep(10472000);  // or wait for sensor feedback
+serial.sendCommand(0, 0);
+auto turn_end = std::chrono::steady_clock::now();
+
+float dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
+ekf.predict(0.0f, 0.3f, dt_turn);
+
+    
+  //  lidar.stop();
+   // ekf.predict(0.0f, 0.3f, 10.472); // 0.3 rad/s for ~10.472 seconds
+//lidar.start();  // if your driver supports restart
+
+std::vector<cv::Point2f> prev_cloud2;
+
+for (int frame = 0; frame < 100; ++frame) {
+    auto now = std::chrono::steady_clock::now();
+    float dt = std::chrono::duration<float>(now - last_time).count();
+    last_time = now;
+
+    float v = 0.03f, w = 0.0f;
+    ekf.predict(v, w, dt);
+    auto raw_scan = lidar.getScan();
+    auto current_cloud = toPointCloud(raw_scan);
+
+    if (!prev_cloud2.empty()) {
+        cv::Mat Tr = runICP(prev_cloud2, current_cloud);
+        float dx = Tr.at<double>(0, 2);
+        float dy = Tr.at<double>(1, 2);
+        float dtheta = atan2(Tr.at<double>(1, 0), Tr.at<double>(0, 0));
+
+        Eigen::Vector3f z;
+        z << ekf.getState()(0) + dx,
+             ekf.getState()(1) + dy,
+             ekf.getState()(2) + dtheta;
+
+        ekf.correct(z);
+        Eigen::Vector3f x = ekf.getState();
+        Eigen::Matrix3f P = ekf.getCovariance();
+        trajectory.push_back({ x(0), x(1), x(2), P });
+    }
+
+    Eigen::Vector3f x = ekf.getState();
+    Pose2D pose = { x(0), x(1), x(2) };
+    trajectory.push_back(pose);
+
+    auto global_points = transformToGlobal(raw_scan, pose);
+    grid.updateWithGlobalPoints(global_points);
+    prev_cloud2 = current_cloud;
+
+    serial.sendCommand(v, w);
+}
+
+   serial.sendCommand(0,0);
+    sleep(2);
+turn_start = std::chrono::steady_clock::now();
+serial.sendCommand(0, 0.3);
+usleep(10472000);  // or wait for sensor feedback
+serial.sendCommand(0, 0);
+turn_end = std::chrono::steady_clock::now();
+
+dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
+ekf.predict(0.0f, 0.3f, dt_turn);
+
+    
     lidar.stop();
+
     //update cost map
     float robot_radius = 0.3f;
     grid.updateCostMap(robot_radius);
