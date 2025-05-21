@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include -I/home/user/Desktop/SLAM/slam_project/lidar -I/home/user/Desktop/SLAM/slam_project/mapping -I/home/user/Desktop/SLAM/slam_project/icp -I/home/user/Desktop/SLAM/slam_project/EKF -I/home/user/Desktop/SLAM/slam_project/External/eigen -I/home/user/Desktop/SLAM/slam_project/imu -isystem /usr/include/opencv4
+CXX_INCLUDES = -I/home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include -I/home/user/Desktop/SLAM/slam_project/lidar -I/home/user/Desktop/SLAM/slam_project/mapping -I/home/user/Desktop/SLAM/slam_project/icp -I/home/user/Desktop/SLAM/slam_project/EKF -I/home/user/Desktop/SLAM/slam_project/External/eigen -I/home/user/Desktop/SLAM/slam_project/imu -I/home/user/Desktop/SLAM/slam_project/Communication -isystem /usr/include/opencv4
 
 CXX_FLAGS = -std=gnu++17
 

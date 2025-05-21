@@ -12,6 +12,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/EKF
     ${PROJECT_SOURCE_DIR}/External/eigen
     ${PROJECT_SOURCE_DIR}/imu
+    ${PROJECT_SOURCE_DIR}/Communication
     ${OpenCV_INCLUDE_DIRS}
 )
 

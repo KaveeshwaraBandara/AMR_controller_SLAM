@@ -7,6 +7,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <chrono>
+#include "send.hpp"
 
 //struct Pose2D {
 //    float x = 0, y = 0, theta = 0;
@@ -40,6 +41,10 @@ int main() {
         std::cerr << "Lidar connect failed\n";
         return -1;
     }
+    const char* portName = "/dev/ttyACM0"; // Adjust based on your device
+    int baudRate = B9600; // Match with microcontroller's baud rate
+
+    SerialPort serial(portName, baudRate);
 
     IMUReader imu;
     imu.initialize();
@@ -50,6 +55,8 @@ int main() {
     std::vector<cv::Point2f> prev_cloud;
 
     auto last_time = std::chrono::steady_clock::now();
+    std::string message = "set 0.1 0";
+    serial.sendData(message);
 
     for (int frame = 0; frame < 100; ++frame) {
         auto now = std::chrono::steady_clock::now();
@@ -94,11 +101,14 @@ int main() {
         //grid.showLiveMap(trajectory);  // OpenCV visualization
 
         prev_cloud = current_cloud;
+        message = "set 0.1 0";
+	serial.sendData(message);
 
         //if (cv::waitKey(10) == 'q') break;
     }
 
-    
+    message = "set 0 0";
+    serial.sendData(message);
     lidar.stop();
     //update cost map
     float robot_radius = 0.3f;
