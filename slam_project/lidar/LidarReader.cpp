@@ -43,12 +43,14 @@ std::vector<std::pair<float, float>> LidarReader::getScan() {
             float angle = (nodes[i].angle_z_q14 * 90.f) / 16384.f;
             float dist = nodes[i].dist_mm_q2 / 4000.0f;
             if (nodes[i].dist_mm_q2 != 0)
+            if(angle <=90 || angle>=270){
                 scan.emplace_back(angle, dist);
                 printf("%s theta: %03.2f Dist: %08.2f Q: %d \n", 
                     (nodes[i].flag & SL_LIDAR_RESP_HQ_FLAG_SYNCBIT) ?"S ":"  ", 
-                    (nodes[i].angle_z_q14 * 90.f) / 16384.f,
-                    nodes[i].dist_mm_q2/4.0f,
+                    angle,
+                    dist,
                     nodes[i].quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);
+        }
         }
     }
     return scan;
