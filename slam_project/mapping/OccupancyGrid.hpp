@@ -47,7 +47,8 @@ public:
     return log_odds < -1.0f;  // Free if log_odds < -1.0
     }
 
-
+    int getOriginX() const;
+    int getOriginY() const;
 
 
 private:

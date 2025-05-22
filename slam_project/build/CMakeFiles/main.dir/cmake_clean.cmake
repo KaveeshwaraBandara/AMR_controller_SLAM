@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/main.dir/Astar/Astar.cpp.o"
+  "CMakeFiles/main.dir/Astar/Astar.cpp.o.d"
   "CMakeFiles/main.dir/EKF/EKF.cpp.o"
   "CMakeFiles/main.dir/EKF/EKF.cpp.o.d"
   "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o"

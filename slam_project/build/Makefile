@@ -129,6 +129,30 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+Astar/Astar.o: Astar/Astar.cpp.o
+.PHONY : Astar/Astar.o
+
+# target to build an object file
+Astar/Astar.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/Astar/Astar.cpp.o
+.PHONY : Astar/Astar.cpp.o
+
+Astar/Astar.i: Astar/Astar.cpp.i
+.PHONY : Astar/Astar.i
+
+# target to preprocess a source file
+Astar/Astar.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/Astar/Astar.cpp.i
+.PHONY : Astar/Astar.cpp.i
+
+Astar/Astar.s: Astar/Astar.cpp.s
+.PHONY : Astar/Astar.s
+
+# target to generate assembly for a file
+Astar/Astar.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/Astar/Astar.cpp.s
+.PHONY : Astar/Astar.cpp.s
+
 EKF/EKF.o: EKF/EKF.cpp.o
 .PHONY : EKF/EKF.o
 
@@ -282,6 +306,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... Astar/Astar.o"
+	@echo "... Astar/Astar.i"
+	@echo "... Astar/Astar.s"
 	@echo "... EKF/EKF.o"
 	@echo "... EKF/EKF.i"
 	@echo "... EKF/EKF.s"

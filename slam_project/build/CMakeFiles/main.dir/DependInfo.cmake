@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/user/Desktop/SLAM/slam_project/Astar/Astar.cpp" "CMakeFiles/main.dir/Astar/Astar.cpp.o" "gcc" "CMakeFiles/main.dir/Astar/Astar.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/EKF/EKF.cpp" "CMakeFiles/main.dir/EKF/EKF.cpp.o" "gcc" "CMakeFiles/main.dir/EKF/EKF.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.cpp" "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o" "gcc" "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/imu/IMUReader.cpp" "CMakeFiles/main.dir/imu/IMUReader.cpp.o" "gcc" "CMakeFiles/main.dir/imu/IMUReader.cpp.o.d"

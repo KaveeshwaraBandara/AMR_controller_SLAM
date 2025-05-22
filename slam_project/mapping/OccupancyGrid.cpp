@@ -11,6 +11,12 @@ OccupancyGrid::OccupancyGrid(int width, int height, float resolution, float orig
     origin_x_ = static_cast<int>(origin_x / resolution_) + width_ / 2;
     origin_y_ = static_cast<int>(origin_y / resolution_) + height_ / 2;
 }
+   
+
+  int OccupancyGrid::getOriginX() const { return origin_x_; }
+int OccupancyGrid::getOriginY() const { return origin_y_; }
+
+
 
 bool OccupancyGrid::isInside(int x, int y) const {
     return x >= 0 && x < width_ && y >= 0 && y < height_;

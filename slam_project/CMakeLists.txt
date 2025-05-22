@@ -13,6 +13,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/External/eigen
     ${PROJECT_SOURCE_DIR}/imu
     ${PROJECT_SOURCE_DIR}/Communication
+    ${PROJECT_SOURCE_DIR}/Astar
     ${OpenCV_INCLUDE_DIRS}
 )
 
@@ -23,6 +24,7 @@ add_executable(main
     icp/ICPMatcher.cpp
     EKF/EKF.cpp
     imu/IMUReader.cpp
+    Astar/Astar.cpp
 )
 
 target_link_libraries(main

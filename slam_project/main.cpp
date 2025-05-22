@@ -8,12 +8,14 @@
 #include <iostream>
 #include <chrono>
 #include "send.hpp"
-//#include "Astar.hpp"
+#include "Astar.hpp"
 #include <unistd.h>
 
 //struct Pose2D {
 //    float x = 0, y = 0, theta = 0;
 //};
+
+#define LOOP_INTERVAL_MS 500
 
 std::vector<cv::Point2f> toPointCloud(const std::vector<std::pair<float, float>>& scan) {
     std::vector<cv::Point2f> cloud;
@@ -227,6 +229,66 @@ cv::imwrite("final_cost_map.png", cv::imread("Cost Map"));
     int startY = ekf.getState()(1);
 
     std::vector<float> costmap = grid.getCostMap();
+    
+    // A* planned path
+std::vector<Node> path = aStar(grid, startY, startX, goalY, goalX);
+if (path.empty()) {
+    std::cout << "No path found!\n";
+    return -1;
+}
+visualizePath(grid, path, startY, startX, goalY, goalX);
+
+// Navigation loop
+for (size_t i = 0; i + 1 < path.size(); i += 4) {
+    // Current EKF pose
+    Eigen::Vector3f pose = ekf.getState();
+    int curr_x = static_cast<int>(pose(0) / grid.getResolution()) + grid.getOriginX();
+    int curr_y = static_cast<int>(pose(1) / grid.getResolution()) + grid.getOriginX();
+
+    // Target cell (4 steps ahead or final point)
+    Node target = path[std::min(i + 4, path.size() - 1)];
+
+    // Convert to meters
+    float target_x_m = (target.y - grid.getOriginX()) * grid.getResolution();
+    float target_y_m = (target.x - grid.getOriginX()) * grid.getResolution();
+
+    float dx = target_x_m - pose(0);
+    float dy = target_y_m - pose(1);
+    float dist = std::sqrt(dx * dx + dy * dy);
+    float heading_to_target = std::atan2(dy, dx);
+    float angle_diff = heading_to_target - pose(2);
+
+    // Normalize angle
+    while (angle_diff > M_PI) angle_diff -= 2 * M_PI;
+    while (angle_diff < -M_PI) angle_diff += 2 * M_PI;
+
+    float v = 0.03f;
+    float w = angle_diff;
+
+    // Clamp angular velocity
+    if (w > 1.0f) w = 1.0f;
+    if (w < -1.0f) w = -1.0f;
+
+    // Send command and update EKF
+    serial.sendCommand(v, w);
+    usleep(500000);  // half-second movement
+
+    ekf.predict(v, w, 0.5f);
+    Eigen::Vector3f updated = ekf.getState();
+    Eigen::Matrix3f P = ekf.getCovariance();
+    trajectory.push_back({ updated(0), updated(1), updated(2), P });
+
+    // Optional: stop if very close to goal
+    if (i + 4 >= path.size() - 1 && dist < 0.15f) {
+        std::cout << "Reached goal!\n";
+        break;
+    }
+}
+
+serial.sendCommand(0.0, 0.0);
+lidar.stop();
+grid.saveAsImageWithTrajectory("final_map_with_trajectory.png", trajectory);
+
     //std::vector<Node> path = aStar(costmap, startX, startY, goalX, goalY);
 
     /*if (path.empty()) {
