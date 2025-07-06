@@ -125,38 +125,52 @@ CMakeFiles/main.dir/icp/ICPMatcher.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/icp/ICPMatcher.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.cpp -o CMakeFiles/main.dir/icp/ICPMatcher.cpp.s
 
-CMakeFiles/main.dir/EKF/EKF.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/EKF/EKF.cpp.o: /home/user/Desktop/SLAM/slam_project/EKF/EKF.cpp
-CMakeFiles/main.dir/EKF/EKF.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/EKF/EKF.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/EKF/EKF.cpp.o -MF CMakeFiles/main.dir/EKF/EKF.cpp.o.d -o CMakeFiles/main.dir/EKF/EKF.cpp.o -c /home/user/Desktop/SLAM/slam_project/EKF/EKF.cpp
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.o: /home/user/Desktop/SLAM/slam_project/EKF/PoseEKF.cpp
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/EKF/PoseEKF.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/EKF/PoseEKF.cpp.o -MF CMakeFiles/main.dir/EKF/PoseEKF.cpp.o.d -o CMakeFiles/main.dir/EKF/PoseEKF.cpp.o -c /home/user/Desktop/SLAM/slam_project/EKF/PoseEKF.cpp
 
-CMakeFiles/main.dir/EKF/EKF.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/EKF/EKF.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/slam_project/EKF/EKF.cpp > CMakeFiles/main.dir/EKF/EKF.cpp.i
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/EKF/PoseEKF.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/slam_project/EKF/PoseEKF.cpp > CMakeFiles/main.dir/EKF/PoseEKF.cpp.i
 
-CMakeFiles/main.dir/EKF/EKF.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/EKF/EKF.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/slam_project/EKF/EKF.cpp -o CMakeFiles/main.dir/EKF/EKF.cpp.s
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/EKF/PoseEKF.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/slam_project/EKF/PoseEKF.cpp -o CMakeFiles/main.dir/EKF/PoseEKF.cpp.s
 
-CMakeFiles/main.dir/imu/IMUReader.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/imu/IMUReader.cpp.o: /home/user/Desktop/SLAM/slam_project/imu/IMUReader.cpp
-CMakeFiles/main.dir/imu/IMUReader.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/imu/IMUReader.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/imu/IMUReader.cpp.o -MF CMakeFiles/main.dir/imu/IMUReader.cpp.o.d -o CMakeFiles/main.dir/imu/IMUReader.cpp.o -c /home/user/Desktop/SLAM/slam_project/imu/IMUReader.cpp
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o: /home/user/Desktop/SLAM/slam_project/EKF/VelocityEKF.cpp
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o -MF CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o.d -o CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o -c /home/user/Desktop/SLAM/slam_project/EKF/VelocityEKF.cpp
 
-CMakeFiles/main.dir/imu/IMUReader.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/imu/IMUReader.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/slam_project/imu/IMUReader.cpp > CMakeFiles/main.dir/imu/IMUReader.cpp.i
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/EKF/VelocityEKF.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/slam_project/EKF/VelocityEKF.cpp > CMakeFiles/main.dir/EKF/VelocityEKF.cpp.i
 
-CMakeFiles/main.dir/imu/IMUReader.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/imu/IMUReader.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/slam_project/imu/IMUReader.cpp -o CMakeFiles/main.dir/imu/IMUReader.cpp.s
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/EKF/VelocityEKF.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/slam_project/EKF/VelocityEKF.cpp -o CMakeFiles/main.dir/EKF/VelocityEKF.cpp.s
+
+CMakeFiles/main.dir/imu/BNO055.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/imu/BNO055.cpp.o: /home/user/Desktop/SLAM/slam_project/imu/BNO055.cpp
+CMakeFiles/main.dir/imu/BNO055.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/main.dir/imu/BNO055.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/imu/BNO055.cpp.o -MF CMakeFiles/main.dir/imu/BNO055.cpp.o.d -o CMakeFiles/main.dir/imu/BNO055.cpp.o -c /home/user/Desktop/SLAM/slam_project/imu/BNO055.cpp
+
+CMakeFiles/main.dir/imu/BNO055.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/imu/BNO055.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/user/Desktop/SLAM/slam_project/imu/BNO055.cpp > CMakeFiles/main.dir/imu/BNO055.cpp.i
+
+CMakeFiles/main.dir/imu/BNO055.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/imu/BNO055.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/user/Desktop/SLAM/slam_project/imu/BNO055.cpp -o CMakeFiles/main.dir/imu/BNO055.cpp.s
 
 CMakeFiles/main.dir/Astar/Astar.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/Astar/Astar.cpp.o: /home/user/Desktop/SLAM/slam_project/Astar/Astar.cpp
 CMakeFiles/main.dir/Astar/Astar.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/main.dir/Astar/Astar.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/main.dir/Astar/Astar.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/Astar/Astar.cpp.o -MF CMakeFiles/main.dir/Astar/Astar.cpp.o.d -o CMakeFiles/main.dir/Astar/Astar.cpp.o -c /home/user/Desktop/SLAM/slam_project/Astar/Astar.cpp
 
 CMakeFiles/main.dir/Astar/Astar.cpp.i: cmake_force
@@ -173,8 +187,9 @@ main_OBJECTS = \
 "CMakeFiles/main.dir/lidar/LidarReader.cpp.o" \
 "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o" \
 "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o" \
-"CMakeFiles/main.dir/EKF/EKF.cpp.o" \
-"CMakeFiles/main.dir/imu/IMUReader.cpp.o" \
+"CMakeFiles/main.dir/EKF/PoseEKF.cpp.o" \
+"CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o" \
+"CMakeFiles/main.dir/imu/BNO055.cpp.o" \
 "CMakeFiles/main.dir/Astar/Astar.cpp.o"
 
 # External object files for target main
@@ -184,8 +199,9 @@ main: CMakeFiles/main.dir/main.cpp.o
 main: CMakeFiles/main.dir/lidar/LidarReader.cpp.o
 main: CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o
 main: CMakeFiles/main.dir/icp/ICPMatcher.cpp.o
-main: CMakeFiles/main.dir/EKF/EKF.cpp.o
-main: CMakeFiles/main.dir/imu/IMUReader.cpp.o
+main: CMakeFiles/main.dir/EKF/PoseEKF.cpp.o
+main: CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o
+main: CMakeFiles/main.dir/imu/BNO055.cpp.o
 main: CMakeFiles/main.dir/Astar/Astar.cpp.o
 main: CMakeFiles/main.dir/build.make
 main: /home/user/Desktop/SLAM/slam_project/rplidar_sdk/output/Linux/Release/libsl_lidar_sdk.a
@@ -245,7 +261,7 @@ main: /usr/lib/x86_64-linux-gnu/libopencv_photo.so.4.6.0
 main: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.4.6.0
 main: /usr/lib/x86_64-linux-gnu/libopencv_core.so.4.6.0
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/user/Desktop/SLAM/slam_project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

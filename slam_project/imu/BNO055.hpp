@@ -56,7 +56,7 @@ private:
     int16_t read16(uint8_t reg);
     float convertAngle(int16_t raw);     // Convert raw angle to degrees
     float convertVector(int16_t raw);    // Convert raw vector (accel/gyro) to units
-    bool BNO055::waitForCalibration();
+    bool waitForCalibration();
 };
 
 #endif // BNO055_HPP

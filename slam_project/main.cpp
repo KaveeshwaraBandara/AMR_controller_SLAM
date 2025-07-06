@@ -11,6 +11,8 @@
 #include "send.hpp"
 #include "Astar.hpp"
 #include <unistd.h>
+#include <thread>
+
 
 //struct Pose2D {
 //    float x = 0, y = 0, theta = 0;
@@ -71,7 +73,10 @@ int main() {
 
     float max_linear_velocity = 0.1f;
     float linear_vel = 0.0f;    
-
+    //float v_icp = 0;
+    //float w_icp = 0;
+    
+    
     for (int frame = 0; frame < 100; ++frame) {
         if (frame <= 30) {
             // Linear acceleration
@@ -111,7 +116,9 @@ int main() {
         auto raw_scan = lidar.getScan();
         //ekf.predict(v, w, dt);
         auto current_cloud = toPointCloud(raw_scan);
-
+        
+        
+        float v_icp = 0.0f, w_icp = 0.0f, dx = 0.0f, dy = 0.0f, dtheta = 0.0f;
         if (!prev_cloud.empty()) {
             cv::Mat Tr = runICP(prev_cloud, current_cloud);     //remembre this 2*3 matrix which i extracted in icp header file(r11......)
 

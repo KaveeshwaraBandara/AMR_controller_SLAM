@@ -9,9 +9,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/user/Desktop/SLAM/slam_project/Astar/Astar.cpp" "CMakeFiles/main.dir/Astar/Astar.cpp.o" "gcc" "CMakeFiles/main.dir/Astar/Astar.cpp.o.d"
-  "/home/user/Desktop/SLAM/slam_project/EKF/EKF.cpp" "CMakeFiles/main.dir/EKF/EKF.cpp.o" "gcc" "CMakeFiles/main.dir/EKF/EKF.cpp.o.d"
+  "/home/user/Desktop/SLAM/slam_project/EKF/PoseEKF.cpp" "CMakeFiles/main.dir/EKF/PoseEKF.cpp.o" "gcc" "CMakeFiles/main.dir/EKF/PoseEKF.cpp.o.d"
+  "/home/user/Desktop/SLAM/slam_project/EKF/VelocityEKF.cpp" "CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o" "gcc" "CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.cpp" "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o" "gcc" "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o.d"
-  "/home/user/Desktop/SLAM/slam_project/imu/IMUReader.cpp" "CMakeFiles/main.dir/imu/IMUReader.cpp.o" "gcc" "CMakeFiles/main.dir/imu/IMUReader.cpp.o.d"
+  "/home/user/Desktop/SLAM/slam_project/imu/BNO055.cpp" "CMakeFiles/main.dir/imu/BNO055.cpp.o" "gcc" "CMakeFiles/main.dir/imu/BNO055.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/lidar/LidarReader.cpp" "CMakeFiles/main.dir/lidar/LidarReader.cpp.o" "gcc" "CMakeFiles/main.dir/lidar/LidarReader.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/mapping/OccupancyGrid.cpp" "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o" "gcc" "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o.d"
