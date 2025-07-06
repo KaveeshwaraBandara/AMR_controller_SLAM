@@ -32,7 +32,7 @@ bool BNO055::begin() {
     write8(BNO055_OPR_MODE_ADDR, NDOF);
     usleep(20000);
     
-    waitForCalibration();  //i just add this for ensure the calibration   , but i see in NDOF fusion method there is auto calibration 
+    //waitForCalibration();  //i just add this for ensure the calibration   , but i see in NDOF fusion method there is auto calibration 
     
     return true;
 }
