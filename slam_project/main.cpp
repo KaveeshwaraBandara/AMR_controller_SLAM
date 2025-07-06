@@ -1,8 +1,9 @@
 #include "LidarReader.hpp"
 #include "OccupancyGrid.hpp"
 #include "ICPMatcher.hpp"
-#include "EKF.hpp"
-#include "IMUReader.hpp"
+#include "PoseEKF.hpp"
+#include "VelocityEKF.hpp"
+#include "BNO055.hpp"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -50,22 +51,50 @@ int main() {
 
     SerialPort serial(portName, baudRate);
 
-   // IMUReader imu;
-    //imu.initialize();
+    BNO055 imu;
+    if (!imu.begin()) {
+        std::cerr << "Failed to initialize BNO055!\n";
+        return -1;
+    }
 
-    EKF ekf;
+    VelocityEKF velocityEKF;
+    PoseEKF poseEKF;
+
+    //EKF ekf;
     OccupancyGrid grid(250, 250, 0.05f);
     std::vector<Pose2D> trajectory;
     std::vector<cv::Point2f> prev_cloud;
 
     auto last_time = std::chrono::steady_clock::now();
     //std::string message = "set 0.03 0\n";
-    serial.sendCommand(0.03,0);
+    //serial.sendCommand(0.03,0);
+
+    float max_linear_velocity = 0.1f;
+    float linear_vel = 0.0f;    
 
     for (int frame = 0; frame < 100; ++frame) {
+        if (frame <= 30) {
+            // Linear acceleration
+            linear_vel = max_linear_velocity * (frame / 30.0f);
+        } else if (frame <= 70) {
+            // Constant speed
+            linear_vel = max_linear_velocity;
+        } else {
+            // Linear deceleration
+            linear_vel = max_linear_velocity * (1.0f - ((frame - 70.0f) / 30.0f));
+        }
+
+        serial.sendCommand(linear_vel,0);
+
         auto now = std::chrono::steady_clock::now();
         float dt = std::chrono::duration<float>(now - last_time).count();
         last_time = now;
+
+        EulerAngles orientation = imu.readEulerAngles();
+        Vector3 angularVel = imu.readAngularVelocity();
+
+        float yaw_imu = orientation.yaw * M_PI / 180.0f;
+        float yaw_rate_imu = angularVel.z * M_PI / 180.0f;
 
       //  imu.update();
         //float v = imu.getLinearVelocity();
@@ -73,36 +102,71 @@ int main() {
 
         //ekf.predict(v, w, dt);
         
-        float v = 0.03;
-        float w = 0;
+        //float v = 0.03;
+        //float w = 0;
 
 //ekf.predict(v, w, dt);
 
 
         auto raw_scan = lidar.getScan();
-        ekf.predict(v, w, dt);
+        //ekf.predict(v, w, dt);
         auto current_cloud = toPointCloud(raw_scan);
 
         if (!prev_cloud.empty()) {
-            cv::Mat Tr = runICP(prev_cloud, current_cloud);
+            cv::Mat Tr = runICP(prev_cloud, current_cloud);     //remembre this 2*3 matrix which i extracted in icp header file(r11......)
 
             float dx = Tr.at<double>(0, 2);
             float dy = Tr.at<double>(1, 2);
             float dtheta = atan2(Tr.at<double>(1, 0), Tr.at<double>(0, 0));
 
-            Eigen::Vector3f z;
-            z << ekf.getState()(0) + dx,
+            //Eigen::Vector3f z;
+            /*z << ekf.getState()(0) + dx,
                  ekf.getState()(1) + dy,
                  ekf.getState()(2) + dtheta;
-
+            
             ekf.correct(z);
             Eigen::Vector3f x = ekf.getState();
             Eigen::Matrix3f P = ekf.getCovariance();
             trajectory.push_back({ x(0), x(1), x(2), P });
+            */
+            v_icp = std::sqrt(dx*dx + dy*dy) / dt;
+            w_icp = dtheta / dt;
 
         }
 
-        Eigen::Vector3f x = ekf.getState();
+        VelocityEKF::Vector2f vel_meas;
+        vel_meas << v_icp, yaw_rate_imu;
+
+        velocityEKF.predict(dt);
+        velocityEKF.correct(vel_meas);
+        auto vel_est = velocityEKF.getState();
+
+        poseEKF.predict(vel_est(0), vel_est(1), dt);
+
+        PoseEKF::Vector3f pose_meas;
+        if (!prev_cloud.empty()) {
+            auto pose_state = poseEKF.getState();
+            pose_meas << pose_state(0) + dx, pose_state(1) + dy, pose_state(2) + dtheta;
+        } else {
+            pose_meas = poseEKF.getState();
+        }
+
+        poseEKF.correct(pose_meas);
+
+        auto pose_state = poseEKF.getState();
+        Pose2D current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
+        trajectory.push_back(current_pose);
+
+        auto global_points = transformToGlobal(raw_scan, current_pose);
+        grid.updateWithGlobalPoints(global_points);
+
+        prev_cloud = current_cloud;
+        std::this_thread::sleep_for(std::chrono::milliseconds(LOOP_INTERVAL_MS));
+
+        
+        
+        
+        /*Eigen::Vector3f x = ekf.getState();
         Pose2D pose = { x(0), x(1), x(2) };
         trajectory.push_back(pose);
 
@@ -112,30 +176,30 @@ int main() {
 
         prev_cloud = current_cloud;
        // message = "set 0.03 0\n";
-	//serial.sendData(message);
-serial.sendCommand(0.03,0);
-        //if (cv::waitKey(10) == 'q') break;
+	    //serial.sendData(message);
+        serial.sendCommand(0.03,0);
+        //if (cv::waitKey(10) == 'q') break;*/
     }
 
    // message = "off\n";
     //serial.sendData(message);
-    serial.sendCommand(0,0);
-    sleep(2);
-auto turn_start = std::chrono::steady_clock::now();
-serial.sendCommand(0, 0.3);
-usleep(10472000);  // or wait for sensor feedback
-serial.sendCommand(0, 0);
-auto turn_end = std::chrono::steady_clock::now();
+        serial.sendCommand(0,0);
+        sleep(2);
+        auto turn_start = std::chrono::steady_clock::now();
+        serial.sendCommand(0, 0.3);
+        usleep(10472000);  // or wait for sensor feedback
+        serial.sendCommand(0, 0);
+        auto turn_end = std::chrono::steady_clock::now();
 
-float dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
-ekf.predict(0.0f, 0.3f, dt_turn);
+        float dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
+        poseEKF.predict(0.0f, 0.3f, dt_turn);
 
     
   //  lidar.stop();
    // ekf.predict(0.0f, 0.3f, 10.472); // 0.3 rad/s for ~10.472 seconds
 //lidar.start();  // if your driver supports restart
 
-std::vector<cv::Point2f> prev_cloud2;
+      /*  std::vector<cv::Point2f> prev_cloud2;
 
 for (int frame = 0; frame < 100; ++frame) {
     auto now = std::chrono::steady_clock::now();
@@ -185,7 +249,7 @@ turn_end = std::chrono::steady_clock::now();
 
 dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
 ekf.predict(0.0f, 0.3f, dt_turn);
-
+*/
     
     lidar.stop();
 
@@ -209,7 +273,7 @@ cv::imwrite("final_cost_map.png", cv::imread("Cost Map"));
     }*/
     grid.saveAsImageWithTrajectory("map_with_ellipse.png", trajectory);
     
-    int goalX, goalY;
+   /* int goalX, goalY;
     std::cout << "\nEnter goal cell coordinates (x y in grid units [0-" << grid.getWidth()-1 << ", 0-" << grid.getHeight()-1 << "]): ";
     std::cin >> goalX >> goalY;
 
@@ -299,7 +363,7 @@ grid.saveAsImageWithTrajectory("final_map_with_trajectory.png", trajectory);
     }*/
 
     //grid.saveAsImageWithTrajectory("map_with_heading.png", trajectory);
-    //cv::destroyAllWindows();
+    //cv::destroyAllWindows();*/
     return 0;
 }
 

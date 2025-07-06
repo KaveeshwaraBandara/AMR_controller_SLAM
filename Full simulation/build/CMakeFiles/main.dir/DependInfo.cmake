@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/user/Desktop/SLAM/Full simulation/Astar/Astar.cpp" "CMakeFiles/main.dir/Astar/Astar.cpp.o" "gcc" "CMakeFiles/main.dir/Astar/Astar.cpp.o.d"
   "/home/user/Desktop/SLAM/Full simulation/EKF/EKF.cpp" "CMakeFiles/main.dir/EKF/EKF.cpp.o" "gcc" "CMakeFiles/main.dir/EKF/EKF.cpp.o.d"
   "/home/user/Desktop/SLAM/Full simulation/icp/ICPMatcher.cpp" "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o" "gcc" "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o.d"
+  "/home/user/Desktop/SLAM/Full simulation/imu/IMUReader.cpp" "CMakeFiles/main.dir/imu/IMUReader.cpp.o" "gcc" "CMakeFiles/main.dir/imu/IMUReader.cpp.o.d"
   "/home/user/Desktop/SLAM/Full simulation/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
   "/home/user/Desktop/SLAM/Full simulation/mapping/OccupancyGrid.cpp" "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o" "gcc" "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o.d"
   )

@@ -22,8 +22,9 @@ add_executable(main
     lidar/LidarReader.cpp
     mapping/OccupancyGrid.cpp
     icp/ICPMatcher.cpp
-    EKF/EKF.cpp
-    imu/IMUReader.cpp
+    EKF/PoseEKF.cpp
+    EKF/VelocityEKF.cpp
+    imu/BNO055.cpp
     Astar/Astar.cpp
 )
 

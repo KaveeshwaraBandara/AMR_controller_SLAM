@@ -201,6 +201,30 @@ icp/ICPMatcher.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/icp/ICPMatcher.cpp.s
 .PHONY : icp/ICPMatcher.cpp.s
 
+imu/IMUReader.o: imu/IMUReader.cpp.o
+.PHONY : imu/IMUReader.o
+
+# target to build an object file
+imu/IMUReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.o
+.PHONY : imu/IMUReader.cpp.o
+
+imu/IMUReader.i: imu/IMUReader.cpp.i
+.PHONY : imu/IMUReader.i
+
+# target to preprocess a source file
+imu/IMUReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.i
+.PHONY : imu/IMUReader.cpp.i
+
+imu/IMUReader.s: imu/IMUReader.cpp.s
+.PHONY : imu/IMUReader.s
+
+# target to generate assembly for a file
+imu/IMUReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.s
+.PHONY : imu/IMUReader.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -267,6 +291,9 @@ help:
 	@echo "... icp/ICPMatcher.o"
 	@echo "... icp/ICPMatcher.i"
 	@echo "... icp/ICPMatcher.s"
+	@echo "... imu/IMUReader.o"
+	@echo "... imu/IMUReader.i"
+	@echo "... imu/IMUReader.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

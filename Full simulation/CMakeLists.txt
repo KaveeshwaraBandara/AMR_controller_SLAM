@@ -20,6 +20,9 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Communication
     ${PROJECT_SOURCE_DIR}/Astar
     ${PROJECT_SOURCE_DIR}/External/eigen
+    ${PROJECT_SOURCE_DIR}/imu
+    ${PROJECT_SOURCE_DIR}/navigation
+    ${PROJECT_SOURCE_DIR}/utils
     ${OpenCV_INCLUDE_DIRS}
     ${gz-msgs10_INCLUDE_DIRS}     # Ensure message headers like laserscan.pb.h are found
     ${gz-transport13_INCLUDE_DIRS}
@@ -32,6 +35,9 @@ add_executable(main
     icp/ICPMatcher.cpp
     EKF/EKF.cpp
     Astar/Astar.cpp
+    imu/IMUReader.cpp
+    navigation/mapping_explorer.cpp
+    utils/utils.cpp
 )
 
 # Link required libraries
