@@ -61,9 +61,9 @@ void drawGoal(cv::Mat& image) const;
 std::pair<float, float> getSelectedGoal() const;
 bool isGoalSelected() const;
 
-int getWidth() const;
-int getHeight() const;
-float getResolution() const;
+float goal_world_x_ = 0.0f;
+float goal_world_y_ = 0.0f;
+bool goal_selected_ = false;
 
 
 
@@ -81,9 +81,7 @@ private:
     
     
        // --- New Members ---
-float goal_world_x_ = 0.0f;
-float goal_world_y_ = 0.0f;
-bool goal_selected_ = false;
+
     
 
     void setLogOdds(int x, int y, float delta);

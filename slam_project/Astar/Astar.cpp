@@ -1,4 +1,4 @@
-#include "AStar.hpp"
+#include "Astar.hpp"
 #include "OccupancyGrid.hpp"
 
 #include <queue>

@@ -534,7 +534,4 @@ bool OccupancyGrid::isGoalSelected() const {
 }
 
 
-int OccupancyGrid::getWidth() const { return width_; }
-int OccupancyGrid::getHeight() const { return height_; }
-float OccupancyGrid::getResolution() const { return resolution_; }
 
