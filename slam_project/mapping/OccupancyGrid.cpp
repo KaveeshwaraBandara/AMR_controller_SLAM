@@ -13,7 +13,7 @@ OccupancyGrid::OccupancyGrid(int width, int height, float resolution, float orig
 }
    
 
-  int OccupancyGrid::getOriginX() const { return origin_x_; }
+int OccupancyGrid::getOriginX() const { return origin_x_; }
 int OccupancyGrid::getOriginY() const { return origin_y_; }
 
 
@@ -233,13 +233,13 @@ void OccupancyGrid::drawCovarianceEllipse(cv::Mat& img, int cx, int cy, const Ei
     cv::ellipse(img, cv::Point(cx, cy), axes, angle, 0, 360, color, 1);
 }
 
-/*bool isFree(int x, int y) const {
+bool OccupancyGrid::isFree(int x, int y) const {
     if (!isInside(x, y)) return false;
     float log_odds = getLogOdds(x, y);
-    return log_odds < -1.0f;  // Free if log_odds < -1.0
-}*/
+    return log_odds < 0.0f;  // Free if log_odds < -1.0
+}
 
-void OccupancyGrid::updateCostMap(float robot_radius) {
+/*void OccupancyGrid::updateCostMap(float robot_radius) {
     // Clear and initialize cost map
     cost_map_.assign(width_ * height_, std::numeric_limits<float>::infinity());
     robot_radius_cells_ = robot_radius / resolution_;
@@ -255,7 +255,45 @@ void OccupancyGrid::updateCostMap(float robot_radius) {
 
     // Inflate obstacles
     inflateObstacles(robot_radius_cells_);
+}*/
+
+
+void OccupancyGrid::updateCostMap(float robot_radius) {
+    cost_map_.assign(width_ * height_, std::numeric_limits<float>::infinity());
+    robot_radius_cells_ = robot_radius / resolution_;
+
+    // First pass: set free cells to 0
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            if (isFree(x, y)) {
+                cost_map_[y * width_ + x] = 0.0f;
+            }
+        }
+    }
+
+    // Inflate obstacles with gradient cost
+    int radius_int = static_cast<int>(std::ceil(robot_radius_cells_));
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            if (isOccupied(x, y)) {
+                for (int dy = -radius_int; dy <= radius_int; ++dy) {
+                    for (int dx = -radius_int; dx <= radius_int; ++dx) {
+                        int nx = x + dx;
+                        int ny = y + dy;
+                        if (!isInside(nx, ny)) continue;
+
+                        float dist = std::sqrt(dx * dx + dy * dy);
+                        if (dist > radius_int) continue;
+
+                        float cost = std::max(1.0f - (dist / robot_radius_cells_), 0.0f);
+                        cost_map_[ny * width_ + nx] = std::min(cost_map_[ny * width_ + nx], cost);
+                    }
+                }
+            }
+        }
+    }
 }
+
 
 void OccupancyGrid::inflateObstacles(float radius_cells) {
     std::vector<bool> obstacle_grid(width_ * height_, false);
@@ -263,7 +301,7 @@ void OccupancyGrid::inflateObstacles(float radius_cells) {
     // First pass: identify all obstacle cells
     for (int y = 0; y < height_; ++y) {
         for (int x = 0; x < width_; ++x) {
-            if (!isFree(x, y)) {  // Obstacle or unknown
+            if (!isOccupied(x, y)) {  // Obstacle or unknown
                 obstacle_grid[y * width_ + x] = true;
             }
         }
@@ -332,7 +370,14 @@ void OccupancyGrid::showCostMap() const {
 void OccupancyGrid::saveCostMapAsImage(const std::string& filename) const {
     cv::Mat image(height_, width_, CV_8UC1);
 
-    float max_cost = 1.0f;  // For scaling
+   // float max_cost = 1.0f;  // For scaling
+
+float max_cost = 0.0f;
+for (float val : cost_map_) {
+    if (!std::isinf(val)) max_cost = std::max(max_cost, val);
+}
+
+
 
     for (int y = 0; y < height_; ++y) {
         for (int x = 0; x < width_; ++x) {
@@ -340,7 +385,8 @@ void OccupancyGrid::saveCostMapAsImage(const std::string& filename) const {
             if (std::isinf(cost)) {
                 image.at<uchar>(y, x) = 0; // Black for obstacles/infinity
             } else {
-                uchar value = static_cast<uchar>(255 * (1.0f - std::min(cost / max_cost, 1.0f)));
+                //uchar value = static_cast<uchar>(255 * (1.0f - std::min(cost / max_cost, 1.0f)));
+                uchar value = static_cast<uchar>(255 * (1.0f - cost / max_cost));
                 image.at<uchar>(y, x) = value;
             }
         }
@@ -349,12 +395,72 @@ void OccupancyGrid::saveCostMapAsImage(const std::string& filename) const {
     // Optional: Add coordinate labels (same as in showCostMap)
     for (int y = 0; y < height_; y += 20) {
         for (int x = 0; x < width_; x += 20) {
-            std::string label = std::to_string(x) + "," + std::to_string(y);
+            //std::string label = std::to_string(x) + "," + std::to_string(y);
+            float wx = (x - origin_x_) * resolution_;
+float wy = (y - origin_y_) * resolution_;
+std::string label = "(" + std::to_string(wx) + "," + std::to_string(wy) + ")";
+
+            
             cv::putText(image, label, cv::Point(x, y), cv::FONT_HERSHEY_SIMPLEX, 0.3, 100, 1);
         }
     }
 
     cv::imwrite(filename, image);
     std::cout << "[Info] Cost map saved as image: " << filename << std::endl;
+}
+
+
+
+bool OccupancyGrid::isOccupied(int x, int y) const {
+    if (!isInside(x, y)) return false;
+    return getLogOdds(x, y) > 1.0f;  // Tighter check
+}
+
+
+// --- Mouse Callback ---
+static void onMouse(int event, int x, int y, int flags, void* userdata) {
+    if (event == cv::EVENT_LBUTTONDOWN) {
+        auto* grid = static_cast<OccupancyGrid*>(userdata);
+        float wx = (x - grid->getOriginX()) * grid->getResolution();
+        float wy = (y - grid->getOriginY()) * grid->getResolution();
+        std::cout << "[Click] Grid: (" << x << "," << y << ")  →  World: (" 
+                  << wx << " m, " << wy << " m)" << std::endl;
+    }
+}
+
+void OccupancyGrid::showCostMapWithClick() {
+    cv::Mat image(height_, width_, CV_8UC1);
+
+    float max_cost = 1.0f; // For visualization scaling
+
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            float cost = cost_map_[y * width_ + x];
+            if (std::isinf(cost)) {
+                image.at<uchar>(y, x) = 0; // Black
+            } else {
+                uchar value = static_cast<uchar>(255 * (1.0f - std::min(cost / max_cost, 1.0f)));
+                image.at<uchar>(y, x) = value;
+            }
+        }
+    }
+
+    // Add grid labels (optional)
+    for (int y = 0; y < height_; y += 20) {
+        for (int x = 0; x < width_; x += 20) {
+            float wx = (x - origin_x_) * resolution_;
+            float wy = (y - origin_y_) * resolution_;
+            std::string label = "(" + std::to_string(wx) + "," + std::to_string(wy) + ")";
+            cv::putText(image, label, cv::Point(x, y), cv::FONT_HERSHEY_PLAIN, 0.4, 100, 1);
+        }
+    }
+
+    // Set up window and mouse callback
+    cv::namedWindow("Clickable Cost Map", cv::WINDOW_NORMAL);
+    cv::setMouseCallback("Clickable Cost Map", onMouse, (void*)this);
+
+    cv::imshow("Clickable Cost Map", image);
+    std::cout << "[Info] Click on map to get goal coordinates.\n";
+    cv::waitKey(0); // Wait until key press
 }
 

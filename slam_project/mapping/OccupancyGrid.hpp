@@ -41,15 +41,16 @@ public:
     bool isCellInside(int x, int y) const { return isInside(x, y); }
     bool isInside(int x, int y) const;
     
-    bool isFree(int x, int y) const {
+    /*bool isFree(int x, int y) const {
     if (!isInside(x, y)) return false;
     float log_odds = getLogOdds(x, y);
     return log_odds < -1.0f;  // Free if log_odds < -1.0
-    }
-
+    }*/
+    bool isOccupied(int x, int y) const;
     int getOriginX() const;
     int getOriginY() const;
     void saveCostMapAsImage(const std::string& filename) const;
+    void showCostMapWithClick();
 
 
 private:

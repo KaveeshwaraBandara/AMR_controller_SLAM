@@ -416,7 +416,9 @@ serial.sendCommand(0,0);
     //update cost map
     float robot_radius = 0.3f;
     grid.updateCostMap(robot_radius);
-    grid.saveCostMapAsImage("final_cost_map.png");
+grid.saveCostMapAsImage("cost_map.png");
+grid.showCostMapWithClick(); // <-- Add this line
+
     //grid.showCostMap();        
 
 //cv::imwrite("final_cost_map.png", cv::imread("Cost Map"));  
