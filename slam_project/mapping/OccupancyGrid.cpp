@@ -464,3 +464,72 @@ void OccupancyGrid::showCostMapWithClick() {
     cv::waitKey(0); // Wait until key press
 }
 
+
+
+
+static void onMouseSetGoal(int event, int x, int y, int, void* userdata) {
+    if (event == cv::EVENT_LBUTTONDOWN) {
+        auto* grid = static_cast<OccupancyGrid*>(userdata);
+        float wx = (x - grid->getOriginX()) * grid->getResolution();
+        float wy = (y - grid->getOriginY()) * grid->getResolution();
+        grid->goal_world_x_ = wx;
+        grid->goal_world_y_ = wy;
+        grid->goal_selected_ = true;
+        std::cout << "[Goal Selected] World: (" << wx << " m, " << wy << " m)" << std::endl;
+    }
+}
+
+
+
+void OccupancyGrid::showCostMapWithGoalSelection() {
+    cv::Mat image(height_, width_, CV_8UC3);
+
+    float max_cost = 1.0f;
+
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            float cost = cost_map_[y * width_ + x];
+            uchar val = std::isinf(cost) ? 0 : static_cast<uchar>(255 * (1.0f - std::min(cost / max_cost, 1.0f)));
+            image.at<cv::Vec3b>(y, x) = cv::Vec3b(val, val, val);
+        }
+    }
+
+    drawGoal(image); // Draw if already selected
+
+    cv::namedWindow("Select Goal on Map", cv::WINDOW_NORMAL);
+    cv::setMouseCallback("Select Goal on Map", onMouseSetGoal, (void*)this);
+    cv::imshow("Select Goal on Map", image);
+    std::cout << "[Click] Select a goal position on the map.\n";
+    cv::waitKey(0);
+
+    // Redraw with goal
+    if (goal_selected_) {
+        drawGoal(image);
+        cv::imshow("Goal Marked", image);
+        cv::imwrite("goal_cost_map.png", image);
+        std::cout << "[Info] Goal marked and saved as goal_cost_map.png\n";
+        cv::waitKey(0);
+    }
+}
+
+
+void OccupancyGrid::drawGoal(cv::Mat& image) const {
+    if (!goal_selected_) return;
+
+    int gx = static_cast<int>(goal_world_x_ / resolution_) + origin_x_;
+    int gy = static_cast<int>(goal_world_y_ / resolution_) + origin_y_;
+    if (isInside(gx, gy)) {
+        cv::circle(image, cv::Point(gx, gy), 4, cv::Scalar(0, 0, 255), -1);
+    }
+}
+
+
+
+std::pair<float, float> OccupancyGrid::getSelectedGoal() const {
+    return {goal_world_x_, goal_world_y_};
+}
+
+bool OccupancyGrid::isGoalSelected() const {
+    return goal_selected_;
+}
+

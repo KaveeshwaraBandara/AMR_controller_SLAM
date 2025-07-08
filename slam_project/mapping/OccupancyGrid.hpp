@@ -41,7 +41,7 @@ public:
     bool isCellInside(int x, int y) const { return isInside(x, y); }
     bool isInside(int x, int y) const;
     
-    /*bool isFree(int x, int y) const {
+    bool isFree(int x, int y) const; /*{
     if (!isInside(x, y)) return false;
     float log_odds = getLogOdds(x, y);
     return log_odds < -1.0f;  // Free if log_odds < -1.0
@@ -51,6 +51,16 @@ public:
     int getOriginY() const;
     void saveCostMapAsImage(const std::string& filename) const;
     void showCostMapWithClick();
+    
+    
+ 
+
+// --- New Methods ---
+void showCostMapWithGoalSelection();
+void drawGoal(cv::Mat& image) const;
+std::pair<float, float> getSelectedGoal() const;
+bool isGoalSelected() const;
+
 
 
 private:
@@ -63,6 +73,13 @@ private:
     float log_odds_miss_ = -0.4f;
     float log_odds_min_ = -4.0f;
     float log_odds_max_ = 4.0f;
+    
+    
+       // --- New Members ---
+float goal_world_x_ = 0.0f;
+float goal_world_y_ = 0.0f;
+bool goal_selected_ = false;
+    
 
     void setLogOdds(int x, int y, float delta);
     

@@ -417,7 +417,23 @@ serial.sendCommand(0,0);
     float robot_radius = 0.3f;
     grid.updateCostMap(robot_radius);
 grid.saveCostMapAsImage("cost_map.png");
-grid.showCostMapWithClick(); // <-- Add this line
+
+// Let user select goal
+grid.showCostMapWithGoalSelection();
+
+// Access goal (optional for A*)
+if (grid.isGoalSelected()) {
+    auto [gx, gy] = grid.getSelectedGoal();
+    std::cout << "[Main] Goal selected at: (" << gx << ", " << gy << ") meters\n";
+    // Use gx, gy in world coordinates as target for A*
+}
+
+    
+    
+    
+    /*grid.updateCostMap(robot_radius);
+grid.saveCostMapAsImage("cost_map.png");
+grid.showCostMapWithClick(); // <-- Add this line*/
 
     //grid.showCostMap();        
 
