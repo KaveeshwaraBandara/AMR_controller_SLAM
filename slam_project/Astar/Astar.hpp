@@ -1,42 +1,22 @@
-#ifndef ASTAR_HPP
-#define ASTAR_HPP
+#pragma once
 
-#include <iostream>
 #include <vector>
-#include <queue>
-#include <cmath>
-#include <unordered_map>
-#include <sstream>
-#include <algorithm>
+#include <utility>
 #include <opencv2/opencv.hpp>
-#include <unistd.h>     // For usleep()
-#include <fcntl.h>      // For file control (O_RDWR, O_NOCTTY, etc.)
-#include <termios.h>    // For serial port settings
-#include "OccupancyGrid.hpp" // Include the OccupancyGrid header
 
-const double CELL_SIZE = 0.05; // 5cm per cell (must match OccupancyGrid resolution)
-const double LINEAR_VELOCITY = 0.03; // 0.07 m/s
+class OccupancyGrid; // Forward declaration
 
-struct Node {
-    int x, y;
-    double g, h, f;
-    Node* parent;
+class AStarPlanner {
+public:
+    AStarPlanner(const OccupancyGrid& grid);
 
-    Node(int x, int y, Node* parent = nullptr) : x(x), y(y), g(0), h(0), f(0), parent(parent) {}
+    // Compute path from start to goal in grid coordinates
+    std::vector<std::pair<int, int>> plan(int start_x, int start_y, int goal_x, int goal_y);
 
-    bool operator>(const Node& other) const {
-        return f > other.f;
-    }
+    // Optional: Draw path on an image
+    static void drawPath(cv::Mat& image, const std::vector<std::pair<int, int>>& path, const cv::Scalar& color);
+
+private:
+    const OccupancyGrid& grid_;
 };
 
-std::string getKey(int x, int y);
-
-bool isValid(int x, int y, const OccupancyGrid& grid);
-double heuristic(int x1, int y1, int x2, int y2);
-double heuristic(int x1, int y1, int x2, int y2);
-double heuristic(int x1, int y1, int x2, int y2);
-std::vector<Node> aStar(const OccupancyGrid& grid, int startX, int startY, int goalX, int goalY);
-void visualizePath(const OccupancyGrid& grid, const std::vector<Node>& path, int startX, int startY, int goalX, int goalY);
-void calculateVelocityCommands(const std::vector<Node>& path, double initial_orientation_deg);
-void createTestEnvironment(OccupancyGrid& grid);
-#endif

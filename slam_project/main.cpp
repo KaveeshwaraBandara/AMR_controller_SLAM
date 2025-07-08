@@ -61,6 +61,8 @@ int main() {
 
     VelocityEKF velocityEKF;
     PoseEKF poseEKF;
+    AStarPlanner planner(grid);
+
 
     //EKF ekf;
     OccupancyGrid grid(500, 500, 0.05f);
@@ -428,7 +430,27 @@ if (grid.isGoalSelected()) {
     // Use gx, gy in world coordinates as target for A*
 }
 
-    
+    Pose2D current_pose = poseEKF.getState();  // with x, y, theta
+  int start_x = static_cast<int>(current_pose.x / resolution) + grid.getOriginX();
+int start_y = static_cast<int>(current_pose.y / resolution) + grid.getOriginY();
+auto path = planner.plan(start_x, start_y, goal_x, goal_y);
+
+cv::Mat map_img(height, width, CV_8UC3);
+for (int y = 0; y < height; ++y) {
+    for (int x = 0; x < width; ++x) {
+        float cost = grid.getCost(x, y);
+        uchar val = std::isinf(cost) ? 0 : static_cast<uchar>(255 * (1.0f - std::min(cost, 1.0f)));
+        map_img.at<cv::Vec3b>(y, x) = cv::Vec3b(val, val, val);
+    }
+}
+
+AStarPlanner::drawPath(map_img, path, cv::Scalar(0, 255, 0));
+cv::circle(map_img, cv::Point(goal_x, goal_y), 4, cv::Scalar(0, 0, 255), -1);
+cv::circle(map_img, cv::Point(start_x, start_y), 4, cv::Scalar(255, 0, 0), -1);
+
+cv::imwrite("a_star_path.png", map_img);
+cv::imshow("A* Path", map_img);
+cv::waitKey(0);
     
     
     /*grid.updateCostMap(robot_radius);
