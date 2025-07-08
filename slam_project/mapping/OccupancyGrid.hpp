@@ -61,6 +61,11 @@ void drawGoal(cv::Mat& image) const;
 std::pair<float, float> getSelectedGoal() const;
 bool isGoalSelected() const;
 
+int getWidth() const;
+int getHeight() const;
+float getResolution() const;
+
+
 
 
 private:
