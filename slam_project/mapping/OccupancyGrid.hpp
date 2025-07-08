@@ -49,6 +49,7 @@ public:
 
     int getOriginX() const;
     int getOriginY() const;
+    void saveCostMapAsImage(const std::string& filename) const;
 
 
 private:

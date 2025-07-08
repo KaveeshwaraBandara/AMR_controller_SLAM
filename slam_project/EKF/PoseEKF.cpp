@@ -22,7 +22,7 @@ void PoseEKF::predict(float v, float w, float dt) {
     x_(2) += w * dt;
 
     // Normalize angle
-    x_(2) = std::atan2(std::sin(x_(2)), std::cos(x_(2)));
+    //x_(2) = std::atan2(std::sin(x_(2)), std::cos(x_(2)));
 
     // Jacobian F
     Matrix3f F = Matrix3f::Identity();

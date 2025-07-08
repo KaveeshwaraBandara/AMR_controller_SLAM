@@ -1,8 +1,10 @@
-#pragma once
-#include <vector>
-#include <Eigen/Dense>
+#ifndef ICP_MATCHER_HPP
+#define ICP_MATCHER_HPP
 
-// ICP using KNN with OpenCV but outputs Eigen
-Eigen::Matrix3f runICP(const std::vector<Eigen::Vector2f>& ref,
-                       const std::vector<Eigen::Vector2f>& target);
+#include <opencv2/opencv.hpp>
+#include <vector>
+
+cv::Mat runICP(const std::vector<cv::Point2f>& ref_scan, const std::vector<cv::Point2f>& cur_scan);
+
+#endif
 

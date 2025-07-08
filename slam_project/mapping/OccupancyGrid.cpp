@@ -327,3 +327,34 @@ void OccupancyGrid::showCostMap() const {
     cv::imshow("Cost Map", image);
     cv::waitKey(1);
 }
+
+
+void OccupancyGrid::saveCostMapAsImage(const std::string& filename) const {
+    cv::Mat image(height_, width_, CV_8UC1);
+
+    float max_cost = 1.0f;  // For scaling
+
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            float cost = cost_map_[y * width_ + x];
+            if (std::isinf(cost)) {
+                image.at<uchar>(y, x) = 0; // Black for obstacles/infinity
+            } else {
+                uchar value = static_cast<uchar>(255 * (1.0f - std::min(cost / max_cost, 1.0f)));
+                image.at<uchar>(y, x) = value;
+            }
+        }
+    }
+
+    // Optional: Add coordinate labels (same as in showCostMap)
+    for (int y = 0; y < height_; y += 20) {
+        for (int x = 0; x < width_; x += 20) {
+            std::string label = std::to_string(x) + "," + std::to_string(y);
+            cv::putText(image, label, cv::Point(x, y), cv::FONT_HERSHEY_SIMPLEX, 0.3, 100, 1);
+        }
+    }
+
+    cv::imwrite(filename, image);
+    std::cout << "[Info] Cost map saved as image: " << filename << std::endl;
+}
+
