@@ -422,7 +422,7 @@ grid.saveCostMapAsImage("cost_map.png");
 grid.showCostMapWithGoalSelection();
 
 // Access goal (optional for A*)
-if (!grid.isGoalSelected())return 0; 
+/*if (!grid.isGoalSelected())return 0; 
     auto [gx, gy] = grid.getSelectedGoal();
     std::cout << "[Main] Goal selected at: (" << gx << ", " << gy << ") meters\n";
     // Use gx, gy in world coordinates as target for A*
@@ -453,6 +453,11 @@ AStarPlanner planner(grid);
     cv::imwrite("a_star_path.png", map_img);
     cv::imshow("A* Path", map_img);
     cv::waitKey(0);
+*/
+
+Navigator navigator(grid, poseEKF, serial);
+navigator.setGoal();               // Click goal on cost map
+navigator.runNavigationLoop();     // Run full path + control loop
 
 
     

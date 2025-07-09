@@ -1,31 +1,33 @@
-// navigation/Navigation.hpp
+// navigation/Navigator.hpp
+
 #pragma once
+
 #include "OccupancyGrid.hpp"
 #include "Astar.hpp"
 #include "PoseEKF.hpp"
-#include "send.hpp"
+#include "SerialPort.hpp"
+#include <vector>
+#include <opencv2/opencv.hpp>
 
 class Navigator {
 public:
-    Navigator(OccupancyGrid& grid, AStarPlanner& planner, PoseEKF& poseEKF, SerialPort& serial);
+    Navigator(OccupancyGrid& grid, PoseEKF& ekf, SerialPort& serial);
 
-    void setGoal(float gx, float gy);  // world coordinates in meters
+    void setGoal();                     // User clicks on cost map
+    void setGoal(int gx, int gy);       // Optional manual setting
+
     void runNavigationLoop();
 
 private:
-    OccupancyGrid& grid;
-    AStarPlanner& planner;
-    PoseEKF& poseEKF;
-    SerialPort& serial;
-    
-    float goal_x, goal_y;
-    float resolution;
-    int originX, originY;
+    OccupancyGrid& grid_;
+    PoseEKF& poseEKF_;
+    SerialPort& serial_;
+    AStarPlanner planner_;
 
-    std::vector<std::pair<int, int>> planPath();
-    void sendVelocityToTarget(float robot_x, float robot_y, float robot_theta,
-                              float target_x, float target_y, float dt);
+    int goal_x_, goal_y_;
+    bool goal_set_ = false;
 
-    float distanceThreshold = 0.2f;
-    int stepAhead = 4;
+    void computeAndSendCommand(int curr_x, int curr_y, int goal_x, int goal_y, const std::vector<std::pair<int, int>>& path);
+    float normalizeAngle(float angle);
 };
+
