@@ -428,7 +428,7 @@ trajectory.push_back(current_pose);
     lidar.stop();
 
     //update cost map
-    float robot_radius = 0.3f;
+    float robot_radius = 0.7f;
     grid.updateCostMap(robot_radius);
 grid.saveCostMapAsImage("cost_map.png");
 
