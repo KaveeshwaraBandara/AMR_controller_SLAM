@@ -5,6 +5,7 @@
 #include "OccupancyGrid.hpp"
 #include "Astar.hpp"
 #include "PoseEKF.hpp"
+#include "VelocityEKF.hpp"
 #include "send.hpp"
 #include <vector>
 #include <opencv2/opencv.hpp>
@@ -35,16 +36,21 @@ std::vector<std::pair<float, float>> transformToGlobal(const std::vector<std::pa
 }
 
 private:
-    OccupancyGrid& grid_;
+    //LidarReader& lidar_;
+    //BNO055& imu_;
     PoseEKF& poseEKF_;
+    //VelocityEKF velocityEKF_;
+    OccupancyGrid& grid_;
+    AStarPlanner& planner_;
     SerialPort& serial_;
-    AStarPlanner planner_;
+    //std::vector<cv::Point2f> prev_cloud_;
+    //float slam_dt_ = 0.3f;
 
     int goal_x_, goal_y_;
     bool goal_set_ = false;
 
     void computeAndSendCommand(int curr_x, int curr_y, int goal_x, int goal_y, const std::vector<std::pair<int, int>>& path);
     float normalizeAngle(float angle);
-     void updatePoseFromSLAM();
+     //void updatePoseFromSLAM();
 };
 

@@ -69,7 +69,7 @@ void Navigator::runNavigationLoop() {
     }
 
     while (true) {
-      updatePoseFromSLAM();
+      //updatePoseFromSLAM();
         auto state = poseEKF_.getState();
         int curr_x = static_cast<int>(state(0) / grid_.getResolution()) + grid_.getOriginX();
         int curr_y = static_cast<int>(state(1) / grid_.getResolution()) + grid_.getOriginY();
@@ -99,7 +99,7 @@ void Navigator::runNavigationLoop() {
 
 
 
-static std::vector<cv::Point2f> toPointCloud(const std::vector<std::pair<float, float>>& scan) {
+/*static std::vector<cv::Point2f> toPointCloud(const std::vector<std::pair<float, float>>& scan) {
     std::vector<cv::Point2f> cloud;
     for (auto [angle_deg, dist_m] : scan) {
         float theta = angle_deg * CV_PI / 180.0f;
@@ -173,4 +173,4 @@ void Navigator::updatePoseFromSLAM() {
     });
     grid_.updateWithGlobalPoints(global_pts);
 }
-
+*/

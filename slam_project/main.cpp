@@ -385,24 +385,24 @@ ekf.predict(0.0f, 0.3f, dt_turn);
 
         serial.sendCommand(0,0);
         sleep(2);
-        float yaw1 = imu.readEulerAngles().yaw * M_PI / 180.0f;
-        auto turn_start = std::chrono::steady_clock::now();
+        yaw1 = imu.readEulerAngles().yaw * M_PI / 180.0f;
+        turn_start = std::chrono::steady_clock::now();
         serial.sendCommand(0, 0.3);
         usleep(10472000);  // or wait for sensor feedback
         serial.sendCommand(0, 0);
-        auto turn_end = std::chrono::steady_clock::now();
-        float yaw2 = imu.readEulerAngles().yaw * M_PI / 180.0f;
+        turn_end = std::chrono::steady_clock::now();
+        yaw2 = imu.readEulerAngles().yaw * M_PI / 180.0f;
         
-        float dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
+        dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
 //        poseEKF.predict(0.0f, 0.3f, dt_turn);
-        float dtheta = yaw2 - yaw1;
+        dtheta = yaw2 - yaw1;
 // Normalize between -π to π
 //while (dtheta > M_PI) dtheta -= 2 * M_PI;
 //while (dtheta < -M_PI) dtheta += 2 * M_PI;
 
 poseEKF.predict(0.0f, dtheta / dt_turn, dt_turn);
-auto pose_state = poseEKF.getState();
-Pose2D current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
+pose_state = poseEKF.getState();
+ current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
 trajectory.push_back(current_pose);
 
     lidar.stop();
@@ -450,8 +450,80 @@ AStarPlanner planner(grid);
 */
 
 
-navigator.setGoal();               // Click goal on cost map
-navigator.runNavigationLoop();     // Run full path + control loop
+//navigator.setGoal();               // Click goal on cost map
+//navigator.runNavigationLoop();     // Run full path + control loop
+
+while (true) {
+    // --- SLAM update: ICP + EKF ---
+    auto raw_scan = lidar.getScan();
+    auto current_cloud = toPointCloud(raw_scan);
+
+    float dx = 0, dy = 0, dtheta = 0;
+    float v_icp = 0, w_icp = 0;
+
+    if (!prev_cloud.empty()) {
+        cv::Mat Tr = runICP(prev_cloud, current_cloud);
+        dx = Tr.at<double>(0, 2);
+        dy = Tr.at<double>(1, 2);
+        dtheta = atan2(Tr.at<double>(1, 0), Tr.at<double>(0, 0));
+
+        v_icp = std::sqrt(dx * dx + dy * dy) / slam_dt;
+        w_icp = dtheta / slam_dt;
+    }
+
+    EulerAngles orientation = imu.readEulerAngles();
+    Vector3 angularVel = imu.readAngularVelocity();
+    float yaw_rate_imu = angularVel.z * M_PI / 180.0f;
+
+    // Velocity EKF
+    VelocityEKF::Vector2f vel_meas;
+    vel_meas << v_icp, yaw_rate_imu;
+    velocityEKF.predict(slam_dt);
+    velocityEKF.correct(vel_meas);
+    auto vel_est = velocityEKF.getState();
+
+    // Pose EKF
+    poseEKF.predict(vel_est(0), vel_est(1), slam_dt);
+
+    PoseEKF::Vector3f pose_meas;
+    auto pose_state = poseEKF.getState();
+    pose_meas << pose_state(0) + dx, pose_state(1) + dy, pose_state(2) + dtheta;
+    poseEKF.correct(pose_meas);
+
+    pose_state = poseEKF.getState();
+    Pose2D current_pose = { pose_state(0), pose_state(1), pose_state(2) };
+    prev_cloud = current_cloud;
+
+    // Update occupancy grid
+    auto global_pts = transformToGlobal(raw_scan, current_pose);
+    grid.updateWithGlobalPoints(global_pts);
+
+    // --- Path Planning ---
+    int curr_x = static_cast<int>(current_pose.x / grid.getResolution()) + grid.getOriginX();
+    int curr_y = static_cast<int>(current_pose.y / grid.getResolution()) + grid.getOriginY();
+
+    auto path = planner.plan(curr_x, curr_y, goal_x, goal_y);
+    if (path.empty()) {
+        std::cerr << "Path planning failed!\n";
+        serial.sendCommand(0.0, 0.0);
+        break;
+    }
+
+    // --- Velocity Command Generation ---
+    computeAndSendCommand(curr_x, curr_y, goal_x, goal_y, path);
+
+    // --- Goal check ---
+    float goal_x_m = (goal_x - grid.getOriginX()) * grid.getResolution();
+    float goal_y_m = (goal_y - grid.getOriginY()) * grid.getResolution();
+    float dist_to_goal = std::hypot(pose_state(0) - goal_x_m, pose_state(1) - goal_y_m);
+    if (dist_to_goal < 0.15f) {
+        std::cout << "Goal Reached!\n";
+        serial.sendCommand(0.0, 0.0);
+        break;
+    }
+
+    usleep(300000);  // 300 ms
+}
 
 
     
