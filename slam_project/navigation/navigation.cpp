@@ -1,6 +1,6 @@
 // navigation/Navigator.cpp
 
-#include "Navigator.hpp"
+#include "navigation.hpp"
 #include <cmath>
 #include <unistd.h>
 #include <iostream>
@@ -69,6 +69,7 @@ void Navigator::runNavigationLoop() {
     }
 
     while (true) {
+      updatePoseFromSLAM();
         auto state = poseEKF_.getState();
         int curr_x = static_cast<int>(state(0) / grid_.getResolution()) + grid_.getOriginX();
         int curr_y = static_cast<int>(state(1) / grid_.getResolution()) + grid_.getOriginY();
@@ -94,5 +95,82 @@ void Navigator::runNavigationLoop() {
 
         usleep(300000); // 300 ms delay between steps
     }
+}
+
+
+
+static std::vector<cv::Point2f> toPointCloud(const std::vector<std::pair<float, float>>& scan) {
+    std::vector<cv::Point2f> cloud;
+    for (auto [angle_deg, dist_m] : scan) {
+        float theta = angle_deg * CV_PI / 180.0f;
+        cloud.emplace_back(dist_m * cos(theta), dist_m * sin(theta));
+    }
+    return cloud;
+}
+
+static std::vector<std::pair<float, float>> transformToGlobal(const std::vector<std::pair<float, float>>& scan, const Pose2D& pose) {
+    std::vector<std::pair<float, float>> global;
+    float c = cos(pose.theta), s = sin(pose.theta);
+    for (auto [angle_deg, dist_m] : scan) {
+        float theta = angle_deg * CV_PI / 180.0f;
+        float x = dist_m * cos(theta), y = dist_m * sin(theta);
+        float gx = x * c - y * s + pose.x;
+        float gy = x * s + y * c + pose.y;
+        global.emplace_back(gx, gy);
+    }
+    return global;
+}
+
+
+
+void Navigator::updatePoseFromSLAM() {
+    auto raw_scan = lidar_.getScan();
+    auto current_cloud = toPointCloud(raw_scan);
+
+    float v_icp = 0.0f, w_icp = 0.0f, dx = 0.0f, dy = 0.0f, dtheta = 0.0f;
+    PoseEKF::Vector3f pose_meas;
+
+    if (!prev_cloud_.empty()) {
+        cv::Mat Tr = runICP(prev_cloud_, current_cloud);
+        dx = Tr.at<double>(0, 2);
+        dy = Tr.at<double>(1, 2);
+        dtheta = atan2(Tr.at<double>(1, 0), Tr.at<double>(0, 0));
+
+        v_icp = std::sqrt(dx*dx + dy*dy) / slam_dt_;
+        w_icp = dtheta / slam_dt_;
+    }
+
+    EulerAngles orientation = imu_.readEulerAngles();
+    Vector3 angularVel = imu_.readAngularVelocity();
+    float yaw_rate_imu = angularVel.z * M_PI / 180.0f;
+
+    // Velocity EKF
+    VelocityEKF::Vector2f vel_meas;
+    vel_meas << v_icp, yaw_rate_imu;
+
+    velocityEKF_.predict(slam_dt_);
+    velocityEKF_.correct(vel_meas);
+    auto vel_est = velocityEKF_.getState();
+
+    // Pose EKF
+    poseEKF_.predict(vel_est(0), vel_est(1), slam_dt_);
+
+    if (!prev_cloud_.empty()) {
+        auto pose_state = poseEKF_.getState();
+        pose_meas << pose_state(0) + dx, pose_state(1) + dy, pose_state(2) + dtheta;
+    } else {
+        pose_meas = poseEKF_.getState();
+    }
+
+    poseEKF_.correct(pose_meas);
+    prev_cloud_ = current_cloud;
+
+    // Update cost map if needed
+    auto global_pts = transformToGlobal(raw_scan, {
+        poseEKF_.getState()(0),
+        poseEKF_.getState()(1),
+        poseEKF_.getState()(2)
+    });
+    grid_.updateWithGlobalPoints(global_pts);
 }
 

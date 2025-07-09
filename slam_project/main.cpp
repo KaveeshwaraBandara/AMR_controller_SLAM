@@ -4,6 +4,7 @@
 #include "PoseEKF.hpp"
 #include "VelocityEKF.hpp"
 #include "BNO055.hpp"
+#include "navigation.hpp"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -20,27 +21,6 @@
 
 #define LOOP_INTERVAL_MS 500
 
-std::vector<cv::Point2f> toPointCloud(const std::vector<std::pair<float, float>>& scan) {
-    std::vector<cv::Point2f> cloud;
-    for (auto [angle_deg, dist_m] : scan) {
-        float theta = angle_deg * CV_PI / 180.0f;
-        cloud.emplace_back(dist_m * cos(theta), dist_m * sin(theta));
-    }
-    return cloud;
-}
-
-std::vector<std::pair<float, float>> transformToGlobal(const std::vector<std::pair<float, float>>& scan, const Pose2D& pose) {
-    std::vector<std::pair<float, float>> global;
-    float c = cos(pose.theta), s = sin(pose.theta);
-    for (auto [angle_deg, dist_m] : scan) {
-        float theta = angle_deg * CV_PI / 180.0f;
-        float x = dist_m * cos(theta), y = dist_m * sin(theta);
-        float gx = x * c - y * s + pose.x;
-        float gy = x * s + y * c + pose.y;
-        global.emplace_back(gx, gy);
-    }
-    return global;
-}
 
 int main() {
     LidarReader lidar("/dev/ttyUSB0", 1000000);
@@ -64,6 +44,7 @@ int main() {
 
     //EKF ekf;
     OccupancyGrid grid(500, 500, 0.05f);
+    Navigator navigator(grid, poseEKF, serial);
     std::vector<Pose2D> trajectory;
     std::vector<cv::Point2f> prev_cloud;
 
@@ -402,15 +383,28 @@ dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
 ekf.predict(0.0f, 0.3f, dt_turn);
 */
 
-serial.sendCommand(0,0);
+        serial.sendCommand(0,0);
         sleep(2);
-        //float yaw1 = imu.readEulerAngles().yaw * M_PI / 180.0f;
-        //auto turn_start = std::chrono::steady_clock::now();
+        float yaw1 = imu.readEulerAngles().yaw * M_PI / 180.0f;
+        auto turn_start = std::chrono::steady_clock::now();
         serial.sendCommand(0, 0.3);
         usleep(10472000);  // or wait for sensor feedback
         serial.sendCommand(0, 0);
-        //auto turn_end = std::chrono::steady_clock::now();
-    serial.sendCommand(0,0);
+        auto turn_end = std::chrono::steady_clock::now();
+        float yaw2 = imu.readEulerAngles().yaw * M_PI / 180.0f;
+        
+        float dt_turn = std::chrono::duration<float>(turn_end - turn_start).count();
+//        poseEKF.predict(0.0f, 0.3f, dt_turn);
+        float dtheta = yaw2 - yaw1;
+// Normalize between -π to π
+//while (dtheta > M_PI) dtheta -= 2 * M_PI;
+//while (dtheta < -M_PI) dtheta += 2 * M_PI;
+
+poseEKF.predict(0.0f, dtheta / dt_turn, dt_turn);
+auto pose_state = poseEKF.getState();
+Pose2D current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
+trajectory.push_back(current_pose);
+
     lidar.stop();
 
     //update cost map
@@ -455,7 +449,7 @@ AStarPlanner planner(grid);
     cv::waitKey(0);
 */
 
-Navigator navigator(grid, poseEKF, serial);
+
 navigator.setGoal();               // Click goal on cost map
 navigator.runNavigationLoop();     // Run full path + control loop
 
