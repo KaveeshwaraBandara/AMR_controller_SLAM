@@ -14,6 +14,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/imu
     ${PROJECT_SOURCE_DIR}/Communication
     ${PROJECT_SOURCE_DIR}/Astar
+    ${PROJECT_SOURCE_DIR}/navigation
     ${OpenCV_INCLUDE_DIRS}
 )
 
@@ -26,6 +27,7 @@ add_executable(main
     EKF/VelocityEKF.cpp
     imu/BNO055.cpp
     Astar/Astar.cpp
+    navigation/navigation.cpp
 )
 
 target_link_libraries(main
