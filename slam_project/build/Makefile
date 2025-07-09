@@ -321,6 +321,30 @@ mapping/OccupancyGrid.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s
 .PHONY : mapping/OccupancyGrid.cpp.s
 
+navigation/navigation.o: navigation/navigation.cpp.o
+.PHONY : navigation/navigation.o
+
+# target to build an object file
+navigation/navigation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/navigation/navigation.cpp.o
+.PHONY : navigation/navigation.cpp.o
+
+navigation/navigation.i: navigation/navigation.cpp.i
+.PHONY : navigation/navigation.i
+
+# target to preprocess a source file
+navigation/navigation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/navigation/navigation.cpp.i
+.PHONY : navigation/navigation.cpp.i
+
+navigation/navigation.s: navigation/navigation.cpp.s
+.PHONY : navigation/navigation.s
+
+# target to generate assembly for a file
+navigation/navigation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/navigation/navigation.cpp.s
+.PHONY : navigation/navigation.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -354,6 +378,9 @@ help:
 	@echo "... mapping/OccupancyGrid.o"
 	@echo "... mapping/OccupancyGrid.i"
 	@echo "... mapping/OccupancyGrid.s"
+	@echo "... navigation/navigation.o"
+	@echo "... navigation/navigation.i"
+	@echo "... navigation/navigation.s"
 .PHONY : help
 
 

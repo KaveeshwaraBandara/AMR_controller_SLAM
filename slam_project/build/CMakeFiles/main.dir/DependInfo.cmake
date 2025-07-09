@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/user/Desktop/SLAM/slam_project/lidar/LidarReader.cpp" "CMakeFiles/main.dir/lidar/LidarReader.cpp.o" "gcc" "CMakeFiles/main.dir/lidar/LidarReader.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
   "/home/user/Desktop/SLAM/slam_project/mapping/OccupancyGrid.cpp" "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o" "gcc" "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o.d"
+  "/home/user/Desktop/SLAM/slam_project/navigation/navigation.cpp" "CMakeFiles/main.dir/navigation/navigation.cpp.o" "gcc" "CMakeFiles/main.dir/navigation/navigation.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

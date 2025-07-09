@@ -4,7 +4,7 @@
 #include "PoseEKF.hpp"
 #include "VelocityEKF.hpp"
 #include "BNO055.hpp"
-//#include "navigation.hpp"
+#include "navigation.hpp"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -468,6 +468,11 @@ AStarPlanner planner(grid);
     cv::imshow("A* Path", map_img);
     cv::waitKey(0);
 
+    //[gx, gy] = grid.getSelectedGoal();
+//AStarPlanner planner(grid);
+Navigator navigator(grid, planner, poseEKF, serial);
+navigator.setGoal(gx, gy);
+navigator.navigateToGoal();
 
 
 

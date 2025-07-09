@@ -1,6 +1,8 @@
-CMakeFiles/main.dir/main.cpp.o: \
- /home/user/Desktop/SLAM/slam_project/main.cpp /usr/include/stdc-predef.h \
- /home/user/Desktop/SLAM/slam_project/lidar/LidarReader.hpp \
+CMakeFiles/main.dir/navigation/navigation.cpp.o: \
+ /home/user/Desktop/SLAM/slam_project/navigation/navigation.cpp \
+ /usr/include/stdc-predef.h \
+ /home/user/Desktop/SLAM/slam_project/navigation/navigation.hpp \
+ /home/user/Desktop/SLAM/slam_project/mapping/OccupancyGrid.hpp \
  /usr/include/c++/13/vector /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -52,15 +54,7 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/13/bits/uses_allocator.h \
  /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
  /usr/include/c++/13/utility /usr/include/c++/13/bits/stl_relops.h \
- /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar.h \
- /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_driver.h \
- /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
- /usr/include/c++/13/ext/aligned_buffer.h \
- /usr/include/c++/13/bits/node_handle.h \
- /usr/include/c++/13/bits/stl_map.h \
- /usr/include/c++/13/bits/stl_multimap.h \
- /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/string \
- /usr/include/c++/13/bits/stringfwd.h \
+ /usr/include/c++/13/string /usr/include/c++/13/bits/stringfwd.h \
  /usr/include/c++/13/bits/char_traits.h \
  /usr/include/c++/13/bits/postypes.h /usr/include/c++/13/cwchar \
  /usr/include/wchar.h \
@@ -127,14 +121,6 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/13/bits/charconv.h \
  /usr/include/c++/13/bits/basic_string.tcc \
- /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_cmd.h \
- /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_protocol.h \
- /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_types.h \
- /usr/include/c++/13/cstdint \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
- /home/user/Desktop/SLAM/slam_project/mapping/OccupancyGrid.hpp \
  /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/Dense \
  /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/Core \
  /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/Core/util/DisableStupidWarnings.h \
@@ -213,9 +199,11 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/13/bits/unordered_map.h \
  /usr/include/c++/13/bits/hashtable.h \
  /usr/include/c++/13/bits/hashtable_policy.h \
+ /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/bits/enable_special_members.h \
- /usr/include/c++/13/array /usr/include/c++/13/compare \
- /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/node_handle.h \
+ /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/array \
+ /usr/include/c++/13/compare /usr/include/c++/13/bits/stl_algo.h \
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/bits/stl_heap.h \
  /usr/include/c++/13/bits/uniform_int_dist.h \
@@ -234,6 +222,10 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/13/pstl/execution_defs.h \
  /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/Core/util/Constants.h \
  /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/Core/util/Meta.h \
+ /usr/include/c++/13/cstdint \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
  /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/Core/util/Assert.h \
  /usr/include/c++/13/cassert /usr/include/assert.h \
  /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/Core/util/ForwardDeclarations.h \
@@ -495,7 +487,9 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/opencv4/opencv2/dnn/dnn.hpp \
  /usr/include/opencv4/opencv2/core/async.hpp /usr/include/c++/13/chrono \
  /usr/include/opencv4/opencv2/dnn/version.hpp \
- /usr/include/opencv4/opencv2/dnn/dict.hpp \
+ /usr/include/opencv4/opencv2/dnn/dict.hpp /usr/include/c++/13/map \
+ /usr/include/c++/13/bits/stl_tree.h /usr/include/c++/13/bits/stl_map.h \
+ /usr/include/c++/13/bits/stl_multimap.h \
  /usr/include/opencv4/opencv2/dnn/layer.hpp \
  /usr/include/opencv4/opencv2/dnn/dnn.inl.hpp \
  /usr/include/opencv4/opencv2/dnn/utils/inference_engine.hpp \
@@ -577,12 +571,8 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/opencv4/opencv2/video.hpp \
  /usr/include/opencv4/opencv2/video/tracking.hpp \
  /usr/include/opencv4/opencv2/video/background_segm.hpp \
- /home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.hpp \
- /home/user/Desktop/SLAM/slam_project/EKF/PoseEKF.hpp \
- /home/user/Desktop/SLAM/slam_project/EKF/VelocityEKF.hpp \
- /home/user/Desktop/SLAM/slam_project/imu/BNO055.hpp \
- /home/user/Desktop/SLAM/slam_project/navigation/navigation.hpp \
  /home/user/Desktop/SLAM/slam_project/Astar/Astar.hpp \
+ /home/user/Desktop/SLAM/slam_project/EKF/PoseEKF.hpp \
  /home/user/Desktop/SLAM/slam_project/Communication/send.hpp \
  /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
@@ -606,6 +596,4 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h \
  /usr/include/x86_64-linux-gnu/bits/termios-tcflow.h \
  /usr/include/x86_64-linux-gnu/bits/termios-misc.h \
- /usr/include/x86_64-linux-gnu/sys/ttydefaults.h \
- /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
- /usr/include/c++/13/bits/this_thread_sleep.h
+ /usr/include/x86_64-linux-gnu/sys/ttydefaults.h
