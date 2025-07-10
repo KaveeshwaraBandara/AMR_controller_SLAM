@@ -535,3 +535,23 @@ bool OccupancyGrid::isGoalSelected() const {
 
 
 
+cv::Mat OccupancyGrid::toImage() const {
+    cv::Mat image(height_, width_, CV_8UC1);
+
+    for (int y = 0; y < height_; ++y) {
+        for (int x = 0; x < width_; ++x) {
+            float val = getLogOdds(x, y);
+            uchar pixel;
+            if (val > 1.0f)
+                pixel = 0;          // Occupied → black
+            else if (val < -1.0f)
+                pixel = 255;        // Free → white
+            else
+                pixel = 128;        // Unknown → gray
+            image.at<uchar>(y, x) = pixel;
+        }
+    }
+
+    return image;
+}
+

@@ -88,10 +88,10 @@ void Navigator::navigateToGoal() {
         // Compute path to goal
         int start_x = static_cast<int>(x / grid_.getResolution()) + grid_.getOriginX();
         int start_y = static_cast<int>(y / grid_.getResolution()) + grid_.getOriginY();
-        int goal_x = static_cast<int>(goal_x_ / grid_.getResolution()) + grid_.getOriginX();
-        int goal_y = static_cast<int>(goal_y_ / grid_.getResolution()) + grid_.getOriginY();
+        //int goal_x = static_cast<int>(goal_x_ / grid_.getResolution()) + grid_.getOriginX();
+        //int goal_y = static_cast<int>(goal_y_ / grid_.getResolution()) + grid_.getOriginY();
 
-        auto path = planner_.plan(start_x, start_y, goal_x, goal_y);
+        auto path = planner_.plan(start_x, start_y, goal_x_, goal_y_);
         if (path.empty()) {
             std::cout << "[Navigator] No path found\n";
             serial_.sendCommand(0, 0);
@@ -124,6 +124,12 @@ void Navigator::navigateToGoal() {
         float angular = std::clamp(angle_error, -0.5f, 0.5f);
 
         serial_.sendCommand(linear, angular);
+
+        //auto pose_statedeb = poseEKF.getState();
+Pose2D robot_pose = {pose(0), pose(1), pose(2)};
+drawNavigationDebug(grid_, path, robot_pose, goal_x_, goal_y_);
+
+        
 
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }

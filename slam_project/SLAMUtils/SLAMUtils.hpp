@@ -8,6 +8,7 @@
 #include <vector>
 #include <utility>
 #include <thread>
+#include "navigation.hpp"
 
 void updateSLAM(const std::vector<std::pair<float, float>>& scan,
                 const EulerAngles& orientation,
@@ -18,3 +19,8 @@ void updateSLAM(const std::vector<std::pair<float, float>>& scan,
                 std::vector<Pose2D>& trajectory,
                 OccupancyGrid& grid,
                 float dt);
+                
+                void drawNavigationDebug(const OccupancyGrid& grid,
+                    const std::vector<std::pair<int, int>>& path,
+                    const Pose2D& robot_pose,
+                    int goal_x, int goal_y);

@@ -90,3 +90,35 @@ grid.updateWithGlobalPoints(global_points);
 
 prev_cloud = current_cloud;
 }
+
+
+void drawNavigationDebug(const OccupancyGrid& grid,
+    const std::vector<std::pair<int, int>>& path,
+    const Pose2D& robot_pose,
+    int goal_x, int goal_y)
+{
+cv::Mat debug_img = grid.toImage();
+
+// Draw path
+for (const auto& [x, y] : path) {
+cv::circle(debug_img, cv::Point(x, y), 1, cv::Scalar(255, 255, 0), -1);
+}
+
+// Draw robot pose
+int robot_x = static_cast<int>(robot_pose.x / grid.getResolution()) + grid.getOriginX();
+int robot_y = static_cast<int>(robot_pose.y / grid.getResolution()) + grid.getOriginY();
+cv::circle(debug_img, cv::Point(robot_x, robot_y), 4, cv::Scalar(0, 255, 0), -1);
+
+// Heading line
+int line_length = 10;
+int end_x = static_cast<int>(robot_x + line_length * std::cos(robot_pose.theta));
+int end_y = static_cast<int>(robot_y + line_length * std::sin(robot_pose.theta));
+cv::line(debug_img, cv::Point(robot_x, robot_y), cv::Point(end_x, end_y), cv::Scalar(0, 255, 0), 1);
+
+// Draw goal
+cv::circle(debug_img, cv::Point(goal_x, goal_y), 4, cv::Scalar(0, 0, 255), -1);
+
+// Display
+cv::imshow("SLAM Navigation Debug", debug_img);
+cv::waitKey(1);
+}

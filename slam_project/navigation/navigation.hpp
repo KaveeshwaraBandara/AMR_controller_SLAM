@@ -19,7 +19,7 @@ Navigator(OccupancyGrid& grid,
     std::vector<Pose2D>& trajectory,
     std::vector<cv::Point2f>& prev_cloud,
     SerialPort& serial);
-
+    int goal_x_, goal_y_;
     void setGoal(int gx, int gy);
     void navigateToGoal();  // <-- Step 2 here
 
@@ -33,7 +33,7 @@ LidarReader& lidar_;
 std::vector<Pose2D>& trajectory_;
 std::vector<cv::Point2f>& prev_cloud_;
 SerialPort& serial_;
-    int goal_x_, goal_y_;
+    
     bool goal_set_ = false;
 
     std::vector<std::pair<float, float>> convertPathToWorld(const std::vector<std::pair<int, int>>& path);
