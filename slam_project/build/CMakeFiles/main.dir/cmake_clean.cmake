@@ -19,6 +19,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o.d"
   "CMakeFiles/main.dir/navigation/navigation.cpp.o"
   "CMakeFiles/main.dir/navigation/navigation.cpp.o.d"
+  "CMakeFiles/main.dir/trajectoryVizualizer/Trajviz.cpp.o"
+  "CMakeFiles/main.dir/trajectoryVizualizer/Trajviz.cpp.o.d"
   "main"
   "main.pdb"
 )

@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <iostream>
 #include "SLAMUtils.hpp"
+#include "Trajviz.hpp"
 
 Navigator::Navigator(OccupancyGrid& grid,
     AStarPlanner& planner,
@@ -19,7 +20,7 @@ trajectory_(trajectory), prev_cloud_(prev_cloud),
 serial_(serial) {}
 
 
-void Navigator::setGoal(int gx, int gy) {
+void Navigator::setGoal(float gx, float gy) {
     goal_x_ = static_cast<int>(gx / grid_.getResolution()) + grid_.getOriginX();
     goal_y_ = static_cast<int>(gy / grid_.getResolution()) + grid_.getOriginY();
 //goal_x_ = gx;    
@@ -79,13 +80,13 @@ std::cout << "[SLAM] prev_cloud size at entry: " << prev_cloud_.size() << "\n";
 
 constexpr float goal_tolerance = 0.1f;     // meters
     constexpr float angle_tolerance = 0.3f;    // radians
-    constexpr int max_steps = 100;
-    constexpr int step_delay_ms = 100;
+    constexpr int max_steps = 500;
+    constexpr int step_delay_ms = 500;
 
-
+    auto last_time = std::chrono::steady_clock::now();
     for (int step = 0; step < max_steps; ++step) {  // limit for demo
         // Get current time
-        static auto last_time = std::chrono::steady_clock::now();
+        
         auto now = std::chrono::steady_clock::now();
         float dt = std::chrono::duration<float>(now - last_time).count();
         last_time = now;
@@ -126,11 +127,11 @@ std::cout << "[Navigator] start cost"<<grid_.getCost(start_x,start_y)<<"\n";
         }
 
         // Determine next move
-        if (path.size() < 2) {
+       /* if (path.size() < 2) {
             std::cout << "[Navigator] Goal reached\n";
             serial_.sendCommand(0, 0);
             break;
-        }
+        }*/
 //std::cout << "HELLO\n";
        /* auto [next_x, next_y] = path[1];
         float target_world_x = (next_x - grid_.getOriginX()) * grid_.getResolution();
@@ -169,7 +170,9 @@ std::cout << "[Navigator] start cost"<<grid_.getCost(start_x,start_y)<<"\n";
         }
 
         // Choose a further target to avoid jerky motion
-        size_t next_index = std::min<size_t>(2, path.size() - 1);
+        //size_t next_index = std::min<size_t>(2, path.size() - 1);
+        size_t next_index = std::min<size_t>(2, std::max<size_t>(1, path.size() - 1));
+
         auto [next_x, next_y] = path[next_index];
         float target_world_x = (next_x - grid_.getOriginX()) * grid_.getResolution();
         float target_world_y = (next_y - grid_.getOriginY()) * grid_.getResolution();
@@ -184,6 +187,7 @@ std::cout << "[Navigator] start cost"<<grid_.getCost(start_x,start_y)<<"\n";
 
     serial_.sendCommand(0, 0);
     std::cout << "[Navigator] Navigation complete\n";
+    TrajectoryVisualizer::drawTrajectoryOnMap("cost_map_debugviz.png", trajectory_, grid_, {goal_x_, goal_y_});
 }
 
 

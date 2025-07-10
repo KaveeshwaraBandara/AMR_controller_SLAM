@@ -21,7 +21,7 @@ Navigator(OccupancyGrid& grid,
     std::vector<cv::Point2f>& prev_cloud,
     SerialPort& serial);
 	Pose2D current_pose;
-    void setGoal(int gx, int gy);
+    void setGoal(float gx, float gy);
     void navigateToGoal();  // <-- Step 2 here
 	int goal_x_, goal_y_;
     PoseEKF::Vector3f statee;

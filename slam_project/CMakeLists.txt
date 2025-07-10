@@ -16,6 +16,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Astar
     ${PROJECT_SOURCE_DIR}/navigation
     ${PROJECT_SOURCE_DIR}/SLAMUtils
+    ${PROJECT_SOURCE_DIR}/trajectoryVizualizer
     ${OpenCV_INCLUDE_DIRS}
 )
 
@@ -30,6 +31,7 @@ add_executable(main
     Astar/Astar.cpp
     navigation/navigation.cpp
     SLAMUtils/SLAMUtils.cpp
+    trajectoryVizualizer/Trajviz.cpp
 )
 
 target_link_libraries(main

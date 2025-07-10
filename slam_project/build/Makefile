@@ -369,6 +369,30 @@ navigation/navigation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/navigation/navigation.cpp.s
 .PHONY : navigation/navigation.cpp.s
 
+trajectoryVizualizer/Trajviz.o: trajectoryVizualizer/Trajviz.cpp.o
+.PHONY : trajectoryVizualizer/Trajviz.o
+
+# target to build an object file
+trajectoryVizualizer/Trajviz.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/trajectoryVizualizer/Trajviz.cpp.o
+.PHONY : trajectoryVizualizer/Trajviz.cpp.o
+
+trajectoryVizualizer/Trajviz.i: trajectoryVizualizer/Trajviz.cpp.i
+.PHONY : trajectoryVizualizer/Trajviz.i
+
+# target to preprocess a source file
+trajectoryVizualizer/Trajviz.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/trajectoryVizualizer/Trajviz.cpp.i
+.PHONY : trajectoryVizualizer/Trajviz.cpp.i
+
+trajectoryVizualizer/Trajviz.s: trajectoryVizualizer/Trajviz.cpp.s
+.PHONY : trajectoryVizualizer/Trajviz.s
+
+# target to generate assembly for a file
+trajectoryVizualizer/Trajviz.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/trajectoryVizualizer/Trajviz.cpp.s
+.PHONY : trajectoryVizualizer/Trajviz.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -408,6 +432,9 @@ help:
 	@echo "... navigation/navigation.o"
 	@echo "... navigation/navigation.i"
 	@echo "... navigation/navigation.s"
+	@echo "... trajectoryVizualizer/Trajviz.o"
+	@echo "... trajectoryVizualizer/Trajviz.i"
+	@echo "... trajectoryVizualizer/Trajviz.s"
 .PHONY : help
 
 
