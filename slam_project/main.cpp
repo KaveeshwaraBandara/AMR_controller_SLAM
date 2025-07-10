@@ -424,8 +424,9 @@ poseEKF.predict(0.0f, dtheta / dt_turn, dt_turn);
 pose_state = poseEKF.getState();
  current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
 trajectory.push_back(current_pose);
-
-    lidar.stop();
+std::cout << "final pose after full mapping"<<pose_state(0)<<", "<<pose_state(1)<<"\n";
+grid.saveAsImageWithTrajectory("map_with_ellipse_aftermapping.png", trajectory);
+    //lidar.stop();
 
     //update cost map
     float robot_radius = 0.7f;
@@ -460,6 +461,8 @@ AStarPlanner planner(grid);
         }
     }
 
+
+std::cout << "[Navigator] goal main one"<<goal_x<<", "<<goal_y<<"\n";
     AStarPlanner::drawPath(map_img, path, cv::Scalar(0, 255, 0));
     cv::circle(map_img, cv::Point(goal_x, goal_y), 4, cv::Scalar(0, 0, 255), -1);
     cv::circle(map_img, cv::Point(start_x, start_y), 4, cv::Scalar(255, 0, 0), -1);
@@ -474,10 +477,11 @@ AStarPlanner planner(grid);
 Navigator navigator(grid, planner, poseEKF, velocityEKF, imu, lidar, trajectory, prev_cloud, serial);
 
 navigator.setGoal(gx, gy);
+std::cout << "[Navigator] goal main two"<<goal_x<<", "<<goal_y<<"\n";
 navigator.navigateToGoal();
+std::cout << "[Navigator] goal main last"<<goal_x<<", "<<goal_y<<"\n";
 
-
-
-    grid.saveAsImageWithTrajectory("map_with_ellipse_full.png", trajectory);
+lidar.stop();
+    grid.saveAsImageWithTrajectory("map_with_ellipse_full_navigation.png", trajectory);
     return 0;
 }

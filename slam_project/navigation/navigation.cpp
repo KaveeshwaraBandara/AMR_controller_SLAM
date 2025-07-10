@@ -22,8 +22,10 @@ serial_(serial) {}
 void Navigator::setGoal(int gx, int gy) {
     goal_x_ = static_cast<int>(gx / grid_.getResolution()) + grid_.getOriginX();
     goal_y_ = static_cast<int>(gy / grid_.getResolution()) + grid_.getOriginY();
-    //goal_y_ = gy;
-    goal_set_ = true;
+//goal_x_ = gx;    
+//goal_y_ = gy;
+    
+goal_set_ = true;
 }
 
 std::vector<std::pair<float, float>> Navigator::convertPathToWorld(const std::vector<std::pair<int, int>>& path) {
@@ -62,8 +64,12 @@ void Navigator::navigateToGoal() {
     if (!goal_set_) return;
 
     std::cout << "[Navigator] Starting navigation...\n";
+prev_cloud_.clear();
 
-    for (int step = 0; step < 200; ++step) {  // limit for demo
+std::cout << "[SLAM] prev_cloud size at entry: " << prev_cloud_.size() << "\n";
+
+
+    for (int step = 0; step < 50; ++step) {  // limit for demo
         // Get current time
         static auto last_time = std::chrono::steady_clock::now();
         auto now = std::chrono::steady_clock::now();
@@ -74,16 +80,19 @@ void Navigator::navigateToGoal() {
         EulerAngles orientation = imu_.readEulerAngles();
         Vector3 angularVel = imu_.readAngularVelocity();
 
+//float yaw_imu = orientaion.yaw*M_PI/180.0f;
+//float yaw_rate_imu = angularVel.z*M_PI/180.0f;
+
         // Get Lidar scan
         auto scan = lidar_.getScan();
-
+	//auto current_cloud = toPointCloud(scan);
         // Update pose using SLAM
         updateSLAM(scan, orientation, angularVel,
-                   prev_cloud_, velocityEKF_, poseEKF_, trajectory_, grid_, dt);
+                   prev_cloud_, velocityEKF_, poseEKF_, trajectory_, grid_, dt,current_pose,statee);
 
         // Get current pose
-        auto pose = poseEKF_.getState();
-        float x = pose(0), y = pose(1), theta = pose(2);
+        //auto pose = poseEKF_.getState();
+        float x = statee(0), y = statee(1), theta = statee(2);
 
         // Compute path to goal
         int start_x = static_cast<int>(x / grid_.getResolution()) + grid_.getOriginX();
@@ -92,6 +101,10 @@ void Navigator::navigateToGoal() {
         //int goal_y = static_cast<int>(goal_y_ / grid_.getResolution()) + grid_.getOriginY();
 
         auto path = planner_.plan(start_x, start_y, goal_x_, goal_y_);
+std::cout << "[Navigator] start inside"<<start_x<<", "<<start_y<<"\n";	
+std::cout << "[Navigator] goal inside"<<goal_x_<<", "<<goal_y_<<"\n";
+	std::cout << "[Navigator] goal cost"<<grid_.getCost(goal_x_,goal_y_)<<"\n";
+std::cout << "[Navigator] start cost"<<grid_.getCost(start_x,start_y)<<"\n";
         if (path.empty()) {
             std::cout << "[Navigator] No path found\n";
             serial_.sendCommand(0, 0);
@@ -104,34 +117,30 @@ void Navigator::navigateToGoal() {
             serial_.sendCommand(0, 0);
             break;
         }
-
+//std::cout << "HELLO\n";
         auto [next_x, next_y] = path[1];
         float target_world_x = (next_x - grid_.getOriginX()) * grid_.getResolution();
         float target_world_y = (next_y - grid_.getOriginY()) * grid_.getResolution();
-
+//std::cout << "SAHAN\n";
         float dx = target_world_x - x;
         float dy = target_world_y - y;
         float desired_theta = atan2(dy, dx);
         float angle_error = desired_theta - theta;
-
+//std::cout << "LAHIRU\n";
         // Normalize angle
-        while (angle_error > M_PI) angle_error -= 2 * M_PI;
-        while (angle_error < -M_PI) angle_error += 2 * M_PI;
-
+        //while (angle_error > M_PI) angle_error -= 2 * M_PI;
+//std::cout << "KURUPPU\n";
+        //while (angle_error < -M_PI) angle_error += 2 * M_PI;
+//std::cout << "PASINDHU\n";
         float distance = std::sqrt(dx * dx + dy * dy);
 
-        float linear = std::clamp(distance, 0.0f, 0.1f);
-        float angular = std::clamp(angle_error, -0.5f, 0.5f);
-
+        float linear = std::clamp(distance, 0.0f, 0.7f);
+        float angular = std::clamp(angle_error, -0.2f, 0.2f);
+//std::cout << "KOLLO\n";
         serial_.sendCommand(linear, angular);
 
-        //auto pose_statedeb = poseEKF.getState();
-Pose2D robot_pose = {pose(0), pose(1), pose(2)};
-drawNavigationDebug(grid_, path, robot_pose, goal_x_, goal_y_);
-
-        
-
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
+//std::cout << "GODA\n";
     }
 
     serial_.sendCommand(0, 0);

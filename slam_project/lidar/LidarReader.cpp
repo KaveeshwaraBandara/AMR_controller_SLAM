@@ -45,11 +45,11 @@ std::vector<std::pair<float, float>> LidarReader::getScan() {
             if (nodes[i].dist_mm_q2 != 0)
             if(angle <=100 || angle>=260){
                 scan.emplace_back(angle, dist);
-                printf("%s theta: %03.2f Dist: %08.2f Q: %d \n", 
+                /*printf("%s theta: %03.2f Dist: %08.2f Q: %d \n", 
                     (nodes[i].flag & SL_LIDAR_RESP_HQ_FLAG_SYNCBIT) ?"S ":"  ", 
                     angle,
                     dist,
-                    nodes[i].quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);
+                    nodes[i].quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);*/
         }
         }
     }

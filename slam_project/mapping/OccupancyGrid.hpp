@@ -52,8 +52,7 @@ public:
     void saveCostMapAsImage(const std::string& filename) const;
     void showCostMapWithClick();
     
-    cv::Mat toImage() const;
-
+    
  
 
 // --- New Methods ---

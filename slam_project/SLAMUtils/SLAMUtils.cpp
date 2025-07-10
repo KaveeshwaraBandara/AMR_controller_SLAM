@@ -42,8 +42,12 @@ void updateSLAM(const std::vector<std::pair<float, float>>& scan,
     PoseEKF& poseEKF,
     std::vector<Pose2D>& trajectory,
     OccupancyGrid& grid,
-    float dt)
+    float dt,Pose2D& current_pose,PoseEKF::Vector3f& statee)
 {
+std::cout << "insideupslam\n";
+/*if(prev_cloud.empty()){
+prev_cloud = toPointCloud(scan);
+return;}*/
 float yaw_imu = orientation.yaw * M_PI / 180.0f;
 float yaw_rate_imu = angularVel.z * M_PI / 180.0f;
 
@@ -52,7 +56,9 @@ auto current_cloud = toPointCloud(scan);
 float v_icp = 0.0f, w_icp = 0.0f, dx = 0.0f, dy = 0.0f, dtheta = 0.0f;
 
 if (!prev_cloud.empty()) {
+
 cv::Mat Tr = runICP(prev_cloud, current_cloud);
+
 
 dx = Tr.at<double>(0, 2);
 dy = Tr.at<double>(1, 2);
@@ -61,7 +67,12 @@ dtheta = atan2(Tr.at<double>(1, 0), Tr.at<double>(0, 0));
 v_icp = std::sqrt(dx*dx + dy*dy) / dt;
 w_icp = dtheta / dt;
 }
-
+if(prev_cloud.empty()){
+std::cout << "[SLAM] First frame: prev_cloud is empty, skipping ICP\n";
+	prev_cloud = current_cloud;
+		
+	return;
+}
 VelocityEKF::Vector2f vel_meas;
 vel_meas << v_icp, yaw_rate_imu;
 
@@ -73,52 +84,22 @@ poseEKF.predict(vel_est(0), vel_est(1), dt);
 
 PoseEKF::Vector3f pose_meas;
 if (!prev_cloud.empty()) {
-auto pose_state = poseEKF.getState();
-pose_meas << pose_state(0) + dx, pose_state(1) + dy, pose_state(2) + dtheta;
+statee = poseEKF.getState();
+pose_meas << statee(0) + dx, statee(1) + dy, statee(2) + dtheta;
 } else {
 pose_meas = poseEKF.getState();
 }
 
 poseEKF.correct(pose_meas);
 
-auto pose_state = poseEKF.getState();
-Pose2D current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
+statee = poseEKF.getState();
+current_pose = { statee(0), statee(1), statee(2), poseEKF.getCovariance() };
 trajectory.push_back(current_pose);
-
+int start_x = static_cast<int>(statee(0) / 0.05) +250;
+        int start_y = static_cast<int>(statee(1) / 0.05) + 250;
+std::cout << "[Navigator] current"<<start_x<<", "<<start_y<<"\n";
 auto global_points = transformToGlobal(scan, current_pose);
 grid.updateWithGlobalPoints(global_points);
 
 prev_cloud = current_cloud;
-}
-
-
-void drawNavigationDebug(const OccupancyGrid& grid,
-    const std::vector<std::pair<int, int>>& path,
-    const Pose2D& robot_pose,
-    int goal_x, int goal_y)
-{
-cv::Mat debug_img = grid.toImage();
-
-// Draw path
-for (const auto& [x, y] : path) {
-cv::circle(debug_img, cv::Point(x, y), 1, cv::Scalar(255, 255, 0), -1);
-}
-
-// Draw robot pose
-int robot_x = static_cast<int>(robot_pose.x / grid.getResolution()) + grid.getOriginX();
-int robot_y = static_cast<int>(robot_pose.y / grid.getResolution()) + grid.getOriginY();
-cv::circle(debug_img, cv::Point(robot_x, robot_y), 4, cv::Scalar(0, 255, 0), -1);
-
-// Heading line
-int line_length = 10;
-int end_x = static_cast<int>(robot_x + line_length * std::cos(robot_pose.theta));
-int end_y = static_cast<int>(robot_y + line_length * std::sin(robot_pose.theta));
-cv::line(debug_img, cv::Point(robot_x, robot_y), cv::Point(end_x, end_y), cv::Scalar(0, 255, 0), 1);
-
-// Draw goal
-cv::circle(debug_img, cv::Point(goal_x, goal_y), 4, cv::Scalar(0, 0, 255), -1);
-
-// Display
-cv::imshow("SLAM Navigation Debug", debug_img);
-cv::waitKey(1);
 }
