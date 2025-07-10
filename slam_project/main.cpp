@@ -43,6 +43,64 @@ std::vector<std::pair<float, float>> transformToGlobal(const std::vector<std::pa
     return global;
 }
 
+void updateSLAM(const std::vector<std::pair<float, float>>& scan,
+    const EulerAngles& orientation,
+    const Vector3& angularVel,
+    std::vector<cv::Point2f>& prev_cloud,
+    VelocityEKF& velocityEKF,
+    PoseEKF& poseEKF,
+    std::vector<Pose2D>& trajectory,
+    OccupancyGrid& grid,
+    float dt)
+{
+float yaw_imu = orientation.yaw * M_PI / 180.0f;
+float yaw_rate_imu = angularVel.z * M_PI / 180.0f;
+
+auto current_cloud = toPointCloud(scan);
+
+float v_icp = 0.0f, w_icp = 0.0f, dx = 0.0f, dy = 0.0f, dtheta = 0.0f;
+
+if (!prev_cloud.empty()) {
+cv::Mat Tr = runICP(prev_cloud, current_cloud);
+
+dx = Tr.at<double>(0, 2);
+dy = Tr.at<double>(1, 2);
+dtheta = atan2(Tr.at<double>(1, 0), Tr.at<double>(0, 0));
+
+v_icp = std::sqrt(dx*dx + dy*dy) / dt;
+w_icp = dtheta / dt;
+}
+
+VelocityEKF::Vector2f vel_meas;
+vel_meas << v_icp, yaw_rate_imu;
+
+velocityEKF.predict(dt);
+velocityEKF.correct(vel_meas);
+auto vel_est = velocityEKF.getState();
+
+poseEKF.predict(vel_est(0), vel_est(1), dt);
+
+PoseEKF::Vector3f pose_meas;
+if (!prev_cloud.empty()) {
+auto pose_state = poseEKF.getState();
+pose_meas << pose_state(0) + dx, pose_state(1) + dy, pose_state(2) + dtheta;
+} else {
+pose_meas = poseEKF.getState();
+}
+
+poseEKF.correct(pose_meas);
+
+auto pose_state = poseEKF.getState();
+Pose2D current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
+trajectory.push_back(current_pose);
+
+auto global_points = transformToGlobal(scan, current_pose);
+grid.updateWithGlobalPoints(global_points);
+
+prev_cloud = current_cloud;
+}
+
+
 int main() {
     LidarReader lidar("/dev/ttyUSB0", 1000000);
     if (!lidar.connect()) {
@@ -77,8 +135,23 @@ int main() {
     //float v_icp = 0;
     //float w_icp = 0;
     
+
+    for (int i = 0; i < 100; ++i) {
+        auto scan = lidar.getScan();
+        EulerAngles orientation = imu.readEulerAngles();
+        Vector3 angVel = imu.readAngularVelocity();
     
-    for (int frame = 0; frame < 100; ++frame) {
+        auto now = std::chrono::steady_clock::now();
+        float dt = std::chrono::duration<float>(now - last_time).count();
+        last_time = now;
+    
+        updateSLAM(scan, orientation, angVel, prev_cloud, velocityEKF, poseEKF, trajectory, grid, dt);
+    
+        std::this_thread::sleep_for(std::chrono::milliseconds(LOOP_INTERVAL_MS));
+    }
+    
+    
+   /* for (int frame = 0; frame < 100; ++frame) {
         if (frame <= 30) {
             // Linear acceleration
             linear_vel = max_linear_velocity * (frame / 30.0f);
@@ -102,20 +175,9 @@ int main() {
         float yaw_imu = orientation.yaw * M_PI / 180.0f;
         float yaw_rate_imu = angularVel.z * M_PI / 180.0f;
 
-      //  imu.update();
-        //float v = imu.getLinearVelocity();
-        //float w = imu.getAngularVelocity();
-
-        //ekf.predict(v, w, dt);
-        
-        //float v = 0.03;
-        //float w = 0;
-
-//ekf.predict(v, w, dt);
 
 
         auto raw_scan = lidar.getScan();
-        //ekf.predict(v, w, dt);
         auto current_cloud = toPointCloud(raw_scan);
         
         
@@ -127,16 +189,6 @@ int main() {
             float dy = Tr.at<double>(1, 2);
             float dtheta = atan2(Tr.at<double>(1, 0), Tr.at<double>(0, 0));
 
-            //Eigen::Vector3f z;
-            /*z << ekf.getState()(0) + dx,
-                 ekf.getState()(1) + dy,
-                 ekf.getState()(2) + dtheta;
-            
-            ekf.correct(z);
-            Eigen::Vector3f x = ekf.getState();
-            Eigen::Matrix3f P = ekf.getCovariance();
-            trajectory.push_back({ x(0), x(1), x(2), P });
-            */
             v_icp = std::sqrt(dx*dx + dy*dy) / dt;
             w_icp = dtheta / dt;
 
@@ -170,27 +222,8 @@ int main() {
 
         prev_cloud = current_cloud;
         std::this_thread::sleep_for(std::chrono::milliseconds(LOOP_INTERVAL_MS));
+    }*/
 
-        
-        
-        
-        /*Eigen::Vector3f x = ekf.getState();
-        Pose2D pose = { x(0), x(1), x(2) };
-        trajectory.push_back(pose);
-
-        auto global_points = transformToGlobal(raw_scan, pose);
-        grid.updateWithGlobalPoints(global_points);
-        //grid.showLiveMap(trajectory);  // OpenCV visualization
-
-        prev_cloud = current_cloud;
-       // message = "set 0.03 0\n";
-	    //serial.sendData(message);
-        serial.sendCommand(0.03,0);
-        //if (cv::waitKey(10) == 'q') break;*/
-    }
-
-   // message = "off\n";
-    //serial.sendData(message);
         serial.sendCommand(0,0);
         sleep(2);
         float yaw1 = imu.readEulerAngles().yaw * M_PI / 180.0f;
@@ -228,7 +261,26 @@ prev_cloud2 = toPointCloud(raw_scan);
   grid.saveAsImageWithTrajectory("map_with_ellipse_foward.png", trajectory);
     
     linear_vel = 0.0f; 
-    for (int frame = 0; frame < 100; ++frame) {
+
+
+    for (int i = 0; i < 100; ++i) {
+        auto scan = lidar.getScan();
+        EulerAngles orientation = imu.readEulerAngles();
+        Vector3 angVel = imu.readAngularVelocity();
+    
+        auto now = std::chrono::steady_clock::now();
+        float dt = std::chrono::duration<float>(now - last_time).count();
+        last_time = now;
+    
+        updateSLAM(scan, orientation, angVel, prev_cloud2, velocityEKF, poseEKF, trajectory, grid, dt);
+    
+        std::this_thread::sleep_for(std::chrono::milliseconds(LOOP_INTERVAL_MS));
+    }
+    
+
+
+
+  /*  for (int frame = 0; frame < 100; ++frame) {
         if (frame <= 30) {
             // Linear acceleration
             linear_vel = max_linear_velocity * (frame / 30.0f);
@@ -343,7 +395,7 @@ if (!prev_cloud2.empty() && frame> 0) {
         serial.sendCommand(0.03,0);
         //if (cv::waitKey(10) == 'q') break;*/
     }
-
+*/
 
 
   
@@ -422,7 +474,7 @@ ekf.predict(0.0f, 0.3f, dt_turn);
 
 poseEKF.predict(0.0f, dtheta / dt_turn, dt_turn);
 pose_state = poseEKF.getState();
- current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
+current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
 trajectory.push_back(current_pose);
 
     lidar.stop();

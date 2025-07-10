@@ -6,11 +6,11 @@
 Navigator::Navigator(OccupancyGrid& grid, AStarPlanner& planner, PoseEKF& ekf, SerialPort& serial)
     : grid_(grid), planner_(planner), poseEKF_(ekf), serial_(serial) {}
 
-void Navigator::setGoal(float gx, float gy) {
+void Navigator::setGoal(int gx, int gy) {
     goal_x_ = static_cast<int>(gx / grid_.getResolution()) + grid_.getOriginX();
     goal_y_ = static_cast<int>(gy / grid_.getResolution()) + grid_.getOriginY();
     //goal_y_ = gy;
-    //goal_set_ = true;
+    goal_set_ = true;
 }
 
 std::vector<std::pair<float, float>> Navigator::convertPathToWorld(const std::vector<std::pair<int, int>>& path) {
