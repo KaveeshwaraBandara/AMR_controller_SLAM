@@ -98,8 +98,8 @@ trajectory.push_back(current_pose);
 int start_x = static_cast<int>(statee(0) / 0.05) +250;
         int start_y = static_cast<int>(statee(1) / 0.05) + 250;
 std::cout << "[Navigator] current"<<start_x<<", "<<start_y<<"\n";
-auto global_points = transformToGlobal(scan, current_pose);
-grid.updateWithGlobalPoints(global_points);
+//auto global_points = transformToGlobal(scan, current_pose);
+//grid.updateWithGlobalPoints(global_points);
 
 prev_cloud = current_cloud;
 }

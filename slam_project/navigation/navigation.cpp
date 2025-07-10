@@ -39,26 +39,34 @@ std::vector<std::pair<float, float>> Navigator::convertPathToWorld(const std::ve
 }
 
 void Navigator::computeAndSendCommand(float curr_x, float curr_y, float curr_theta,
-                                      float target_x, float target_y) {
-    float dx = target_x - curr_x;
-    float dy = target_y - curr_y;
-    float dist = std::sqrt(dx * dx + dy * dy);
-    float target_heading = std::atan2(dy, dx);
-    float angle_diff = target_heading - curr_theta;
+    float target_x, float target_y) {
+float dx = target_x - curr_x;
+float dy = target_y - curr_y;
+float distance = std::sqrt(dx * dx + dy * dy);
+float desired_theta = std::atan2(dy, dx);
+float angle_error = desired_theta - curr_theta;
 
-    // Normalize angle to [-π, π]
-    while (angle_diff > M_PI) angle_diff -= 2 * M_PI;
-    while (angle_diff < -M_PI) angle_diff += 2 * M_PI;
+// Normalize to [-π, π]
+while (angle_error > M_PI) angle_error -= 2 * M_PI;
+while (angle_error < -M_PI) angle_error += 2 * M_PI;
 
-    float v = std::min(0.05f, dist);  // Limit forward speed
-    float w = angle_diff;
+float v = 0.0f, w = 0.0f;
 
-    // Clamp angular speed
-    if (w > 1.0f) w = 1.0f;
-    if (w < -1.0f) w = -1.0f;
-
-    serial_.sendCommand(v, w);
+// Turn in place if angle error is large
+if (std::abs(angle_error) > 0.6f) {
+v = 0.0f;
+w = std::clamp(angle_error, -0.4f, 0.4f);
+} else {
+// Smooth forward motion with angular adjustment
+float v_scale = std::cos(angle_error);  // reduce speed on turns
+v = std::clamp(distance * v_scale, 0.0f, 0.03f);
+w = std::clamp(angle_error, -0.06f, 0.06f);
 }
+
+serial_.sendCommand(v, w);
+std::cout << "[Command] v: " << v << " m/s, w: " << w << " rad/s\n";
+}
+
 
 void Navigator::navigateToGoal() {
     if (!goal_set_) return;
@@ -69,7 +77,13 @@ prev_cloud_.clear();
 std::cout << "[SLAM] prev_cloud size at entry: " << prev_cloud_.size() << "\n";
 
 
-    for (int step = 0; step < 50; ++step) {  // limit for demo
+constexpr float goal_tolerance = 0.1f;     // meters
+    constexpr float angle_tolerance = 0.3f;    // radians
+    constexpr int max_steps = 100;
+    constexpr int step_delay_ms = 100;
+
+
+    for (int step = 0; step < max_steps; ++step) {  // limit for demo
         // Get current time
         static auto last_time = std::chrono::steady_clock::now();
         auto now = std::chrono::steady_clock::now();
@@ -118,28 +132,53 @@ std::cout << "[Navigator] start cost"<<grid_.getCost(start_x,start_y)<<"\n";
             break;
         }
 //std::cout << "HELLO\n";
-        auto [next_x, next_y] = path[1];
+       /* auto [next_x, next_y] = path[1];
         float target_world_x = (next_x - grid_.getOriginX()) * grid_.getResolution();
-        float target_world_y = (next_y - grid_.getOriginY()) * grid_.getResolution();
+        float target_world_y = (next_y - grid_.getOriginY()) * grid_.getResolution();*/
 //std::cout << "SAHAN\n";
-        float dx = target_world_x - x;
+        /*float dx = target_world_x - x;
         float dy = target_world_y - y;
         float desired_theta = atan2(dy, dx);
-        float angle_error = desired_theta - theta;
+        float angle_error = desired_theta - theta;*/
 //std::cout << "LAHIRU\n";
         // Normalize angle
         //while (angle_error > M_PI) angle_error -= 2 * M_PI;
 //std::cout << "KURUPPU\n";
         //while (angle_error < -M_PI) angle_error += 2 * M_PI;
 //std::cout << "PASINDHU\n";
-        float distance = std::sqrt(dx * dx + dy * dy);
+        /*float distance = std::sqrt(dx * dx + dy * dy);
 
         float linear = std::clamp(distance, 0.0f, 0.7f);
-        float angular = std::clamp(angle_error, -0.2f, 0.2f);
+        float angular = std::clamp(angle_error, -0.2f, 0.2f);*/
 //std::cout << "KOLLO\n";
-        serial_.sendCommand(linear, angular);
+        //serial_.sendCommand(linear, angular);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+        // If close to goal
+        float goal_world_x = (goal_x_ - grid_.getOriginX()) * grid_.getResolution();
+        float goal_world_y = (goal_y_ - grid_.getOriginY()) * grid_.getResolution();
+        float dist_to_goal = std::hypot(goal_world_x - x, goal_world_y - y);
+        float angle_to_goal = std::atan2(goal_world_y - y, goal_world_x - x);
+        float angle_error = angle_to_goal - theta;
+
+
+        if (dist_to_goal < goal_tolerance && std::abs(angle_error) < angle_tolerance) {
+            std::cout << "[Navigator] Goal reached within tolerance\n";
+            serial_.sendCommand(0, 0);
+            break;
+        }
+
+        // Choose a further target to avoid jerky motion
+        size_t next_index = std::min<size_t>(2, path.size() - 1);
+        auto [next_x, next_y] = path[next_index];
+        float target_world_x = (next_x - grid_.getOriginX()) * grid_.getResolution();
+        float target_world_y = (next_y - grid_.getOriginY()) * grid_.getResolution();
+
+        computeAndSendCommand(x, y, theta, target_world_x, target_world_y);
+
+
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(step_delay_ms));
 //std::cout << "GODA\n";
     }
 
