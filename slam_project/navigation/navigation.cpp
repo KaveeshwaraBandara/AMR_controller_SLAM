@@ -2,9 +2,22 @@
 #include <cmath>
 #include <unistd.h>
 #include <iostream>
+#include "SLAMUtils.hpp"
 
-Navigator::Navigator(OccupancyGrid& grid, AStarPlanner& planner, PoseEKF& ekf, SerialPort& serial)
-    : grid_(grid), planner_(planner), poseEKF_(ekf), serial_(serial) {}
+Navigator::Navigator(OccupancyGrid& grid,
+    AStarPlanner& planner,
+    PoseEKF& poseEKF,
+    VelocityEKF& velocityEKF,
+    BNO055& imu,
+    LidarReader& lidar,
+    std::vector<Pose2D>& trajectory,
+    std::vector<cv::Point2f>& prev_cloud,
+    SerialPort& serial)
+: grid_(grid), planner_(planner), poseEKF_(poseEKF),
+velocityEKF_(velocityEKF), imu_(imu), lidar_(lidar),
+trajectory_(trajectory), prev_cloud_(prev_cloud),
+serial_(serial) {}
+
 
 void Navigator::setGoal(int gx, int gy) {
     goal_x_ = static_cast<int>(gx / grid_.getResolution()) + grid_.getOriginX();
@@ -46,35 +59,78 @@ void Navigator::computeAndSendCommand(float curr_x, float curr_y, float curr_the
 }
 
 void Navigator::navigateToGoal() {
-    if (!goal_set_) {
-        std::cerr << "[Navigator] No goal set.\n";
-        return;
-    }
+    if (!goal_set_) return;
 
-    auto state = poseEKF_.getState();
-    int start_x = static_cast<int>(state(0) / grid_.getResolution()) + grid_.getOriginX();
-    int start_y = static_cast<int>(state(1) / grid_.getResolution()) + grid_.getOriginY();
+    std::cout << "[Navigator] Starting navigation...\n";
 
-    auto path = planner_.plan(start_x, start_y, goal_x_, goal_y_);
-    if (path.empty()) {
-        std::cerr << "[Navigator] Path planning failed.\n";
-        return;
-    }
+    for (int step = 0; step < 200; ++step) {  // limit for demo
+        // Get current time
+        static auto last_time = std::chrono::steady_clock::now();
+        auto now = std::chrono::steady_clock::now();
+        float dt = std::chrono::duration<float>(now - last_time).count();
+        last_time = now;
 
-    auto world_path = convertPathToWorld(path);
+        // Read IMU data
+        EulerAngles orientation = imu_.readEulerAngles();
+        Vector3 angularVel = imu_.readAngularVelocity();
 
-    for (auto [tx, ty] : world_path) {
+        // Get Lidar scan
+        auto scan = lidar_.getScan();
+
+        // Update pose using SLAM
+        updateSLAM(scan, orientation, angularVel,
+                   prev_cloud_, velocityEKF_, poseEKF_, trajectory_, grid_, dt);
+
+        // Get current pose
         auto pose = poseEKF_.getState();
-        float curr_x = pose(0), curr_y = pose(1), curr_theta = pose(2);
+        float x = pose(0), y = pose(1), theta = pose(2);
 
-        float dist = std::hypot(curr_x - tx, curr_y - ty);
-        if (dist < 0.1f) continue;
+        // Compute path to goal
+        int start_x = static_cast<int>(x / grid_.getResolution()) + grid_.getOriginX();
+        int start_y = static_cast<int>(y / grid_.getResolution()) + grid_.getOriginY();
+        int goal_x = static_cast<int>(goal_x_ / grid_.getResolution()) + grid_.getOriginX();
+        int goal_y = static_cast<int>(goal_y_ / grid_.getResolution()) + grid_.getOriginY();
 
-        computeAndSendCommand(curr_x, curr_y, curr_theta, tx, ty);
+        auto path = planner_.plan(start_x, start_y, goal_x, goal_y);
+        if (path.empty()) {
+            std::cout << "[Navigator] No path found\n";
+            serial_.sendCommand(0, 0);
+            break;
+        }
 
-        usleep(300000);  // Wait for motion
+        // Determine next move
+        if (path.size() < 2) {
+            std::cout << "[Navigator] Goal reached\n";
+            serial_.sendCommand(0, 0);
+            break;
+        }
+
+        auto [next_x, next_y] = path[1];
+        float target_world_x = (next_x - grid_.getOriginX()) * grid_.getResolution();
+        float target_world_y = (next_y - grid_.getOriginY()) * grid_.getResolution();
+
+        float dx = target_world_x - x;
+        float dy = target_world_y - y;
+        float desired_theta = atan2(dy, dx);
+        float angle_error = desired_theta - theta;
+
+        // Normalize angle
+        while (angle_error > M_PI) angle_error -= 2 * M_PI;
+        while (angle_error < -M_PI) angle_error += 2 * M_PI;
+
+        float distance = std::sqrt(dx * dx + dy * dy);
+
+        float linear = std::clamp(distance, 0.0f, 0.1f);
+        float angular = std::clamp(angle_error, -0.5f, 0.5f);
+
+        serial_.sendCommand(linear, angular);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 
-    serial_.sendCommand(0.0, 0.0);  // Stop
-    std::cout << "[Navigator] Reached goal (coarse mode).\n";
+    serial_.sendCommand(0, 0);
+    std::cout << "[Navigator] Navigation complete\n";
 }
+
+
+

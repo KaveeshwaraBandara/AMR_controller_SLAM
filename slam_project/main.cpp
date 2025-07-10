@@ -43,17 +43,6 @@ std::vector<std::pair<float, float>> transformToGlobal(const std::vector<std::pa
     return global;
 }
 
-
-void updateSLAM(const std::vector<std::pair<float, float>>& scan,
-    const EulerAngles& orientation,
-    const Vector3& angularVel,
-    std::vector<cv::Point2f>& prev_cloud,
-    VelocityEKF& velocityEKF,
-    PoseEKF& poseEKF,
-    std::vector<Pose2D>& trajectory,
-    OccupancyGrid& grid,
-    float dt);
-
 int main() {
     LidarReader lidar("/dev/ttyUSB0", 1000000);
     if (!lidar.connect()) {
@@ -131,10 +120,7 @@ int main() {
         
         
         float v_icp = 0.0f, w_icp = 0.0f, dx = 0.0f, dy = 0.0f, dtheta = 0.0f;
-        updateSLAM(raw_scan, orientation, angularVel,prev_cloud , velocityEKF, poseEKF, trajectory, grid, dt);
-
-
-        /*if (!prev_cloud.empty()) {
+        if (!prev_cloud.empty()) {
             cv::Mat Tr = runICP(prev_cloud, current_cloud);     //remembre this 2*3 matrix which i extracted in icp header file(r11......)
 
             float dx = Tr.at<double>(0, 2);
@@ -150,7 +136,7 @@ int main() {
             Eigen::Vector3f x = ekf.getState();
             Eigen::Matrix3f P = ekf.getCovariance();
             trajectory.push_back({ x(0), x(1), x(2), P });
-            
+            */
             v_icp = std::sqrt(dx*dx + dy*dy) / dt;
             w_icp = dtheta / dt;
 
@@ -182,7 +168,7 @@ int main() {
         auto global_points = transformToGlobal(raw_scan, current_pose);
         grid.updateWithGlobalPoints(global_points);
 
-        prev_cloud = current_cloud;*/
+        prev_cloud = current_cloud;
         std::this_thread::sleep_for(std::chrono::milliseconds(LOOP_INTERVAL_MS));
 
         
@@ -355,8 +341,8 @@ if (!prev_cloud2.empty() && frame> 0) {
        // message = "set 0.03 0\n";
 	    //serial.sendData(message);
         serial.sendCommand(0.03,0);
-        //if (cv::waitKey(10) == 'q') break;
-    }*/
+        //if (cv::waitKey(10) == 'q') break;*/
+    }
 
 
 
@@ -484,7 +470,9 @@ AStarPlanner planner(grid);
 
     //[gx, gy] = grid.getSelectedGoal();
 //AStarPlanner planner(grid);
-Navigator navigator(grid, planner, poseEKF, serial);
+//Navigator navigator(grid, planner, poseEKF, serial);
+Navigator navigator(grid, planner, poseEKF, velocityEKF, imu, lidar, trajectory, prev_cloud, serial);
+
 navigator.setGoal(gx, gy);
 navigator.navigateToGoal();
 
@@ -492,63 +480,4 @@ navigator.navigateToGoal();
 
     grid.saveAsImageWithTrajectory("map_with_ellipse_full.png", trajectory);
     return 0;
-}}
-
-
-
-void updateSLAM(const std::vector<std::pair<float, float>>& scan,
-    const EulerAngles& orientation,
-    const Vector3& angularVel,
-    std::vector<cv::Point2f>& prev_cloud,
-    VelocityEKF& velocityEKF,
-    PoseEKF& poseEKF,
-    std::vector<Pose2D>& trajectory,
-    OccupancyGrid& grid,
-    float dt)
-{
-float yaw_imu = orientation.yaw * M_PI / 180.0f;
-float yaw_rate_imu = angularVel.z * M_PI / 180.0f;
-
-auto current_cloud = toPointCloud(scan);
-
-float v_icp = 0.0f, w_icp = 0.0f, dx = 0.0f, dy = 0.0f, dtheta = 0.0f;
-
-if (!prev_cloud.empty()) {
-cv::Mat Tr = runICP(prev_cloud, current_cloud);
-
-dx = Tr.at<double>(0, 2);
-dy = Tr.at<double>(1, 2);
-dtheta = atan2(Tr.at<double>(1, 0), Tr.at<double>(0, 0));
-
-v_icp = std::sqrt(dx*dx + dy*dy) / dt;
-w_icp = dtheta / dt;
-}
-
-VelocityEKF::Vector2f vel_meas;
-vel_meas << v_icp, yaw_rate_imu;
-
-velocityEKF.predict(dt);
-velocityEKF.correct(vel_meas);
-auto vel_est = velocityEKF.getState();
-
-poseEKF.predict(vel_est(0), vel_est(1), dt);
-
-PoseEKF::Vector3f pose_meas;
-if (!prev_cloud.empty()) {
-auto pose_state = poseEKF.getState();
-pose_meas << pose_state(0) + dx, pose_state(1) + dy, pose_state(2) + dtheta;
-} else {
-pose_meas = poseEKF.getState();
-}
-
-poseEKF.correct(pose_meas);
-
-auto pose_state = poseEKF.getState();
-Pose2D current_pose = { pose_state(0), pose_state(1), pose_state(2), poseEKF.getCovariance() };
-trajectory.push_back(current_pose);
-
-auto global_points = transformToGlobal(scan, current_pose);
-grid.updateWithGlobalPoints(global_points);
-
-prev_cloud = current_cloud;
 }

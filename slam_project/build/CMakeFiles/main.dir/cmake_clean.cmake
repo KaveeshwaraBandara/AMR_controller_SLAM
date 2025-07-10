@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/EKF/PoseEKF.cpp.o.d"
   "CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o"
   "CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o.d"
+  "CMakeFiles/main.dir/SLAMUtils/SLAMUtils.cpp.o"
+  "CMakeFiles/main.dir/SLAMUtils/SLAMUtils.cpp.o.d"
   "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o"
   "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o.d"
   "CMakeFiles/main.dir/imu/BNO055.cpp.o"

@@ -2,20 +2,37 @@
 #include "OccupancyGrid.hpp"
 #include "Astar.hpp"
 #include "PoseEKF.hpp"
+#include "VelocityEKF.hpp"
 #include "send.hpp"
+#include "BNO055.hpp"
+#include "LidarReader.hpp"
+#include <opencv2/opencv.hpp>
 
 class Navigator {
 public:
-    Navigator(OccupancyGrid& grid, AStarPlanner& planner, PoseEKF& ekf, SerialPort& serial);
+Navigator(OccupancyGrid& grid,
+    AStarPlanner& planner,
+    PoseEKF& poseEKF,
+    VelocityEKF& velocityEKF,
+    BNO055& imu,
+    LidarReader& lidar,
+    std::vector<Pose2D>& trajectory,
+    std::vector<cv::Point2f>& prev_cloud,
+    SerialPort& serial);
 
     void setGoal(int gx, int gy);
     void navigateToGoal();  // <-- Step 2 here
 
 private:
-    OccupancyGrid& grid_;
-    AStarPlanner& planner_;
-    PoseEKF& poseEKF_;
-    SerialPort& serial_;
+OccupancyGrid& grid_;
+AStarPlanner& planner_;
+PoseEKF& poseEKF_;
+VelocityEKF& velocityEKF_;
+BNO055& imu_;
+LidarReader& lidar_;
+std::vector<Pose2D>& trajectory_;
+std::vector<cv::Point2f>& prev_cloud_;
+SerialPort& serial_;
     int goal_x_, goal_y_;
     bool goal_set_ = false;
 

@@ -201,6 +201,30 @@ EKF/VelocityEKF.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/VelocityEKF.cpp.s
 .PHONY : EKF/VelocityEKF.cpp.s
 
+SLAMUtils/SLAMUtils.o: SLAMUtils/SLAMUtils.cpp.o
+.PHONY : SLAMUtils/SLAMUtils.o
+
+# target to build an object file
+SLAMUtils/SLAMUtils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/SLAMUtils/SLAMUtils.cpp.o
+.PHONY : SLAMUtils/SLAMUtils.cpp.o
+
+SLAMUtils/SLAMUtils.i: SLAMUtils/SLAMUtils.cpp.i
+.PHONY : SLAMUtils/SLAMUtils.i
+
+# target to preprocess a source file
+SLAMUtils/SLAMUtils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/SLAMUtils/SLAMUtils.cpp.i
+.PHONY : SLAMUtils/SLAMUtils.cpp.i
+
+SLAMUtils/SLAMUtils.s: SLAMUtils/SLAMUtils.cpp.s
+.PHONY : SLAMUtils/SLAMUtils.s
+
+# target to generate assembly for a file
+SLAMUtils/SLAMUtils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/SLAMUtils/SLAMUtils.cpp.s
+.PHONY : SLAMUtils/SLAMUtils.cpp.s
+
 icp/ICPMatcher.o: icp/ICPMatcher.cpp.o
 .PHONY : icp/ICPMatcher.o
 
@@ -363,6 +387,9 @@ help:
 	@echo "... EKF/VelocityEKF.o"
 	@echo "... EKF/VelocityEKF.i"
 	@echo "... EKF/VelocityEKF.s"
+	@echo "... SLAMUtils/SLAMUtils.o"
+	@echo "... SLAMUtils/SLAMUtils.i"
+	@echo "... SLAMUtils/SLAMUtils.s"
 	@echo "... icp/ICPMatcher.o"
 	@echo "... icp/ICPMatcher.i"
 	@echo "... icp/ICPMatcher.s"

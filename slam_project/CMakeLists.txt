@@ -15,6 +15,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/Communication
     ${PROJECT_SOURCE_DIR}/Astar
     ${PROJECT_SOURCE_DIR}/navigation
+    ${PROJECT_SOURCE_DIR}/SLAMUtils
     ${OpenCV_INCLUDE_DIRS}
 )
 
@@ -28,6 +29,7 @@ add_executable(main
     imu/BNO055.cpp
     Astar/Astar.cpp
     navigation/navigation.cpp
+    SLAMUtils/SLAMUtils.cpp
 )
 
 target_link_libraries(main

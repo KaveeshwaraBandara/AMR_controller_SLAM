@@ -1587,6 +1587,9 @@ CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o: /home/user/Desktop/SLAM/slam_project/
   /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h
 
+CMakeFiles/main.dir/SLAMUtils/SLAMUtils.cpp.o: /home/user/Desktop/SLAM/slam_project/SLAMUtils/SLAMUtils.cpp \
+  /usr/include/stdc-predef.h
+
 CMakeFiles/main.dir/icp/ICPMatcher.cpp.o: /home/user/Desktop/SLAM/slam_project/icp/ICPMatcher.cpp \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
@@ -3803,6 +3806,7 @@ CMakeFiles/main.dir/navigation/navigation.cpp.o: /home/user/Desktop/SLAM/slam_pr
   /home/user/Desktop/SLAM/slam_project/Astar/Astar.hpp \
   /home/user/Desktop/SLAM/slam_project/Communication/send.hpp \
   /home/user/Desktop/SLAM/slam_project/EKF/PoseEKF.hpp \
+  /home/user/Desktop/SLAM/slam_project/EKF/VelocityEKF.hpp \
   /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/Cholesky \
   /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/Core \
   /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/Dense \
@@ -4016,8 +4020,16 @@ CMakeFiles/main.dir/navigation/navigation.cpp.o: /home/user/Desktop/SLAM/slam_pr
   /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/misc/Image.h \
   /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/misc/Kernel.h \
   /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/misc/RealSvd2x2.h \
+  /home/user/Desktop/SLAM/slam_project/SLAMUtils/SLAMUtils.hpp \
+  /home/user/Desktop/SLAM/slam_project/imu/BNO055.hpp \
+  /home/user/Desktop/SLAM/slam_project/lidar/LidarReader.hpp \
   /home/user/Desktop/SLAM/slam_project/mapping/OccupancyGrid.hpp \
   /home/user/Desktop/SLAM/slam_project/navigation/navigation.hpp \
+  /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar.h \
+  /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_cmd.h \
+  /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_driver.h \
+  /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_lidar_protocol.h \
+  /home/user/Desktop/SLAM/slam_project/rplidar_sdk/sdk/include/sl_types.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
@@ -4093,6 +4105,7 @@ CMakeFiles/main.dir/navigation/navigation.cpp.o: /home/user/Desktop/SLAM/slam_pr
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_function.h \
   /usr/include/c++/13/bits/std_mutex.h \
+  /usr/include/c++/13/bits/std_thread.h \
   /usr/include/c++/13/bits/stl_algo.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
@@ -4120,6 +4133,7 @@ CMakeFiles/main.dir/navigation/navigation.cpp.o: /home/user/Desktop/SLAM/slam_pr
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
+  /usr/include/c++/13/bits/this_thread_sleep.h \
   /usr/include/c++/13/bits/uniform_int_dist.h \
   /usr/include/c++/13/bits/unique_lock.h \
   /usr/include/c++/13/bits/unique_ptr.h \
@@ -4187,6 +4201,7 @@ CMakeFiles/main.dir/navigation/navigation.cpp.o: /home/user/Desktop/SLAM/slam_pr
   /usr/include/c++/13/string \
   /usr/include/c++/13/string_view \
   /usr/include/c++/13/system_error \
+  /usr/include/c++/13/thread \
   /usr/include/c++/13/tr1/bessel_function.tcc \
   /usr/include/c++/13/tr1/beta_function.tcc \
   /usr/include/c++/13/tr1/ell_integral.tcc \
@@ -4459,6 +4474,8 @@ CMakeFiles/main.dir/navigation/navigation.cpp.o: /home/user/Desktop/SLAM/slam_pr
   /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h
 
+
+/home/user/Desktop/SLAM/slam_project/SLAMUtils/SLAMUtils.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/termios.h:
 
@@ -4801,6 +4818,8 @@ CMakeFiles/main.dir/navigation/navigation.cpp.o: /home/user/Desktop/SLAM/slam_pr
 /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/Cholesky/LDLT.h:
 
 /usr/include/c++/13/backward/binders.h:
+
+/home/user/Desktop/SLAM/slam_project/SLAMUtils/SLAMUtils.cpp:
 
 /home/user/Desktop/SLAM/slam_project/External/eigen/Eigen/src/Core/RandomImpl.h:
 
