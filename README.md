@@ -109,7 +109,7 @@ The system integrates data from multiple sensors (LIDAR, IMU) using custom fusio
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/AMR_controller_SLAM-main.git
+   git clone git@github.com:KaveeshwaraBandara/AMR_controller_SLAM.git
    cd AMR_controller_SLAM-main
    ```
 
