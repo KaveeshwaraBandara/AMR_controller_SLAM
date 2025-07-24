@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/user/Desktop/SLAM/Full simulation/mapping" -I"/home/user/Desktop/SLAM/Full simulation/icp" -I"/home/user/Desktop/SLAM/Full simulation/EKF" -I"/home/user/Desktop/SLAM/Full simulation/Communication" -I"/home/user/Desktop/SLAM/Full simulation/Astar" -I"/home/user/Desktop/SLAM/Full simulation/External/eigen" -I"/home/user/Desktop/SLAM/Full simulation/imu" -isystem /usr/include/opencv4 -isystem /usr/include/gz/msgs10 -isystem /usr/include/gz/transport13 -isystem /usr/include/gz/utils2 -isystem /usr/include/gz/math7 -isystem /usr/include/uuid
+CXX_INCLUDES = -I"/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/mapping" -I"/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/icp" -I"/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/EKF" -I"/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/Communication" -I"/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/Astar" -I"/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/External/eigen" -isystem /usr/include/opencv4 -isystem /usr/include/gz/msgs10 -isystem /usr/include/gz/transport13 -isystem /usr/include/gz/utils2 -isystem /usr/include/gz/math7 -isystem /usr/include/uuid
 
 CXX_FLAGS = -std=gnu++17 -I/usr/include -I/usr/include/uuid
 

@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/user/Desktop/SLAM/Full simulation"
+CMAKE_SOURCE_DIR = "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/user/Desktop/SLAM/Full simulation/build"
+CMAKE_BINARY_DIR = "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" "/home/user/Desktop/SLAM/Full simulation/build//CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build//CMakeFiles/progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -153,29 +153,53 @@ Astar/Astar.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/Astar/Astar.cpp.s
 .PHONY : Astar/Astar.cpp.s
 
-EKF/EKF.o: EKF/EKF.cpp.o
-.PHONY : EKF/EKF.o
+EKF/PoseEKF.o: EKF/PoseEKF.cpp.o
+.PHONY : EKF/PoseEKF.o
 
 # target to build an object file
-EKF/EKF.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/EKF.cpp.o
-.PHONY : EKF/EKF.cpp.o
+EKF/PoseEKF.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/PoseEKF.cpp.o
+.PHONY : EKF/PoseEKF.cpp.o
 
-EKF/EKF.i: EKF/EKF.cpp.i
-.PHONY : EKF/EKF.i
+EKF/PoseEKF.i: EKF/PoseEKF.cpp.i
+.PHONY : EKF/PoseEKF.i
 
 # target to preprocess a source file
-EKF/EKF.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/EKF.cpp.i
-.PHONY : EKF/EKF.cpp.i
+EKF/PoseEKF.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/PoseEKF.cpp.i
+.PHONY : EKF/PoseEKF.cpp.i
 
-EKF/EKF.s: EKF/EKF.cpp.s
-.PHONY : EKF/EKF.s
+EKF/PoseEKF.s: EKF/PoseEKF.cpp.s
+.PHONY : EKF/PoseEKF.s
 
 # target to generate assembly for a file
-EKF/EKF.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/EKF.cpp.s
-.PHONY : EKF/EKF.cpp.s
+EKF/PoseEKF.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/PoseEKF.cpp.s
+.PHONY : EKF/PoseEKF.cpp.s
+
+EKF/VelocityEKF.o: EKF/VelocityEKF.cpp.o
+.PHONY : EKF/VelocityEKF.o
+
+# target to build an object file
+EKF/VelocityEKF.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o
+.PHONY : EKF/VelocityEKF.cpp.o
+
+EKF/VelocityEKF.i: EKF/VelocityEKF.cpp.i
+.PHONY : EKF/VelocityEKF.i
+
+# target to preprocess a source file
+EKF/VelocityEKF.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/VelocityEKF.cpp.i
+.PHONY : EKF/VelocityEKF.cpp.i
+
+EKF/VelocityEKF.s: EKF/VelocityEKF.cpp.s
+.PHONY : EKF/VelocityEKF.s
+
+# target to generate assembly for a file
+EKF/VelocityEKF.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/EKF/VelocityEKF.cpp.s
+.PHONY : EKF/VelocityEKF.cpp.s
 
 icp/ICPMatcher.o: icp/ICPMatcher.cpp.o
 .PHONY : icp/ICPMatcher.o
@@ -200,30 +224,6 @@ icp/ICPMatcher.s: icp/ICPMatcher.cpp.s
 icp/ICPMatcher.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/icp/ICPMatcher.cpp.s
 .PHONY : icp/ICPMatcher.cpp.s
-
-imu/IMUReader.o: imu/IMUReader.cpp.o
-.PHONY : imu/IMUReader.o
-
-# target to build an object file
-imu/IMUReader.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.o
-.PHONY : imu/IMUReader.cpp.o
-
-imu/IMUReader.i: imu/IMUReader.cpp.i
-.PHONY : imu/IMUReader.i
-
-# target to preprocess a source file
-imu/IMUReader.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.i
-.PHONY : imu/IMUReader.cpp.i
-
-imu/IMUReader.s: imu/IMUReader.cpp.s
-.PHONY : imu/IMUReader.s
-
-# target to generate assembly for a file
-imu/IMUReader.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/imu/IMUReader.cpp.s
-.PHONY : imu/IMUReader.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -285,15 +285,15 @@ help:
 	@echo "... Astar/Astar.o"
 	@echo "... Astar/Astar.i"
 	@echo "... Astar/Astar.s"
-	@echo "... EKF/EKF.o"
-	@echo "... EKF/EKF.i"
-	@echo "... EKF/EKF.s"
+	@echo "... EKF/PoseEKF.o"
+	@echo "... EKF/PoseEKF.i"
+	@echo "... EKF/PoseEKF.s"
+	@echo "... EKF/VelocityEKF.o"
+	@echo "... EKF/VelocityEKF.i"
+	@echo "... EKF/VelocityEKF.s"
 	@echo "... icp/ICPMatcher.o"
 	@echo "... icp/ICPMatcher.i"
 	@echo "... icp/ICPMatcher.s"
-	@echo "... imu/IMUReader.o"
-	@echo "... imu/IMUReader.i"
-	@echo "... imu/IMUReader.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

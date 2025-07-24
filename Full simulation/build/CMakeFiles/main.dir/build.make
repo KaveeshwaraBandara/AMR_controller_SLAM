@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/user/Desktop/SLAM/Full simulation"
+CMAKE_SOURCE_DIR = "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/user/Desktop/SLAM/Full simulation/build"
+CMAKE_BINARY_DIR = "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/main.dir/depend.make
@@ -70,97 +70,97 @@ include CMakeFiles/main.dir/progress.make
 include CMakeFiles/main.dir/flags.make
 
 CMakeFiles/main.dir/main.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/main.cpp.o: /home/user/Desktop/SLAM/Full\ simulation/main.cpp
+CMakeFiles/main.dir/main.cpp.o: /home/user/Desktop/adding\ imu\ and\ mapping\ logics/new\ sim/Full\ simulation/main.cpp
 CMakeFiles/main.dir/main.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/main.cpp.o -MF CMakeFiles/main.dir/main.cpp.o.d -o CMakeFiles/main.dir/main.cpp.o -c "/home/user/Desktop/SLAM/Full simulation/main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/main.cpp.o -MF CMakeFiles/main.dir/main.cpp.o.d -o CMakeFiles/main.dir/main.cpp.o -c "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/main.cpp"
 
 CMakeFiles/main.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/SLAM/Full simulation/main.cpp" > CMakeFiles/main.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/main.cpp" > CMakeFiles/main.dir/main.cpp.i
 
 CMakeFiles/main.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/SLAM/Full simulation/main.cpp" -o CMakeFiles/main.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/main.cpp" -o CMakeFiles/main.dir/main.cpp.s
 
 CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o: /home/user/Desktop/SLAM/Full\ simulation/mapping/OccupancyGrid.cpp
+CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o: /home/user/Desktop/adding\ imu\ and\ mapping\ logics/new\ sim/Full\ simulation/mapping/OccupancyGrid.cpp
 CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o -MF CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o.d -o CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o -c "/home/user/Desktop/SLAM/Full simulation/mapping/OccupancyGrid.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o -MF CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o.d -o CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o -c "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/mapping/OccupancyGrid.cpp"
 
 CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/SLAM/Full simulation/mapping/OccupancyGrid.cpp" > CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/mapping/OccupancyGrid.cpp" > CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.i
 
 CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/SLAM/Full simulation/mapping/OccupancyGrid.cpp" -o CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/mapping/OccupancyGrid.cpp" -o CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.s
 
 CMakeFiles/main.dir/icp/ICPMatcher.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/icp/ICPMatcher.cpp.o: /home/user/Desktop/SLAM/Full\ simulation/icp/ICPMatcher.cpp
+CMakeFiles/main.dir/icp/ICPMatcher.cpp.o: /home/user/Desktop/adding\ imu\ and\ mapping\ logics/new\ sim/Full\ simulation/icp/ICPMatcher.cpp
 CMakeFiles/main.dir/icp/ICPMatcher.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/icp/ICPMatcher.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/icp/ICPMatcher.cpp.o -MF CMakeFiles/main.dir/icp/ICPMatcher.cpp.o.d -o CMakeFiles/main.dir/icp/ICPMatcher.cpp.o -c "/home/user/Desktop/SLAM/Full simulation/icp/ICPMatcher.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/icp/ICPMatcher.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/icp/ICPMatcher.cpp.o -MF CMakeFiles/main.dir/icp/ICPMatcher.cpp.o.d -o CMakeFiles/main.dir/icp/ICPMatcher.cpp.o -c "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/icp/ICPMatcher.cpp"
 
 CMakeFiles/main.dir/icp/ICPMatcher.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/icp/ICPMatcher.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/SLAM/Full simulation/icp/ICPMatcher.cpp" > CMakeFiles/main.dir/icp/ICPMatcher.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/icp/ICPMatcher.cpp" > CMakeFiles/main.dir/icp/ICPMatcher.cpp.i
 
 CMakeFiles/main.dir/icp/ICPMatcher.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/icp/ICPMatcher.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/SLAM/Full simulation/icp/ICPMatcher.cpp" -o CMakeFiles/main.dir/icp/ICPMatcher.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/icp/ICPMatcher.cpp" -o CMakeFiles/main.dir/icp/ICPMatcher.cpp.s
 
-CMakeFiles/main.dir/EKF/EKF.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/EKF/EKF.cpp.o: /home/user/Desktop/SLAM/Full\ simulation/EKF/EKF.cpp
-CMakeFiles/main.dir/EKF/EKF.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/EKF/EKF.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/EKF/EKF.cpp.o -MF CMakeFiles/main.dir/EKF/EKF.cpp.o.d -o CMakeFiles/main.dir/EKF/EKF.cpp.o -c "/home/user/Desktop/SLAM/Full simulation/EKF/EKF.cpp"
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.o: /home/user/Desktop/adding\ imu\ and\ mapping\ logics/new\ sim/Full\ simulation/EKF/PoseEKF.cpp
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/EKF/PoseEKF.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/EKF/PoseEKF.cpp.o -MF CMakeFiles/main.dir/EKF/PoseEKF.cpp.o.d -o CMakeFiles/main.dir/EKF/PoseEKF.cpp.o -c "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/EKF/PoseEKF.cpp"
 
-CMakeFiles/main.dir/EKF/EKF.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/EKF/EKF.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/SLAM/Full simulation/EKF/EKF.cpp" > CMakeFiles/main.dir/EKF/EKF.cpp.i
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/EKF/PoseEKF.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/EKF/PoseEKF.cpp" > CMakeFiles/main.dir/EKF/PoseEKF.cpp.i
 
-CMakeFiles/main.dir/EKF/EKF.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/EKF/EKF.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/SLAM/Full simulation/EKF/EKF.cpp" -o CMakeFiles/main.dir/EKF/EKF.cpp.s
+CMakeFiles/main.dir/EKF/PoseEKF.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/EKF/PoseEKF.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/EKF/PoseEKF.cpp" -o CMakeFiles/main.dir/EKF/PoseEKF.cpp.s
+
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o: /home/user/Desktop/adding\ imu\ and\ mapping\ logics/new\ sim/Full\ simulation/EKF/VelocityEKF.cpp
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o -MF CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o.d -o CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o -c "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/EKF/VelocityEKF.cpp"
+
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/EKF/VelocityEKF.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/EKF/VelocityEKF.cpp" > CMakeFiles/main.dir/EKF/VelocityEKF.cpp.i
+
+CMakeFiles/main.dir/EKF/VelocityEKF.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/EKF/VelocityEKF.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/EKF/VelocityEKF.cpp" -o CMakeFiles/main.dir/EKF/VelocityEKF.cpp.s
 
 CMakeFiles/main.dir/Astar/Astar.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/Astar/Astar.cpp.o: /home/user/Desktop/SLAM/Full\ simulation/Astar/Astar.cpp
+CMakeFiles/main.dir/Astar/Astar.cpp.o: /home/user/Desktop/adding\ imu\ and\ mapping\ logics/new\ sim/Full\ simulation/Astar/Astar.cpp
 CMakeFiles/main.dir/Astar/Astar.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/Astar/Astar.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/Astar/Astar.cpp.o -MF CMakeFiles/main.dir/Astar/Astar.cpp.o.d -o CMakeFiles/main.dir/Astar/Astar.cpp.o -c "/home/user/Desktop/SLAM/Full simulation/Astar/Astar.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/Astar/Astar.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/Astar/Astar.cpp.o -MF CMakeFiles/main.dir/Astar/Astar.cpp.o.d -o CMakeFiles/main.dir/Astar/Astar.cpp.o -c "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/Astar/Astar.cpp"
 
 CMakeFiles/main.dir/Astar/Astar.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/Astar/Astar.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/SLAM/Full simulation/Astar/Astar.cpp" > CMakeFiles/main.dir/Astar/Astar.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/Astar/Astar.cpp" > CMakeFiles/main.dir/Astar/Astar.cpp.i
 
 CMakeFiles/main.dir/Astar/Astar.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/Astar/Astar.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/SLAM/Full simulation/Astar/Astar.cpp" -o CMakeFiles/main.dir/Astar/Astar.cpp.s
-
-CMakeFiles/main.dir/imu/IMUReader.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/imu/IMUReader.cpp.o: /home/user/Desktop/SLAM/Full\ simulation/imu/IMUReader.cpp
-CMakeFiles/main.dir/imu/IMUReader.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/imu/IMUReader.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/imu/IMUReader.cpp.o -MF CMakeFiles/main.dir/imu/IMUReader.cpp.o.d -o CMakeFiles/main.dir/imu/IMUReader.cpp.o -c "/home/user/Desktop/SLAM/Full simulation/imu/IMUReader.cpp"
-
-CMakeFiles/main.dir/imu/IMUReader.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/imu/IMUReader.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/user/Desktop/SLAM/Full simulation/imu/IMUReader.cpp" > CMakeFiles/main.dir/imu/IMUReader.cpp.i
-
-CMakeFiles/main.dir/imu/IMUReader.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/imu/IMUReader.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/SLAM/Full simulation/imu/IMUReader.cpp" -o CMakeFiles/main.dir/imu/IMUReader.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/Astar/Astar.cpp" -o CMakeFiles/main.dir/Astar/Astar.cpp.s
 
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/main.cpp.o" \
 "CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o" \
 "CMakeFiles/main.dir/icp/ICPMatcher.cpp.o" \
-"CMakeFiles/main.dir/EKF/EKF.cpp.o" \
-"CMakeFiles/main.dir/Astar/Astar.cpp.o" \
-"CMakeFiles/main.dir/imu/IMUReader.cpp.o"
+"CMakeFiles/main.dir/EKF/PoseEKF.cpp.o" \
+"CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o" \
+"CMakeFiles/main.dir/Astar/Astar.cpp.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
@@ -168,9 +168,9 @@ main_EXTERNAL_OBJECTS =
 main: CMakeFiles/main.dir/main.cpp.o
 main: CMakeFiles/main.dir/mapping/OccupancyGrid.cpp.o
 main: CMakeFiles/main.dir/icp/ICPMatcher.cpp.o
-main: CMakeFiles/main.dir/EKF/EKF.cpp.o
+main: CMakeFiles/main.dir/EKF/PoseEKF.cpp.o
+main: CMakeFiles/main.dir/EKF/VelocityEKF.cpp.o
 main: CMakeFiles/main.dir/Astar/Astar.cpp.o
-main: CMakeFiles/main.dir/imu/IMUReader.cpp.o
 main: CMakeFiles/main.dir/build.make
 main: /usr/lib/x86_64-linux-gnu/libopencv_stitching.so.4.6.0
 main: /usr/lib/x86_64-linux-gnu/libopencv_alphamat.so.4.6.0
@@ -238,7 +238,7 @@ main: /usr/lib/x86_64-linux-gnu/libgz-utils2.so.2.2.1
 main: /usr/lib/x86_64-linux-gnu/libuuid.so
 main: /usr/lib/x86_64-linux-gnu/libuuid.so
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -250,6 +250,6 @@ CMakeFiles/main.dir/clean:
 .PHONY : CMakeFiles/main.dir/clean
 
 CMakeFiles/main.dir/depend:
-	cd "/home/user/Desktop/SLAM/Full simulation/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/user/Desktop/SLAM/Full simulation" "/home/user/Desktop/SLAM/Full simulation" "/home/user/Desktop/SLAM/Full simulation/build" "/home/user/Desktop/SLAM/Full simulation/build" "/home/user/Desktop/SLAM/Full simulation/build/CMakeFiles/main.dir/DependInfo.cmake" "--color=$(COLOR)"
+	cd "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation" "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation" "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build" "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build" "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/CMakeFiles/main.dir/DependInfo.cmake" "--color=$(COLOR)"
 .PHONY : CMakeFiles/main.dir/depend
 

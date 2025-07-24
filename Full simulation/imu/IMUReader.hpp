@@ -1,45 +1,20 @@
-#ifndef IMUREADER_HPP
-#define IMUREADER_HPP
+#ifndef IMU_READER_HPP
+#define IMU_READER_HPP
 
-#include <Eigen/Dense>
-#include <mutex>
-#include <vector>
-
-class IMU {
+class IMUReader {
 public:
-    struct Data {
-        double timestamp;
-        Eigen::Vector3f linear_acceleration;
-        Eigen::Vector3f angular_velocity;
-        Eigen::Vector3f orientation; // Roll, pitch, yaw in radians
-    };
+    IMUReader();
+    bool initialize();
+    void update();
 
-    IMU();
-    
-    // Update IMU data
-    void update(const Data& new_data);
-    
-    // Get filtered IMU data
-    Data getFilteredData() const;
-    
-    // Get orientation (roll, pitch, yaw)
-    Eigen::Vector3f getOrientation() const;
-    
-    // Get angular velocity
-    Eigen::Vector3f getAngularVelocity() const;
-    
-    // Get linear acceleration
-    Eigen::Vector3f getLinearAcceleration() const;
+    float getLinearVelocity();   // in m/s
+    float getAngularVelocity();  // in rad/s
 
 private:
-    mutable std::mutex data_mutex_;
-    Data current_data_;
-    
-    // Low-pass filter parameters
-    const float alpha_ = 0.2f; // Smoothing factor
-    
-    // Apply low-pass filter
-    void applyFilter(const Data& new_data);
+    float v_;  // estimated linear velocity
+    float w_;  // estimated angular velocity
+    // Add your IMU reading logic and buffer if needed
 };
 
-#endif // IMU_HPP
+#endif
+

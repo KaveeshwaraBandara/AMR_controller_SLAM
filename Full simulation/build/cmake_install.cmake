@@ -1,4 +1,4 @@
-# Install script for directory: /home/user/Desktop/SLAM/Full simulation
+# Install script for directory: /home/user/Desktop/adding imu and mapping logics/new sim/Full simulation
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/user/Desktop/SLAM/Full simulation/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/user/Desktop/adding imu and mapping logics/new sim/Full simulation/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
